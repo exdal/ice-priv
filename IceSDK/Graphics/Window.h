@@ -6,7 +6,12 @@
 
 #include "bx/thread.h"
 #include "bx/timer.h"
+
+#ifdef ICESDK_GLFW
 #include "GLFW/glfw3.h"
+#elif defined(ICESDK_SDL2)
+#include "SDL.h"
+#endif
 
 namespace IceSDK
 {
@@ -37,13 +42,23 @@ namespace IceSDK
 			// true = Window closed
 			bool ShouldClose() const;
 
+			uint32_t Width() const;
+			uint32_t Height() const;
+
 		private:
 			friend GameBase;
 
+#ifdef ICESDK_GLFW
 			static void ResizeGameWindow(GLFWwindow *pWindow, int pWidth, int pHeight);
-			static int32_t RunThread(bx::Thread *pSelf, void *pUserData);
+#endif
 
+#ifdef ICESDK_GLFW
 			GLFWwindow *_window = nullptr;
+#elif defined(ICESDK_SDL2)
+			SDL_Window *_window = nullptr;
+
+			bool _should_exit = false;
+#endif
 
 			DrawCallback_t _draw_callback = nullptr;
 			DrawInitCallback_t _draw_init_callback = nullptr;

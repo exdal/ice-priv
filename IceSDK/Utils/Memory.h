@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <sstream>
 
 namespace IceSDK
 {
@@ -13,21 +14,40 @@ namespace IceSDK
 		template <typename T>
 		using WeakPtr = std::weak_ptr<T>;
 
-		inline std::string SizeInText(double len)
+		inline std::string SizeInText(const double pLen)
 		{
-			if (len < 1024.0)
-				return std::to_string(len) + " B";
+			std::ostringstream out;
+			out.precision(2);
 
-			if (len < 1024.0 * 1024.0)
-				return std::to_string(len / (1024.0)) + " KB";
+			if (pLen < 1024.0)
+			{
+				out << pLen << " B";
 
-			if (len < 1024.0 * 1024.0 * 1024.0)
-				return std::to_string(len / (1024.0 * 1024.0)) + " MB";
+				return out.str();
+			}
 
-			if (len < 1024.0 * 1024.0 * 1024.0 * 1024.0)
-				return std::to_string(len / (1024.0 * 1024.0 * 1024.0)) + " GB";
+			if (pLen < 1024.0 * 1024.0)
+			{
+				out << pLen / 1024.0 << " KB";
 
-			return std::to_string(len) + " UK";
+				return out.str();
+			}
+
+			if (pLen < 1024.0 * 1024.0 * 1024.0)
+			{
+				out << pLen / (1024.0 * 1024.0) << " MB";
+
+				return out.str();
+			}
+
+			if (pLen < 1024.0 * 1024.0 * 1024.0 * 1024.0)
+			{
+				out << pLen / (1024.0 * 1024.0 * 1024.0) << " GB";
+
+				return out.str();
+			}
+
+			return std::to_string(pLen) + " UK";
 		}
 	} // namespace Memory
 } // namespace IceSDK

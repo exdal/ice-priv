@@ -2,13 +2,15 @@
 
 #include <string>
 
-#include "Audio.h"
-#include "AudioEnums.h"
+#include "Audio/Sound.h"
+#include "Audio/AudioEnums.h"
 #include "Utils/Memory.h"
 
 #include <vector>
 
+#ifdef ICESDK_FMOD
 extern FMOD::System *g_FMODSystem;
+#endif
 
 namespace IceSDK
 {
@@ -21,16 +23,16 @@ namespace IceSDK
 
 			static void Init();
 
-			Memory::Ptr<Audio> Load(const std::string &pPath);
-			Memory::Ptr<Audio> Load(std::vector<uint8_t> pBuffer);
+			Memory::Ptr<Sound> Load(const std::string &pPath);
+			Memory::Ptr<Sound> Load(std::vector<uint8_t> pBuffer);
 
 			void CreateGroup(const std::string &pName);
 
 		private:
-			std::vector<Memory::Ptr<Audio>> _loaded_audio;
+			std::vector<Memory::Ptr<Sound>> _loaded_audio;
 			eAudioEngine _audio_engine = FMOD;
 
-			friend Audio;
+			friend Sound;
 		};
 	} // namespace Audio
 } // namespace IceSDK

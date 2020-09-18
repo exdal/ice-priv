@@ -5,32 +5,30 @@
 
 #include "bx_p.h"
 #include <bx/debug.h>
-#include <bx/string.h>       // isPrint
+#include <bx/string.h>		 // isPrint
 #include <bx/readerwriter.h> // WriterI
 #define __STDC_FORMAT_MACROS
-#include <inttypes.h>        // PRIx*
+#include <inttypes.h> // PRIx*
 #undef __STDC_FORMAT_MACROS
 
 #if BX_CRT_NONE
-#	include "crt0.h"
+#include "crt0.h"
 #elif BX_PLATFORM_ANDROID
-#	include <android/log.h>
-#elif  BX_PLATFORM_WINDOWS \
-	|| BX_PLATFORM_WINRT   \
-	|| BX_PLATFORM_XBOXONE
-extern "C" __declspec(dllimport) void __stdcall OutputDebugStringA(const char* _str);
+#include <android/log.h>
+#elif BX_PLATFORM_WINDOWS || BX_PLATFORM_WINRT || BX_PLATFORM_XBOXONE
+extern "C" __declspec(dllimport) void __stdcall OutputDebugStringA(const char *_str);
 #elif BX_PLATFORM_IOS || BX_PLATFORM_OSX
-#	if defined(__OBJC__)
-#		import <Foundation/NSObjCRuntime.h>
-#	else
-#		include <CoreFoundation/CFString.h>
-extern "C" void NSLog(CFStringRef _format, ...);
-#	endif // defined(__OBJC__)
-#elif BX_PLATFORM_EMSCRIPTEN
-#	include <emscripten/emscripten.h>
+#if defined(__OBJC__)
+#import <Foundation/NSObjCRuntime.h>
 #else
-#	include <stdio.h> // fputs, fflush
-#endif // BX_PLATFORM_WINDOWS
+#include <CoreFoundation/CFString.h>
+extern "C" void NSLog(CFStringRef _format, ...);
+#endif // defined(__OBJC__)
+#elif BX_PLATFORM_EMSCRIPTEN
+#include <emscripten/emscripten.h>
+#else
+#include <stdio.h> // fputs, fflush
+#endif			   // BX_PLATFORM_WINDOWS
 
 namespace bx
 {
@@ -50,32 +48,29 @@ namespace bx
 		// Doing emscripten_debugger() disables asm.js validation due to an emscripten bug
 		//emscripten_debugger();
 		EM_ASM({ debugger; });
-#else // cross platform implementation
-		int* int3 = (int*)3L;
+#else  // cross platform implementation
+		int *int3 = (int *)3L;
 		*int3 = 3;
 #endif // BX
 	}
 
-	void debugOutput(const char* _out)
+	void debugOutput(const char *_out)
 	{
 #if BX_CRT_NONE
 		crt0::debugOutput(_out);
 #elif BX_PLATFORM_ANDROID
-#	ifndef BX_ANDROID_LOG_TAG
-#		define BX_ANDROID_LOG_TAG ""
-#	endif // BX_ANDROID_LOG_TAG
+#ifndef BX_ANDROID_LOG_TAG
+#define BX_ANDROID_LOG_TAG "BGFX"
+#endif // BX_ANDROID_LOG_TAG
 		__android_log_write(ANDROID_LOG_DEBUG, BX_ANDROID_LOG_TAG, _out);
-#elif  BX_PLATFORM_WINDOWS \
-	|| BX_PLATFORM_WINRT   \
-	|| BX_PLATFORM_XBOXONE
+#elif BX_PLATFORM_WINDOWS || BX_PLATFORM_WINRT || BX_PLATFORM_XBOXONE
 		OutputDebugStringA(_out);
-#elif  BX_PLATFORM_IOS \
-	|| BX_PLATFORM_OSX
-#	if defined(__OBJC__)
+#elif BX_PLATFORM_IOS || BX_PLATFORM_OSX
+#if defined(__OBJC__)
 		NSLog(@"%s", _out);
-#	else
+#else
 		NSLog(__CFStringMakeConstantString("%s"), _out);
-#	endif // defined(__OBJC__)
+#endif // defined(__OBJC__)
 #elif BX_PLATFORM_EMSCRIPTEN
 		emscripten_log(EM_LOG_CONSOLE, "%s", _out);
 #else
@@ -84,12 +79,12 @@ namespace bx
 #endif // BX_PLATFORM_
 	}
 
-	void debugOutput(const StringView& _str)
+	void debugOutput(const StringView &_str)
 	{
 #if BX_CRT_NONE
 		crt0::debugOutput(_str);
 #else
-		const char* data = _str.getPtr();
+		const char *data = _str.getPtr();
 		int32_t size = _str.getLength();
 
 		char temp[4096];
@@ -105,21 +100,21 @@ namespace bx
 #endif // BX_CRT_NONE
 	}
 
-	void debugPrintfVargs(const char* _format, va_list _argList)
+	void debugPrintfVargs(const char *_format, va_list _argList)
 	{
 		char temp[8192];
-		char* out = temp;
+		char *out = temp;
 		int32_t len = vsnprintf(out, sizeof(temp), _format, _argList);
 		if ((int32_t)sizeof(temp) < len)
 		{
-			out = (char*)alloca(len + 1);
+			out = (char *)alloca(len + 1);
 			len = vsnprintf(out, len, _format, _argList);
 		}
 		out[len] = '\0';
 		debugOutput(out);
 	}
 
-	void debugPrintf(const char* _format, ...)
+	void debugPrintf(const char *_format, ...)
 	{
 		va_list argList;
 		va_start(argList, _format);
@@ -129,7 +124,7 @@ namespace bx
 
 #define DBG_ADDRESS "%" PRIxPTR
 
-	void debugPrintfData(const void* _data, uint32_t _size, const char* _format, ...)
+	void debugPrintfData(const void *_data, uint32_t _size, const char *_format, ...)
 	{
 #define HEX_DUMP_WIDTH 16
 #define HEX_DUMP_SPACE_WIDTH 48
@@ -144,7 +139,7 @@ namespace bx
 
 		if (NULL != _data)
 		{
-			const uint8_t* data = (const uint8_t*)_data;
+			const uint8_t *data = (const uint8_t *)_data;
 			char hex[HEX_DUMP_WIDTH * 3 + 1];
 			char ascii[HEX_DUMP_WIDTH + 1];
 			uint32_t hexPos = 0;
@@ -181,15 +176,15 @@ namespace bx
 
 	class DebugWriter : public WriterI
 	{
-		virtual int32_t write(const void* _data, int32_t _size, Error* _err) override
+		virtual int32_t write(const void *_data, int32_t _size, Error *_err) override
 		{
 			BX_UNUSED(_err);
-			debugOutput(StringView((const char*)_data, _size));
+			debugOutput(StringView((const char *)_data, _size));
 			return _size;
 		}
 	};
 
-	WriterI* getDebugOut()
+	WriterI *getDebugOut()
 	{
 		static DebugWriter s_debugOut;
 		return &s_debugOut;

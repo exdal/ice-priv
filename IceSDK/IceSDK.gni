@@ -1,0 +1,206 @@
+template("IceSDK_Project") {
+    if (is_android) {
+        shared_library(target_name) {
+            forward_variables_from(invoker, "*")
+
+            if (!defined(include_dirs)) {
+                include_dirs = [ ]
+            }
+
+            if (!defined(defines)) {
+                defines = [ ]
+            }
+
+            if (!defined(cflags_cc)) {
+                cflags_cc = [ ]
+            }
+
+            if (!defined(deps)) {
+                deps = [ ]
+            }
+
+            if (!defined(ldflags)) {
+                ldflags = [ ]
+            }
+
+            if (!defined(libs)) {
+                libs = [ ]
+            }
+
+            if (!defined(arflags)) {
+                arflags = [ ]
+            }
+
+            include_dirs += [ "//IceSDK" ]
+
+            if (is_android) {
+                defines += [ "ICESDK_ANDROID", "__ANDROID__" ]
+            }
+
+            # FMOD
+            defines += [ "ICESDK_FMOD" ]
+
+            # BGFX
+            include_dirs += [ "//third-party/bgfx/include", "//third-party/bimg/include", "//third-party/bx/include", "//third-party/glfw/include" ]
+
+            exec_script("//tools/compile_assets.py", [ host_os, rebase_path(".", root_build_dir) ])
+
+            include_dirs += [
+                "//third-party/fmod/inc",
+                "//third-party/bgfx/include", "//third-party/bimg/include", "//third-party/bx/include",
+                "//third-party/glfw/include", "//third-party/entt/single_include", "//third-party/glm", 
+                "//third-party/imgui", "//third-party/sdl2/include", "//third-party/spdlog/include",
+                "//third-party/freetype/include",
+            ]
+
+            deps += [
+                "//IceSDK:IceSDK",
+            ]
+
+            libs += [ "stdc++" ]
+        }
+    } else {
+        executable(target_name) {
+            forward_variables_from(invoker, "*")
+
+            if (!defined(include_dirs)) {
+                include_dirs = [ ]
+            }
+
+            if (!defined(defines)) {
+                defines = [ ]
+            }
+
+            if (!defined(cflags_cc)) {
+                cflags_cc = [ ]
+            }
+
+            if (!defined(deps)) {
+                deps = [ ]
+            }
+
+            if (!defined(ldflags)) {
+                ldflags = [ ]
+            }
+
+            if (!defined(arflags)) {
+                arflags = [ ]
+            }
+
+            include_dirs += [ "//IceSDK" ]
+
+            if (is_win) {
+                defines += [ "ICESDK_WIN32" ]
+            }
+
+            if (is_linux) {
+                defines += [ "ICESDK_LINUX" ]
+            }
+
+            if (is_mac) {
+                defines += [ "ICESDK_OSX" ]
+            }
+
+            # FMOD
+            defines += [ "ICESDK_FMOD" ]
+
+            # BGFX
+            include_dirs += [ "//third-party/bgfx/include", "//third-party/bimg/include", "//third-party/bx/include", "//third-party/glfw/include" ]
+
+            if (is_win) {
+                include_dirs += [ "//third-party/bx/include/compat/msvc" ]
+            }
+
+            if (is_mac) {
+                include_dirs += [ "//third-party/bx/include/compat/osx" ]
+            }
+
+            exec_script("//tools/compile_assets.py", [ host_os, rebase_path(".", root_build_dir) ])
+
+            include_dirs += [
+                "//third-party/fmod/inc",
+                "//third-party/bgfx/include", "//third-party/bimg/include", "//third-party/bx/include",
+                "//third-party/glfw/include", "//third-party/entt/single_include", "//third-party/glm", 
+                "//third-party/imgui", "//third-party/sdl2/include", "//third-party/spdlog/include",
+                "//third-party/freetype/include",
+            ]
+
+            deps += [
+                "//IceSDK:IceSDK",
+            ]
+
+            if (is_emscripten) {
+                emscripten_flags = [
+                    "-sWASM=1",
+                    "-sUSE_SDL=2",
+                    # "-sLEGACY_GL_EMULATION=1",
+
+                    "-sMIN_WEBGL_VERSION=2",
+                    "-sMAX_WEBGL_VERSION=2",
+
+                    "-sUSE_WEBGL2=1",
+
+                    "-sTOTAL_MEMORY=1024MB",
+                    "-sOFFSCREENCANVAS_SUPPORT=1",
+                    "-sDEMANGLE_SUPPORT=1",
+
+                    "-sASSERTIONS=0",
+
+                    "-sFILESYSTEM=1",
+                    "-sFORCE_FILESYSTEM=1",
+                    "-sLZ4=1",
+                ]
+
+                emscripten_ldflags = [
+                    "--source-map-base http://127.0.0.1:5500/out/",
+                    "--emit-symbol-map",
+                    "--profiling",
+                    "-g0"
+                ]
+
+                ldflags += emscripten_flags
+                ldflags += emscripten_ldflags
+
+                cflags_cc += emscripten_flags
+
+                # TODO: Finish
+                exec_script("C:\\Users\\Mempler\\emsdk\\upstream/emscripten/tools/file_packager.py", [ "$target_name.fs.data", "--lz4", "--preload", "Assets/", "--js-output=$target_name.fs.js" ])
+            
+                exec_script("//tools/generate_html.py", [ target_name ])
+            }
+        }
+    }
+}
+
+template ("IceSDK_Test") {
+    IceSDK_Project("Test-" + target_name) {
+        forward_variables_from(invoker, "*")
+        
+        sources += [ "//Tests/Test.cc" ]
+
+        if (!defined(include_dirs)) {
+            include_dirs = [ ]
+        }
+
+        if (!defined(defines)) {
+            defines = [ ]
+        }
+
+        if (!defined(cflags_cc)) {
+            cflags_cc = [ ]
+        }
+
+        if (!defined(deps)) {
+            deps = [ ]
+        }
+
+        include_dirs += [
+            "//third-party/googletest/googletest/include",
+            "//third-party/googletest/googlemock/include"
+        ]
+        deps += [
+            "//third-party/googletest/googletest",
+            "//third-party/googletest/googlemock"
+        ]
+    }
+}

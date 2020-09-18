@@ -1,0 +1,41 @@
+import("//IceSDK/IceSDK.gni")
+
+static_library("bimg") {
+    sources = [
+        "src/image.cpp",
+        "src/image_cubemap_filter.cpp",
+        "src/image_decode.cpp",
+        "src/image_encode.cpp",
+        "src/image_gnf.cpp",
+    ]
+
+    include_dirs = [
+        "include", "//third-party/bx/include",
+        "3rdparty", "3rdparty/astc-codec/include", "3rdparty/iqa/include",
+    ]
+
+    if (is_win) {
+        include_dirs += [ "//third-party/bx/include/compat/msvc" ]
+    }
+
+    if (is_mac) {
+        include_dirs += [ "//third-party/bx/include/compat/osx" ]
+    }
+
+    deps = [
+        "3rdparty/astc-codec/src/decoder:codec",
+    ]
+
+    if (is_android) {
+        deps += [
+            "3rdparty/libsquish:squish",
+            "3rdparty/etc1",
+            "3rdparty/etc2",
+            "3rdparty/pvrtc",
+            "3rdparty/astc",
+            "3rdparty/nvtt",
+            "3rdparty/edtaa3",
+            "3rdparty/iqa",
+        ]
+    }
+}

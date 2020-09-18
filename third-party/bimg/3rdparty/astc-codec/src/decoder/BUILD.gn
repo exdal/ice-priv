@@ -1,0 +1,39 @@
+static_library("footprint") {
+    sources = [ "footprint.cc" ]
+
+    include_dirs = [ "../../" ]
+
+    deps = [ ]
+}
+
+static_library("astc_utils") {
+    sources = [
+        "astc_file.cc",
+        "endpoint_codec.cc",
+        "integer_sequence_codec.cc",
+        "intermediate_astc_block.cc",
+        "logical_astc_block.cc",
+        "partition.cc",
+        "physical_astc_block.cc",
+        "quantization.cc",
+        "weight_infill.cc",
+    ]
+
+    include_dirs = [ "../../" ]
+
+    deps = [
+        ":footprint"
+    ]
+}
+
+static_library("codec") {
+    sources = ["codec.cc"]
+
+    include_dirs = [ "../../" ]
+
+    deps = [
+        ":astc_utils",
+        ":footprint"
+    ]
+}
+

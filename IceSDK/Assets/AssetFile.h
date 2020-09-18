@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Asset.h"
-#include "AssetHeader.h"
+#include "Assets/Asset.h"
+#include "Assets/AssetHeader.h"
 #include "Utils/Memory.h"
 
 #include <vector>
@@ -43,6 +43,7 @@ namespace IceSDK
 
 			void Save(const std::string &pPath);
 			static Memory::Ptr<AssetFile> Load(const std::string &pPath);
+			static Memory::Ptr<AssetFile> Load(const std::vector<uint8_t> &pMemory);
 
 		private:
 			int32_t GetEmptyEntry() const;

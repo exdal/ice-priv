@@ -1,0 +1,5 @@
+group ("Examples") {
+    deps = [
+        "//Examples/BareBones"
+    ]
+}

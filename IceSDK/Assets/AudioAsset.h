@@ -1,9 +1,8 @@
 #pragma once
 #include <vector>
 
-#include "AssetHeader.h"
+#include "Assets/AssetHeader.h"
 #include "Audio/AudioSystem.h"
-#include "GameBase.h"
 
 namespace IceSDK
 {
@@ -14,7 +13,7 @@ namespace IceSDK
 		public:
 			explicit AudioAsset(std::vector<uint8_t> pData);
 
-			Memory::Ptr<Audio::Audio> LoadAudio() const;
+			Memory::Ptr<Audio::Sound> LoadAudio() const;
 
 			static eAssetType GetAssetType();
 

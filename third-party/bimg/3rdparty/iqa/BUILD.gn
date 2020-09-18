@@ -1,0 +1,13 @@
+static_library("iqa") {
+    sources = [
+        "source/convolve.c",
+        "source/decimate.c",
+        "source/math_utils.c",
+        "source/ms_ssim.c",
+        "source/mse.c",
+        "source/psnr.c",
+        "source/ssim.c",
+    ]
+    
+    include_dirs = [ "include" ]
+}

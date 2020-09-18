@@ -1,17 +1,34 @@
 {
     "configurations": [
         {
-            "name": "Linux",
+            "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/IceSDK/**",
+                "${vcpkgRoot}/x86-windows/include",
+                "${workspaceFolder}/third-party/bx/include",
+                "${workspaceFolder}/third-party/bx/include/compat/msvc",
+                "${workspaceFolder}/third-party/bgfx/include",
+                "${workspaceFolder}/third-party/fmod/inc",
+                "${workspaceFolder}/third-party/googletest/googletest/include",
+                "${workspaceFolder}/IceSDK",
+                "${workspaceFolder}/third-party/googletest/googlemock/include",
+                "${workspaceFolder}/IceSDK",
+                "${workspaceFolder}/third-party/imgui",
+                "${workspaceFolder}/third-party/bimg/include",
+                "${workspaceFolder}/third-party/sdl2/include",
+                "C:\\Users\\Mempler\\emsdk\\upstream\\emscripten\\system\\include",
+                "${workspaceFolder}/third-party/freetype/include"
             ],
-            "compilerPath": "/usr/bin/gcc",
-            "cStandard": "c11",
-            "cppStandard": "c++14",
-            "intelliSenseMode": "clang-x64",
             "defines": [
-                "ICESDK_LINUX"
-            ]
+                "_DEBUG",
+                "ICESDK_WIN32",
+                "ICESDK_GLFW"
+            ],
+            "windowsSdkVersion": "10.0.19041.0",
+            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.27.29110/bin/Hostx64/x64/cl.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "msvc-x64"
         }
     ],
     "version": 4

@@ -2,13 +2,17 @@
 
 #include <unordered_map>
 
-#include "AssetFile.h"
+#include "Assets/AssetFile.h"
 #include "Utils/Memory.h"
 
 #include <vector>
 
-#include "Audio/Audio.h"
-#include "Graphics/2D/Texture2D.h"
+#include "Audio/Sound.h"
+#include "Graphics/Texture2D.h"
+
+#ifdef ICESDK_EMSCRIPTEN
+#include <emscripten/fetch.h>
+#endif
 
 namespace IceSDK
 {
@@ -21,10 +25,9 @@ namespace IceSDK
 						 //	TODO:	Don't do that
 						 //	TODO:	make it faster for low end devices!
 
-			Memory::WeakPtr<Graphics::Texture2D> LoadTexture(const std::string &pName,
-															 const Memory::WeakPtr<bx::AllocatorI> &pBxAlloc);
+			Memory::Ptr<Graphics::Texture2D> LoadTexture(const std::string &pName);
 
-			Memory::Ptr<Audio::Audio> LoadAudio(const std::string &pName);
+			Memory::Ptr<Audio::Sound> LoadAudio(const std::string &pName);
 
 			std::string LoadText(const std::string &pName);
 

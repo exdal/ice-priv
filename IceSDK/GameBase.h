@@ -6,6 +6,8 @@
 #include "Graphics/Window.h"
 
 #include "bx/allocator.h"
+#include "ECS/Scene.h"
+#include "Graphics/Shaders/ShaderManager.h"
 
 namespace IceSDK
 {
@@ -20,6 +22,8 @@ namespace IceSDK
 		Memory::Ptr<Audio::AudioSystem> GetAudioSystem() const;
 		Memory::Ptr<Assets::AssetManager> GetAssetManager() const;
 		Memory::Ptr<Graphics::GameWindow> GetGameWindow() const;
+		Memory::Ptr<Graphics::Shaders::ShaderManager> GetShaderManager() const;
+		Memory::WeakPtr<Scene> GetActiveScene() const;
 
 	protected:
 		virtual void Init();
@@ -29,19 +33,36 @@ namespace IceSDK
 		virtual void Draw(float pDelta);
 		virtual void InitDraw();
 
+		Memory::Ptr<Scene> _active_scene;
+
 	private:
 		bool _exit{};
 
 		static void InternalDraw(float pDelta);
+		static void InternalTick(float pDelta);
 		static void InternalDrawInit();
 		static void InternalShutdown();
+
+		int64_t _last_delta;
+#ifdef ICESDK_EMSCRIPTEN
+		static void InternalMainLoop(void *arg);
+#endif
 
 		Memory::Ptr<Graphics::GameWindow> _window;
 		Memory::Ptr<Audio::AudioSystem> _audio_system;
 		Memory::Ptr<Assets::AssetManager> _asset_manager;
-
-		std::weak_ptr<bx::AllocatorI> _bx_alloc;
+		Memory::Ptr<Graphics::Shaders::ShaderManager> _shader_manager;
 	};
 } // namespace IceSDK
 
-IceSDK::Memory::Ptr<IceSDK::GameBase> GetGameBase();
+extern IceSDK::Memory::Ptr<IceSDK::GameBase> GetGameBase();
+IceSDK::Memory::Ptr<IceSDK::Graphics::GameWindow> GetWindow();
+IceSDK::Memory::Ptr<bx::AllocatorI> GetAllocator();
+IceSDK::Memory::Ptr<IceSDK::Audio::AudioSystem> GetAudioSystem();
+
+#if defined(ICESDK_SDL2) && defined(ICESDK_ANDROID)
+#define IceSDKMain IceSDK_main
+#else
+#undef main
+#define IceSDKMain main
+#endif

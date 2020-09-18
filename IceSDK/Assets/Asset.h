@@ -12,6 +12,11 @@ namespace IceSDK
 	{
 		struct Asset
 		{
+			Asset(){}
+
+			Asset(eAssetType eType, std::vector<uint8_t> pData)
+				: asset_type(eType), data(pData) { }
+
 			eAssetType asset_type = eAssetType::Unknown;
 			std::vector<uint8_t> data{};
 

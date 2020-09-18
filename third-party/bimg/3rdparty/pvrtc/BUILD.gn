@@ -1,0 +1,9 @@
+static_library("pvrtc") {
+    sources = [
+        "BitScale.cpp",
+        "MortonTable.cpp",
+        "PvrTcDecoder.cpp",
+        "PvrTcEncoder.cpp",
+        "PvrTcPacket.cpp",
+    ]
+}
