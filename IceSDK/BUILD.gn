@@ -42,7 +42,6 @@ unity_lib("IceSDK") {
         "Graphics/EntityHelper.cc",
 
         "Graphics/Fonts/FontFace.cc",
-        "Graphics/Fonts/SpriteText.cc",
         "Graphics/Fonts/FontManager.cc",
 
         "Graphics/Shaders/ShaderManager.cc",

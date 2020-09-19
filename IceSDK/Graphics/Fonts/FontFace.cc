@@ -111,7 +111,7 @@ void FontFace::LoadGlyph(uint32_t glyph)
         atlas->Atlas = Graphics::Texture2D::Create("FontAtlas", FT_ATLAS_SIZE, FT_ATLAS_SIZE, bgfx::TextureFormat::RGBA8);
     }
 
-    atlas->Glyphs.push_back(_glyph);
+    atlas->Glyphs.insert({ glyph, _glyph });
 
     atlas->Pen.x += _glyph.Advance;
     if (atlas->Pen.x + _glyph.Size.x >= FT_ATLAS_SIZE)
