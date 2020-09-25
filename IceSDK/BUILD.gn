@@ -47,6 +47,7 @@ unity_lib("IceSDK") {
         "Graphics/Shaders/ShaderManager.cc",
 
         "Graphics/Systems/SpriteRenderingSystem.cc",
+        "Graphics/Systems/TextRenderingSystem.cc",
 
         "Graphics/ImGui/bgfx_imgui.cc",
 #       "ImGui/Widgets/AssetBrowser.cc",
@@ -74,6 +75,7 @@ unity_lib("IceSDK") {
         "//third-party/sdl2/include", # SDL2
         "//third-party/imgui", # ImGui
         "//third-party/freetype/include", # FREETYPE 2
+        "//third-party/harfbuzz/src", # HARFBUZZ
 
         #######################################################
         #                        Maths                        #
@@ -86,6 +88,8 @@ unity_lib("IceSDK") {
         "//third-party/entt/single_include", # ENTT
         "//third-party/spdlog/include", # SPDLOG
 
+        "//third-party/icu/source/common", # ICU
+        "//third-party/icu/source/i18n", # ICU
     ]
     defines      = [
     ]
@@ -156,7 +160,9 @@ unity_lib("IceSDK") {
         "//third-party/bimg",
         "//third-party/bx",
 
-        "//third-party/freetype"
+        "//third-party/freetype",
+        "//third-party/harfbuzz:HarfBuzz",
+        "//third-party/icu",
     ]
 
     if (is_android) { # TODO: figure out how to link fmod with android
@@ -181,6 +187,21 @@ unity_lib("IceSDK") {
         if (is_linux) {
             defines += [ "SDL_VIDEO_DRIVER_X11" ]
         }
+    }
+
+    # HarfBuzz
+    defines += [
+        "HAVE_FREETYPE",
+        "HB_NO_GETENV", # incompatible with spdlog
+        "HAVE_ICU"
+    ]
+    if (is_posix && !is_emscripten) {
+        defines += [ "HAVE_PTHREAD" ]
+        libs += [ "pthread" ]
+    }
+
+    if (is_emscripten) {
+        defines += [ "HB_NO_MT" ]
     }
 }
 

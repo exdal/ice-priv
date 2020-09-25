@@ -35,7 +35,17 @@
 #endif
 
 #include "GLFW/glfw3.h"
+
+#ifdef ICESDK_LINUX
+#define Glyph _Glyph
+#endif
+
 #include "GLFW/glfw3native.h"
+
+#ifdef ICESDK_LINUX
+#undef Glyph
+#endif
+
 #endif
 
 #ifdef ICESDK_SDL2
@@ -72,6 +82,9 @@
 
 #include "ft2build.h"
 #include FT_FREETYPE_H
+
+#include "hb.hh"
+#include "hb-ft.h"
 
 #include <iterator>
 #include <iostream>

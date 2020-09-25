@@ -19,6 +19,24 @@ Memory::Ptr<FontFace> FontFace::FromMemory(const std::vector<uint8_t> &pData, si
     if (err != FT_Err_Ok)
         ICESDK_CORE_ERROR("Failed to load FontFace! ({:x})", err);
 
+    font->_font = hb_ft_font_create(font->_face, NULL);
+    font->_buffer = hb_buffer_create();
+
+    if (!hb_buffer_allocation_successful(font->_buffer))
+        ICESDK_CORE_ERROR("Failed to allocate HarfBuzz buffer!");
+
+    for (int i = 0; i < font->_face->num_charmaps; i++) // Forcefully load UTF-16 characters
+    {
+        if (((font->_face->charmaps[i]->platform_id == 0) && (font->_face->charmaps[i]->encoding_id == 3)) ||
+            ((font->_face->charmaps[i]->platform_id == 3) && (font->_face->charmaps[i]->encoding_id == 1)))
+        {
+            err = FT_Set_Charmap(font->_face, font->_face->charmaps[i]);
+
+            if (err != FT_Err_Ok)
+                ICESDK_CORE_ERROR("Failed to set charmap! ({:x})", err);
+        }
+    }
+
     // Cache most important ascii characters, everything else can be cached at runtime
     const char *ascii = " abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ123456789!?.,";
 
@@ -26,7 +44,12 @@ Memory::Ptr<FontFace> FontFace::FromMemory(const std::vector<uint8_t> &pData, si
 
     for (size_t i = 0; i < 65; i++)
     {
-        font->LoadGlyph(ascii[i]);
+        FT_Error err;
+        err = FT_Load_Char(font->_face, ascii[i], FT_LOAD_RENDER | FT_LOAD_NO_HINTING | FT_LOAD_TARGET_LIGHT);
+        if (err != FT_Err_Ok)
+            ICESDK_CORE_ERROR("Failed to load Font Glyph! ({:x})", err);
+
+        font->GetGlyph(font->_face->glyph->glyph_index);
     }
 
     return font;
@@ -60,86 +83,55 @@ void FontFace::SetSize(size_t size)
     if (err != FT_Err_Ok)
         ICESDK_CORE_ERROR("Failed to change Font size! ({:x})", err);
 
-    this->_font_atlases.clear();
+    _glyphCache.clear();
 }
 
-void FontFace::LoadGlyph(uint32_t glyph)
+size_t FontFace::GetSize()
 {
-    FT_Error err;
-    err = FT_Load_Char(this->_face, glyph, FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT | FT_LOAD_TARGET_LIGHT);
-    if (err != FT_Err_Ok)
-        ICESDK_CORE_ERROR("Failed to load Font Glyph! ({:x})", err);
+    return this->_size;
+}
 
-    FT_Bitmap *bmp = &this->_face->glyph->bitmap;
-    std::vector<glm::vec4> pixel_data;
-    pixel_data.reserve(bmp->width * bmp->rows);
+Glyph &FontFace::GetGlyph(uint32_t pGlyph)
+{
+    // We don't want a glyph to be loaded twice!
+    if (this->_glyphCache.count(pGlyph))
+        return this->_glyphCache[pGlyph];
 
-    for (int row = 0; row < bmp->rows; ++row)
+    FT_Load_Glyph(this->_face,
+                  pGlyph,
+                  FT_LOAD_DEFAULT);
+
+    FT_GlyphSlot glyphSlot = this->_face->glyph;
+    FT_Render_Glyph(glyphSlot, FT_RENDER_MODE_NORMAL);
+
+    FT_Bitmap *bmp = &glyphSlot->bitmap;
+    std::vector<uint8_t> pixel_data;
+    pixel_data.reserve(bmp->width * bmp->rows * 4);
+
+    for (size_t row = 0; row < bmp->rows; ++row)
     {
-        for (int col = 0; col < bmp->width; ++col)
+        for (size_t col = 0; col < bmp->width; ++col)
         {
-            auto pixel = (float)bmp->buffer[row * bmp->pitch + col];
-            pixel_data.push_back({1.0, 1.0, 1.0, pixel / 0xFF});
+            auto pixel = (uint8_t)bmp->buffer[row * bmp->pitch + col];
+
+            pixel_data.push_back(pixel);
+            pixel_data.push_back(pixel);
+            pixel_data.push_back(pixel);
+
+            if (pixel > 0)
+                pixel_data.push_back(255);
+            else
+                pixel_data.push_back(0);
         }
     }
 
-    Glyph _glyph{
+    Glyph glyph{
         {bmp->width, bmp->rows},
-        {this->_face->glyph->bitmap_left, this->_face->glyph->bitmap_top},
-
-        (float)(this->_face->glyph->advance.x >> 6),
-
+        glyphSlot->metrics.horiBearingY >> 6,
+        glyphSlot->bitmap_top,
         pixel_data};
 
-    FontAtlas *atlas = nullptr;
-    // Find an empty font atlas
-    for (auto &_atlas : this->_font_atlases)
-    {
-        if (_atlas.Fits(_glyph))
-        {
-            atlas = &_atlas;
-            break;
-        }
-    }
+    this->_glyphCache.insert({pGlyph, glyph});
 
-    if (atlas == nullptr)
-    {
-        this->_font_atlases.emplace_back(); // Push an empty font atlas
-
-        atlas = &this->_font_atlases.at(this->_font_atlases.size() - 1);
-
-        atlas->Atlas = Graphics::Texture2D::Create("FontAtlas", FT_ATLAS_SIZE, FT_ATLAS_SIZE, bgfx::TextureFormat::RGBA8);
-    }
-
-    atlas->Glyphs.insert({ glyph, _glyph });
-
-    atlas->Pen.x += _glyph.Advance;
-    if (atlas->Pen.x + _glyph.Size.x >= FT_ATLAS_SIZE)
-    {
-        atlas->Pen.x = 0;
-        atlas->Pen.y += ((this->_face->size->metrics.height >> 6) + 1);
-    }
-
-    const bgfx::Memory *memory = bgfx::alloc(_glyph.PixelData.size() * 4);
-    bx::memSet(memory->data, 0, memory->size);
-    for (size_t i = 0; i < _glyph.PixelData.size(); i++)
-    {
-        auto pixel = _glyph.PixelData.at(i);
-
-        uint8_t r = (pixel.a * 0xFF), g = (pixel.a * 0xFF), b = (pixel.a * 0xFF), a = (pixel.a * 0xFF);
-
-        auto pixel_value = ((r & 0xFF) << 24) | ((g & 0xFF) << 16) | ((b & 0xFF) << 8) | (a & 0xFF);
-
-        bx::memCopy(&memory->data[i * 4], (void *)&pixel_value, 4);
-    }
-
-    bgfx::updateTexture2D(atlas->Atlas->GetHandle(), 0, 0, atlas->Pen.x, atlas->Pen.y, _glyph.Size.x, _glyph.Size.y, memory, _glyph.Size.x * 4);
-}
-
-Memory::Ptr<Texture2D> FontFace::GetAtlas(size_t index)
-{
-    if (this->_font_atlases.size() < index)
-        return nullptr;
-
-    return this->_font_atlases[index].Atlas;
+    return this->_glyphCache[pGlyph];
 }

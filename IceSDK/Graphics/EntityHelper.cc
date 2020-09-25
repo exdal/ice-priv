@@ -5,7 +5,9 @@
 #include "Graphics/Components/MeshComponent.h"
 #include "Graphics/Components/ShaderComponent.h"
 #include "Graphics/Components/SpriteComponent.h"
+#include "Graphics/Components/TextComponent.h"
 
+#include "ECS/Components/BaseComponent.h"
 #include "ECS/Components/TransformComponent.h"
 #include "ECS/Scene.h"
 
@@ -23,7 +25,9 @@
 #include "Graphics/Shaders/compiled/vs_sprite.glsl.h"
 #include "Graphics/Shaders/compiled/vs_sprite.metal.h"
 #include "Graphics/Shaders/compiled/vs_sprite.vulkan.h"
+
 #include "Graphics/Systems/SpriteRenderingSystem.h"
+#include "Graphics/Systems/TextRenderingSystem.h"
 
 #include "Utils/Instrumentor.h"
 
@@ -86,7 +90,29 @@ IceSDK::Entity Graphics::Entity::CreateSprite(
 		bgfx::createIndexBuffer(bgfx::makeRef(g_SpriteIndices, sizeof g_SpriteIndices)));
 
 	entity.AddComponent<Graphics::Components::ShaderComponent>(pShaderManager.get()->LoadProgram("Sprite"));
-	entity.AddComponent<Graphics::Components::SpriteComponent>(glm::vec2(pTex->Width(), pTex->Height()), pTex);
+
+	glm::vec2 TexSize;
+	if (pTex != nullptr)
+		TexSize = {pTex->Width(), pTex->Height()};
+
+	entity.AddComponent<Graphics::Components::SpriteComponent>(TexSize, pTex);
+
+	return entity;
+}
+
+IceSDK::Entity Graphics::Entity::CreateText(
+	Memory::Ptr<IceSDK::Scene> pScene,
+	Memory::Ptr<Shaders::ShaderManager> pShaderManager,
+	const std::string &pText, size_t pFontSize, FontFaceHandle pFontFace)
+{
+	ICESDK_PROFILE_FUNCTION();
+
+	auto entity = Entity::CreateSprite(pScene, pShaderManager, nullptr);
+
+	auto &baseComponent = entity.GetComponent<IceSDK::Components::BaseComponent>();
+	baseComponent.name = "TextSprite";
+
+	entity.AddComponent<Graphics::Components::TextComponent>(pText, (uint64_t)0, pFontSize, pFontFace);
 
 	return entity;
 }
@@ -96,6 +122,7 @@ void Graphics::Entity::Init(const Memory::Ptr<Graphics::Shaders::ShaderManager> 
 	ICESDK_PROFILE_FUNCTION();
 
 	Pos2DTexCoordColourVertex::Init();
+	Graphics::FontFace::Init();
 
 	pShaderManager->AppendShader("Sprite", bgfx::RendererType::Direct3D9, Shaders::eShaderType::Fragment, std::vector<uint8_t>(&fs_sprite_d3d9[0], &fs_sprite_d3d9[sizeof fs_sprite_d3d9]));
 	pShaderManager->AppendShader("Sprite", bgfx::RendererType::Direct3D11, Shaders::eShaderType::Fragment, std::vector<uint8_t>(&fs_sprite_d3d11[0], &fs_sprite_d3d11[sizeof fs_sprite_d3d11]));
@@ -117,4 +144,5 @@ void Graphics::Entity::InitScene(const Memory::Ptr<IceSDK::Scene> &pScene)
 	ICESDK_PROFILE_FUNCTION();
 
 	pScene->RegisterSystem<Systems::SpriteRenderingSystem>();
+	pScene->RegisterSystem<Systems::TextRenderingSystem>();
 }

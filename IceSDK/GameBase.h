@@ -8,6 +8,7 @@
 #include "bx/allocator.h"
 #include "ECS/Scene.h"
 #include "Graphics/Shaders/ShaderManager.h"
+#include "Graphics/Fonts/FontManager.h"
 
 namespace IceSDK
 {
@@ -23,6 +24,7 @@ namespace IceSDK
 		Memory::Ptr<Assets::AssetManager> GetAssetManager() const;
 		Memory::Ptr<Graphics::GameWindow> GetGameWindow() const;
 		Memory::Ptr<Graphics::Shaders::ShaderManager> GetShaderManager() const;
+		Memory::Ptr<Graphics::FontManager> GetFontManager() const;
 		Memory::WeakPtr<Scene> GetActiveScene() const;
 
 	protected:
@@ -36,8 +38,6 @@ namespace IceSDK
 		Memory::Ptr<Scene> _active_scene;
 
 	private:
-		bool _exit{};
-
 		static void InternalDraw(float pDelta);
 		static void InternalTick(float pDelta);
 		static void InternalDrawInit();
@@ -46,12 +46,15 @@ namespace IceSDK
 		int64_t _last_delta;
 #ifdef ICESDK_EMSCRIPTEN
 		static void InternalMainLoop(void *arg);
+#else
+		bool _exit = false;
 #endif
 
 		Memory::Ptr<Graphics::GameWindow> _window;
 		Memory::Ptr<Audio::AudioSystem> _audio_system;
 		Memory::Ptr<Assets::AssetManager> _asset_manager;
 		Memory::Ptr<Graphics::Shaders::ShaderManager> _shader_manager;
+		Memory::Ptr<Graphics::FontManager> _font_manager;
 	};
 } // namespace IceSDK
 
