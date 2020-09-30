@@ -1,7 +1,7 @@
-#include "Utils/Logger.h"
-#include "imgui.h"
+#include <imgui.h>
 
 #include "GameBase.h"
+#include "Graphics/Debug/Draw.h"
 #include "Graphics/EntityHelper.h"
 #include "Graphics/Fonts/FontFace.h"
 #include "Graphics/ImGui/Widgets/SceneGraph.h"
@@ -22,7 +22,6 @@ protected:
 
     void Draw(float pDelta) override
     {
-        // ImGuiWidgets::AssetBrowser::Frame(this->GetAssetManager());
         ImGuiWidgets::SceneGraph::Frame(this->GetActiveScene());
     }
 
