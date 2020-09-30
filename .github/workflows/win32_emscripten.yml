@@ -26,8 +26,8 @@ jobs:
           .\emsdk\emsdk_env.ps1
 
           mkdir .\out\
-          Copy-Item .\.github\emscripten\args.gn -Destination .\out\args.gn
-
+          Copy-Item ./.ide/GN/win/emscripten/args.gn -Destination .\out\args.gn
+          
           .\tools\win\gn.exe gen out
         shell: pwsh
 
