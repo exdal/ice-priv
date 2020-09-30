@@ -16,7 +16,7 @@ jobs:
       - name: Generate Build Files
         run: |
           mkdir .\out\
-          Copy-Item ./.ide/GN/win/emscripten/args.gn -Destination .\out\args.gn
+          Copy-Item .\.ide\GN\win\pc\args.gn -Destination .\out\args.gn
           
           .\tools\win\gn.exe gen out
         shell: pwsh
