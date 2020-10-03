@@ -2,6 +2,9 @@
 
 #include "Utils/Memory.h"
 
+// https://github.com/TheCherno/Hazel/blob/master/Hazel/src/Hazel/Core/Log.h
+// Apache2 license
+
 #include <spdlog/fmt/ostr.h>
 #include <spdlog/spdlog.h>
 
