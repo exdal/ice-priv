@@ -48,7 +48,7 @@ IceSDK::Entity Graphics::Entity::CreateSprite(
         TexSize = { pTex->Width(), pTex->Height() };
 
     entity.AddComponent<IceSDK::Components::TransformComponent>(
-        position, glm::vec3{ TexSize.x, TexSize.y, 1.0f }, rotation);
+        position, glm::vec3{ 1.0f, 1.0f, 1.0f }, rotation);
 
     entity.AddComponent<Graphics::Components::MeshComponent>(
         bgfx::createVertexBuffer(

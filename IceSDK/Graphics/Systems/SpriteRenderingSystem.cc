@@ -49,7 +49,11 @@ void SpriteRenderingSystem::Draw(float pDelta)
         const auto u_tex_colour =
             bgfx::createUniform("s_texColour", bgfx::UniformType::Sampler);
 
-        bgfx::setTransform(glm::value_ptr(transform.model_matrix));
+        const glm::vec3 real_texture_scale = { sprite.size, 1.0f };
+        glm::mat4 matrix =
+            glm::scale(transform.model_matrix, real_texture_scale);
+
+        bgfx::setTransform(glm::value_ptr(matrix));
 
         bgfx::setVertexBuffer(0, mesh.vertex_buffer);
         bgfx::setIndexBuffer(mesh.index_buffer);
