@@ -61,9 +61,12 @@ protected:
 
 private:
     Entity _box;
-    Entity _text;
     Memory::Ptr<Graphics::Texture2D> _boxTexture;
+
+    /* Make sure the code above is uncommented.
+    Entity _text;
     IceSDK::Graphics::FontFaceHandle _faceHandle;
+    */
 };
 
 Memory::Ptr<Game> g_Game;
