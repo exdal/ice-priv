@@ -2,6 +2,9 @@
 
 #include "Utils/Logger.h"
 
+// https://github.com/TheCherno/Hazel/blob/master/Hazel/src/Hazel/Core/Log.h
+// Apache2 license
+
 using namespace IceSDK;
 
 Memory::Ptr<spdlog::logger> Log::s_CoreLogger;
