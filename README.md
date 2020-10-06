@@ -1,36 +1,29 @@
+# IceSDK
+IceSDK is a cold little Game SDK to create games You can use individuel parts or
+just use it as a Game Engine itself.
+
+
 ## How to setup
+Setting things up is quite easy, you simply go ahead and run following commands:
 ```sh
+# Clone the repository
 git clone https://github.com/Mempler/IceSDK
 
 
+# Generate IDE Specific files
+# those are the supported args:
 # --ide=(`vscode`, `vs2017`, `vs2019`) --target?=(`android`, `emscripten`)
+# though android doesn't really work right now.
 python3 ./tools/setup.py --ide=vscode
 ```
 
-## Android
-```
-.\tools\win\gn.exe gen out
-cd out
-
-python3 ..\tools\build4android.py 30 %LOCALAPPDATA%\Android\Sdk\ndk\21.3.6528147 %LOCALAPPDATA%\Android\Sdk\ndk-bundle BareBones
-
-# Open in Android Studio && Run
-```
-
-## WebAssembly
-args.gn
-```gn
-is_clang = true
-use_lld = true
-
-clang_base_path = "$HOME/emsdk/upstream"
-
-target_os = "emscripten"
-target_cpu = "wasm32"
-```
+## Manuel Setup
+Manuel setup isn't really supported, if you want to know how it works,
+please checkout .ide and or .github/workflows
 
 ## Supported Platforms
-
+Current supported platforms:
+iOS/MacOS aren't currently supported since i lack those devices.
 
 | ![Windows](./.assets/windows_64x64.png) | ![Linux](./.assets/linux_64x64.png) | ![osX](./.assets/osx_64x64.png) | ![android](./.assets/android_64x64.png) | ![ios](./.assets/ios_64x64.png) | ![web](./.assets/wasm_64x64.png) |
 | --------------------------------------- | ----------------------------------- | ------------------------------- | --------------------------------------- | ------------------------------- | -------------------------------- |
