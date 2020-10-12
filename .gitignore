@@ -2,3 +2,4 @@ out/
 .vscode/
 .idea/
 *.log
+build/toolchain/android/toolchain.py
