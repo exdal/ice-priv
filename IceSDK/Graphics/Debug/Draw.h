@@ -46,7 +46,8 @@ static const uint16_t g_SpriteIndices[6] = {
 namespace IceSDK::Graphics::Debug
 {
     // NOTE: this should be called in a draw loop
-    inline void DrawQuad(glm::vec2 pos, glm::vec2 size, glm::vec4 colour)
+    inline void DrawQuad(glm::vec2 pPosition, glm::vec2 pSize,
+                         glm::vec4 pColour)
     {
         auto Model = glm::mat4{ 1 };
         auto View = glm::mat4{ 1 };
@@ -61,20 +62,20 @@ namespace IceSDK::Graphics::Debug
         bgfx::setViewTransform(128, glm::value_ptr(View),
                                glm::value_ptr(Projection));
 
-        auto tex = Texture2D::Create("dbgBox", size.x, size.y,
+        auto tex = Texture2D::Create("dbgBox", pSize.x, pSize.y,
                                      bgfx::TextureFormat::RGBA8);
 
         std::vector<uint8_t> pixelData;
-        pixelData.reserve(size.x * size.y * 4);
-        for (size_t i = 0; i < size.x * size.y; i++)
+        pixelData.reserve(pSize.x * pSize.y * 4);
+        for (size_t i = 0; i < pSize.x * pSize.y; i++)
         {
-            pixelData.push_back(colour.r);
-            pixelData.push_back(colour.g);
-            pixelData.push_back(colour.b);
-            pixelData.push_back(colour.a);
+            pixelData.push_back(pColour.r);
+            pixelData.push_back(pColour.g);
+            pixelData.push_back(pColour.b);
+            pixelData.push_back(pColour.a);
         }
 
-        tex->Modify({ { 0.0, 0.0 }, size }, pixelData,
+        tex->Modify({ { 0.0, 0.0 }, pSize }, pixelData,
                     bgfx::TextureFormat::RGBA8);
 
         auto vertexBuffer = bgfx::createVertexBuffer(
