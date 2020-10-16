@@ -11,7 +11,7 @@ Setting things up is quite easy, you simply go ahead and run following commands:
 
 ```shell
 # Clone the repository
-git clone https://github.com/Mempler/IceSDK
+git clone https://github.com/IceSDK/IceSDK
 
 
 # Generate IDE Specific files
