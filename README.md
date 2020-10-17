@@ -2,7 +2,7 @@
 
 # IceSDK
 
-IceSDK is a cold little Game SDK to create games You can use individuel parts or
+IceSDK is a cold little Game SDK to create games. You can use individuel parts or
 just use it as a Game Engine itself.
 
 ## How to setup
@@ -11,7 +11,7 @@ Setting things up is quite easy, you simply go ahead and run following commands:
 
 ```shell
 # Clone the repository
-git clone https://github.com/Mempler/IceSDK
+git clone https://github.com/IceSDK/IceSDK
 
 
 # Generate IDE Specific files
@@ -21,9 +21,9 @@ git clone https://github.com/Mempler/IceSDK
 python3 ./tools/setup.py --ide=vscode
 ```
 
-## Manuel Setup
+## Manual Setup
 
-Manuel setup isn't really supported, if you want to know how it works,
+Manual setup isn't really supported, if you want to know how it works,
 please checkout .ide and or .github/workflows
 
 ## Supported Platforms
