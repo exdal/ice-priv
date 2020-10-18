@@ -1,0 +1,22 @@
+defines = -D_CRT_SECURE_NO_DEPRECATE -DWIN32 -D_SECURE_ATL -D_USING_V110_SDK71_ -DWINAPI_FAMILY=WINAPI_FAMILY_DESKTOP_APP -DWIN32_LEAN_AND_MEAN -DNOMINMAX -DNTDDI_VERSION=0x0A000000 -D_WIN32_WINNT=0x0A00 -DWINVER=0x0A00 -D_DEBUG -D_HAS_ITERATOR_DEBUGGING=0
+include_dirs = -I../third-party/bimg/3rdparty/astc-codec
+cflags = /Gy /FS /bigobj /d2FastFail /Zc$:sizedDealloc- /Od /Ob0 /Zi /utf-8 /MTd
+cflags_cc = /TP /std$:c++17 /GR /EHsc
+label_name = astc_utils
+target_out_dir = obj/third-party/bimg/3rdparty/astc-codec/src/decoder
+target_output_name = astc_utils
+
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/astc_file.obj: cxx ../third-party/bimg/3rdparty/astc-codec/src/decoder/astc_file.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/endpoint_codec.obj: cxx ../third-party/bimg/3rdparty/astc-codec/src/decoder/endpoint_codec.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/integer_sequence_codec.obj: cxx ../third-party/bimg/3rdparty/astc-codec/src/decoder/integer_sequence_codec.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/intermediate_astc_block.obj: cxx ../third-party/bimg/3rdparty/astc-codec/src/decoder/intermediate_astc_block.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/logical_astc_block.obj: cxx ../third-party/bimg/3rdparty/astc-codec/src/decoder/logical_astc_block.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/partition.obj: cxx ../third-party/bimg/3rdparty/astc-codec/src/decoder/partition.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/physical_astc_block.obj: cxx ../third-party/bimg/3rdparty/astc-codec/src/decoder/physical_astc_block.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/quantization.obj: cxx ../third-party/bimg/3rdparty/astc-codec/src/decoder/quantization.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/weight_infill.obj: cxx ../third-party/bimg/3rdparty/astc-codec/src/decoder/weight_infill.cc
+
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils.lib: alink obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/astc_file.obj obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/endpoint_codec.obj obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/integer_sequence_codec.obj obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/intermediate_astc_block.obj obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/logical_astc_block.obj obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/partition.obj obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/physical_astc_block.obj obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/quantization.obj obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/weight_infill.obj || obj/third-party/bimg/3rdparty/astc-codec/src/decoder/footprint.lib
+  arflags = /ignore$:4221
+  output_extension = .lib
+  output_dir = obj/third-party/bimg/3rdparty/astc-codec/src/decoder

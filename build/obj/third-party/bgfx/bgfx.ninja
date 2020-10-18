@@ -1,0 +1,36 @@
+defines = -D_CRT_SECURE_NO_DEPRECATE -DWIN32 -D_SECURE_ATL -D_USING_V110_SDK71_ -DWINAPI_FAMILY=WINAPI_FAMILY_DESKTOP_APP -DWIN32_LEAN_AND_MEAN -DNOMINMAX -DNTDDI_VERSION=0x0A000000 -D_WIN32_WINNT=0x0A00 -DWINVER=0x0A00 -D_DEBUG -D_HAS_ITERATOR_DEBUGGING=0
+include_dirs = -I../third-party/bgfx/include -I../third-party/bx/include -I../third-party/bimg/include -I../third-party/bgfx/3rdparty -I../third-party/bgfx/3rdparty/cgltf -I../third-party/bgfx/3rdparty/dxsdk/include -I../third-party/bgfx/3rdparty/khronos -I../third-party/bx/include/compat/msvc
+cflags = /Gy /FS /bigobj /d2FastFail /Zc$:sizedDealloc- /Od /Ob0 /Zi /utf-8 /MTd
+cflags_cc = /TP /std$:c++17 /GR /EHsc
+label_name = bgfx
+target_out_dir = obj/third-party/bgfx
+target_output_name = bgfx
+
+build obj/third-party/bgfx/bgfx/bgfx.obj: cxx ../third-party/bgfx/src/bgfx.cpp
+build obj/third-party/bgfx/bgfx/debug_renderdoc.obj: cxx ../third-party/bgfx/src/debug_renderdoc.cpp
+build obj/third-party/bgfx/bgfx/dxgi.obj: cxx ../third-party/bgfx/src/dxgi.cpp
+build obj/third-party/bgfx/bgfx/glcontext_egl.obj: cxx ../third-party/bgfx/src/glcontext_egl.cpp
+build obj/third-party/bgfx/bgfx/glcontext_glx.obj: cxx ../third-party/bgfx/src/glcontext_glx.cpp
+build obj/third-party/bgfx/bgfx/glcontext_html5.obj: cxx ../third-party/bgfx/src/glcontext_html5.cpp
+build obj/third-party/bgfx/bgfx/glcontext_wgl.obj: cxx ../third-party/bgfx/src/glcontext_wgl.cpp
+build obj/third-party/bgfx/bgfx/nvapi.obj: cxx ../third-party/bgfx/src/nvapi.cpp
+build obj/third-party/bgfx/bgfx/renderer_d3d9.obj: cxx ../third-party/bgfx/src/renderer_d3d9.cpp
+build obj/third-party/bgfx/bgfx/renderer_d3d11.obj: cxx ../third-party/bgfx/src/renderer_d3d11.cpp
+build obj/third-party/bgfx/bgfx/renderer_d3d12.obj: cxx ../third-party/bgfx/src/renderer_d3d12.cpp
+build obj/third-party/bgfx/bgfx/renderer_gl.obj: cxx ../third-party/bgfx/src/renderer_gl.cpp
+build obj/third-party/bgfx/bgfx/renderer_gnm.obj: cxx ../third-party/bgfx/src/renderer_gnm.cpp
+build obj/third-party/bgfx/bgfx/renderer_noop.obj: cxx ../third-party/bgfx/src/renderer_noop.cpp
+build obj/third-party/bgfx/bgfx/renderer_nvn.obj: cxx ../third-party/bgfx/src/renderer_nvn.cpp
+build obj/third-party/bgfx/bgfx/renderer_vk.obj: cxx ../third-party/bgfx/src/renderer_vk.cpp
+build obj/third-party/bgfx/bgfx/renderer_webgpu.obj: cxx ../third-party/bgfx/src/renderer_webgpu.cpp
+build obj/third-party/bgfx/bgfx/shader.obj: cxx ../third-party/bgfx/src/shader.cpp
+build obj/third-party/bgfx/bgfx/shader_dx9bc.obj: cxx ../third-party/bgfx/src/shader_dx9bc.cpp
+build obj/third-party/bgfx/bgfx/shader_dxbc.obj: cxx ../third-party/bgfx/src/shader_dxbc.cpp
+build obj/third-party/bgfx/bgfx/shader_spirv.obj: cxx ../third-party/bgfx/src/shader_spirv.cpp
+build obj/third-party/bgfx/bgfx/topology.obj: cxx ../third-party/bgfx/src/topology.cpp
+build obj/third-party/bgfx/bgfx/vertexlayout.obj: cxx ../third-party/bgfx/src/vertexlayout.cpp
+
+build obj/third-party/bgfx/bgfx.lib: alink obj/third-party/bgfx/bgfx/bgfx.obj obj/third-party/bgfx/bgfx/debug_renderdoc.obj obj/third-party/bgfx/bgfx/dxgi.obj obj/third-party/bgfx/bgfx/glcontext_egl.obj obj/third-party/bgfx/bgfx/glcontext_glx.obj obj/third-party/bgfx/bgfx/glcontext_html5.obj obj/third-party/bgfx/bgfx/glcontext_wgl.obj obj/third-party/bgfx/bgfx/nvapi.obj obj/third-party/bgfx/bgfx/renderer_d3d9.obj obj/third-party/bgfx/bgfx/renderer_d3d11.obj obj/third-party/bgfx/bgfx/renderer_d3d12.obj obj/third-party/bgfx/bgfx/renderer_gl.obj obj/third-party/bgfx/bgfx/renderer_gnm.obj obj/third-party/bgfx/bgfx/renderer_noop.obj obj/third-party/bgfx/bgfx/renderer_nvn.obj obj/third-party/bgfx/bgfx/renderer_vk.obj obj/third-party/bgfx/bgfx/renderer_webgpu.obj obj/third-party/bgfx/bgfx/shader.obj obj/third-party/bgfx/bgfx/shader_dx9bc.obj obj/third-party/bgfx/bgfx/shader_dxbc.obj obj/third-party/bgfx/bgfx/shader_spirv.obj obj/third-party/bgfx/bgfx/topology.obj obj/third-party/bgfx/bgfx/vertexlayout.obj || obj/third-party/bx/bx.lib obj/third-party/bimg/bimg.lib obj/third-party/bimg/3rdparty/astc-codec/src/decoder/codec.lib obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils.lib obj/third-party/bimg/3rdparty/astc-codec/src/decoder/footprint.lib
+  arflags = /ignore$:4221
+  output_extension = .lib
+  output_dir = obj/third-party/bgfx

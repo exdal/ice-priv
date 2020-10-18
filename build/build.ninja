@@ -1,0 +1,122 @@
+ninja_required_version = 1.7.2
+
+rule gn
+  command = ../tools/win/gn.exe --root=./.. -q gen .
+  description = Regenerating ninja files
+
+build build.ninja: gn
+  generator = 1
+  depfile = build.ninja.d
+
+pool build_toolchain_action_pool
+  depth = 0
+
+pool build_toolchain_link_pool
+  depth = 0
+
+subninja toolchain.ninja
+
+build root: phony phony/root
+build Examples: phony phony/Examples/Examples
+build IceSDK: phony obj/IceSDK/IceSDK.lib
+build Tests: phony phony/Tests/Tests
+build AssetCompiler: phony ./AssetCompiler.exe
+build BareBones: phony ./BareBones.exe
+build TestIceSDK: phony ./TestIceSDK.exe
+build Assets_AssetCompiler: phony phony/tools/sources/AssetCompiler/Assets_AssetCompiler
+build Assets_BareBones: phony phony/Examples/BareBones/Assets_BareBones
+build Assets_TestIceSDK: phony phony/Tests/IceSDK/Assets_TestIceSDK
+build HarfBuzz: phony obj/third-party/harfbuzz/HarfBuzz.lib
+build Tools: phony phony/tools/sources/Tools
+build astc_utils: phony obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils.lib
+build bgfx: phony obj/third-party/bgfx/bgfx.lib
+build bimg: phony obj/third-party/bimg/bimg.lib
+build bx: phony obj/third-party/bx/bx.lib
+build codec: phony obj/third-party/bimg/3rdparty/astc-codec/src/decoder/codec.lib
+build fmod: phony phony/IceSDK/fmod
+build footprint: phony obj/third-party/bimg/3rdparty/astc-codec/src/decoder/footprint.lib
+build freetype: phony obj/third-party/freetype/freetype.lib
+build glfw: phony obj/third-party/glfw/glfw.lib
+build googlemock: phony obj/third-party/googletest/googlemock/googlemock.lib
+build googletest: phony obj/third-party/googletest/googletest/googletest.lib
+build icu: phony phony/third-party/icu/icu
+build icudata: phony phony/third-party/icu/icudata
+build icui18n: phony obj/third-party/icu/icui18n.lib
+build icui18n_hidden_visibility: phony obj/third-party/icu/icui18n_hidden_visibility.lib
+build icuuc: phony obj/third-party/icu/icuuc.lib
+build icuuc_hidden_visibility: phony obj/third-party/icu/icuuc_hidden_visibility.lib
+build imgui: phony obj/third-party/imgui/glfw/imgui.lib
+build $:root: phony phony/root
+build Examples$:Examples: phony phony/Examples/Examples
+build Examples/BareBones$:Assets_BareBones: phony phony/Examples/BareBones/Assets_BareBones
+build Examples/BareBones$:BareBones: phony ./BareBones.exe
+build Examples/BareBones: phony ./BareBones.exe
+build IceSDK$:IceSDK: phony obj/IceSDK/IceSDK.lib
+build IceSDK$:fmod: phony phony/IceSDK/fmod
+build Tests$:Tests: phony phony/Tests/Tests
+build Tests/IceSDK$:Assets_TestIceSDK: phony phony/Tests/IceSDK/Assets_TestIceSDK
+build Tests/IceSDK$:TestIceSDK: phony ./TestIceSDK.exe
+build third-party/bgfx$:bgfx: phony obj/third-party/bgfx/bgfx.lib
+build third-party/bgfx: phony obj/third-party/bgfx/bgfx.lib
+build third-party/bimg$:bimg: phony obj/third-party/bimg/bimg.lib
+build third-party/bimg: phony obj/third-party/bimg/bimg.lib
+build third-party/bimg/3rdparty/astc-codec/src/decoder$:astc_utils: phony obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils.lib
+build third-party/bimg/3rdparty/astc-codec/src/decoder$:codec: phony obj/third-party/bimg/3rdparty/astc-codec/src/decoder/codec.lib
+build third-party/bimg/3rdparty/astc-codec/src/decoder$:footprint: phony obj/third-party/bimg/3rdparty/astc-codec/src/decoder/footprint.lib
+build third-party/bx$:bx: phony obj/third-party/bx/bx.lib
+build third-party/bx: phony obj/third-party/bx/bx.lib
+build third-party/freetype$:freetype: phony obj/third-party/freetype/freetype.lib
+build third-party/freetype: phony obj/third-party/freetype/freetype.lib
+build third-party/glfw$:glfw: phony obj/third-party/glfw/glfw.lib
+build third-party/glfw: phony obj/third-party/glfw/glfw.lib
+build third-party/googletest/googlemock$:googlemock: phony obj/third-party/googletest/googlemock/googlemock.lib
+build third-party/googletest/googlemock: phony obj/third-party/googletest/googlemock/googlemock.lib
+build third-party/googletest/googletest$:googletest: phony obj/third-party/googletest/googletest/googletest.lib
+build third-party/googletest/googletest: phony obj/third-party/googletest/googletest/googletest.lib
+build third-party/harfbuzz$:HarfBuzz: phony obj/third-party/harfbuzz/HarfBuzz.lib
+build third-party/icu$:icu: phony phony/third-party/icu/icu
+build third-party/icu: phony phony/third-party/icu/icu
+build third-party/icu$:icudata: phony phony/third-party/icu/icudata
+build third-party/icu$:icui18n: phony obj/third-party/icu/icui18n.lib
+build third-party/icu$:icui18n_hidden_visibility: phony obj/third-party/icu/icui18n_hidden_visibility.lib
+build third-party/icu$:icuuc: phony obj/third-party/icu/icuuc.lib
+build third-party/icu$:icuuc_hidden_visibility: phony obj/third-party/icu/icuuc_hidden_visibility.lib
+build third-party/imgui/glfw$:imgui: phony obj/third-party/imgui/glfw/imgui.lib
+build tools/sources$:Tools: phony phony/tools/sources/Tools
+build tools/sources/AssetCompiler$:AssetCompiler: phony ./AssetCompiler.exe
+build tools/sources/AssetCompiler: phony ./AssetCompiler.exe
+build tools/sources/AssetCompiler$:Assets_AssetCompiler: phony phony/tools/sources/AssetCompiler/Assets_AssetCompiler
+
+build all: phony $
+    phony/root $
+    phony/Examples/Examples $
+    phony/Examples/BareBones/Assets_BareBones $
+    ./BareBones.exe $
+    obj/IceSDK/IceSDK.lib $
+    phony/IceSDK/fmod $
+    phony/Tests/Tests $
+    phony/Tests/IceSDK/Assets_TestIceSDK $
+    ./TestIceSDK.exe $
+    obj/third-party/bgfx/bgfx.lib $
+    obj/third-party/bimg/bimg.lib $
+    obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils.lib $
+    obj/third-party/bimg/3rdparty/astc-codec/src/decoder/codec.lib $
+    obj/third-party/bimg/3rdparty/astc-codec/src/decoder/footprint.lib $
+    obj/third-party/bx/bx.lib $
+    obj/third-party/freetype/freetype.lib $
+    obj/third-party/glfw/glfw.lib $
+    obj/third-party/googletest/googlemock/googlemock.lib $
+    obj/third-party/googletest/googletest/googletest.lib $
+    obj/third-party/harfbuzz/HarfBuzz.lib $
+    phony/third-party/icu/icu $
+    phony/third-party/icu/icudata $
+    obj/third-party/icu/icui18n.lib $
+    obj/third-party/icu/icui18n_hidden_visibility.lib $
+    obj/third-party/icu/icuuc.lib $
+    obj/third-party/icu/icuuc_hidden_visibility.lib $
+    obj/third-party/imgui/glfw/imgui.lib $
+    phony/tools/sources/Tools $
+    ./AssetCompiler.exe $
+    phony/tools/sources/AssetCompiler/Assets_AssetCompiler
+
+default all
