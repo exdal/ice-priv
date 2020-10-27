@@ -3,15 +3,11 @@
 #include "Utils/Logger.h"
 
 #include "GameBase.h"
-#include "Graphics/Debug/Draw.h"
 #include "Graphics/EntityHelper.h"
-#include "Graphics/ImGui/Widgets/SceneGraph.h"
 #include "Graphics/SpriteBatch/SpriteBatch.h"
 #include "Graphics/TextureAtlas/Packer.h"
 #include "Graphics/TextureAtlas/TextureAtlas.h"
 #include "Graphics/Tilesheet/Tilesheet.h"
-
-#include <imgui.h>
 
 using namespace IceSDK;
 
@@ -37,13 +33,11 @@ protected:
         atlas->Push("/Assets/windows_64x64.png");
         atlas->Push("/Assets/Ground.png");
         atlas->Push("/Assets/Box.png");
-        std::string asd = GetAssetManager()->LoadText("/Assets/hello.txt");
 
         Graphics::Entity::CreateSprite(activeScene, this->GetShaderManager(), atlas->Texture(), { 10.f, 10.f, 0.f }, atlas->SizeOf(1), atlas->CoordinatesOf(1));
     }
 
     void Draw(float pDelta) override {
-        ImGuiWidgets::SceneGraph::Frame(this->GetActiveScene());
     }
 
     /* Not really needed as we use Systems by default */

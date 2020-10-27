@@ -17,8 +17,7 @@ IDEs = [
 
 # Target platforms
 Platforms = [
-    "android",
-    "emscripten"
+    "android"
 ]
 
 parser = argparse.ArgumentParser(
@@ -28,22 +27,6 @@ parser.add_argument('--ide', choices=IDEs, type=str, required=True)
 parser.add_argument('--target', choices=Platforms, type=str, required=False)
 
 args = parser.parse_args()
-
-
-def SetupEmscripten(platform):
-    ext = ""
-    if platform == "win":
-        ext = ".bat"
-
-    process = ""
-
-    # emsdk install latest
-    subprocess.Popen([os.path.abspath(f'third-party/emsdk/emsdk{ext}'), "install", "latest"],
-                     shell=True, stdout=subprocess.PIPE).wait()
-
-    # emsdk activate latest
-    subprocess.Popen([os.path.abspath(f'third-party/emsdk/emsdk{ext}'), "activate", "latest"],
-                     shell=True, stdout=subprocess.PIPE).wait()
 
 
 def GenerateARGS(platform, target):
@@ -90,9 +73,6 @@ def main():
 
     if target_platform == None:
         target_platform = "pc"
-
-    if target_platform == "emscripten":
-        SetupEmscripten(host_platform)
 
     if args.ide == "vscode":
         GenerateVSCode(host_platform, target_platform)

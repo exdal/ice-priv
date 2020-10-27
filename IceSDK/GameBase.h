@@ -46,9 +46,6 @@ namespace IceSDK {
         static void InternalShutdown();
 
         int64_t _last_delta;
-#ifdef ICESDK_EMSCRIPTEN
-        static void InternalMainLoop(void *arg);
-#else
         bool _exit = false;
 #endif
 

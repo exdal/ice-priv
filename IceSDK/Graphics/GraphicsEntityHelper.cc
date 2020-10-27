@@ -9,7 +9,6 @@
 #include "Graphics/Components/ShaderComponent.h"
 #include "Graphics/Components/SpriteComponent.h"
 #include "Graphics/Components/TileComponent.h"
-#include "Graphics/Debug/Draw.h"
 #include "Graphics/EntityHelper.h"
 #include "Graphics/Shaders/compiled/fs_sprite.d3d11.h"
 #include "Graphics/Shaders/compiled/fs_sprite.d3d12.h"
@@ -54,8 +53,6 @@ IceSDK::Entity Graphics::Entity::CreateSprite(Memory::Ptr<IceSDK::Scene> pScene,
 
 void Graphics::Entity::Init(const Memory::Ptr<Graphics::Shaders::ShaderManager> &pShaderManager) {
     ICESDK_PROFILE_FUNCTION();
-
-    Pos2DTexCoordColourVertex::Init();
 
     pShaderManager->AppendShader(
         "Sprite", bgfx::RendererType::Direct3D9, Shaders::eShaderType::Fragment, std::vector<uint8_t>(&fs_sprite_d3d9[0], &fs_sprite_d3d9[sizeof fs_sprite_d3d9]));

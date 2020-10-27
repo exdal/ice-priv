@@ -11,10 +11,6 @@
 
 #include <vector>
 
-#ifdef ICESDK_EMSCRIPTEN
-#include <emscripten/fetch.h>
-#endif
-
 namespace IceSDK::Assets {
     class AssetManager {
     public:

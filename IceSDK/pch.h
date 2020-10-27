@@ -61,15 +61,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#ifdef ICESDK_SDL2
-#include <imgui_impl_sdl.h>
-#elif defined(ICESDK_GLFW)
-#include <imgui_impl_glfw.h>
-#endif
-
 #include <ft2build.h>
-#include <imgui.h>
-#include <imgui_internal.h>
 
 #include FT_FREETYPE_H
 
@@ -82,7 +74,3 @@
 #include <sstream>
 #include <string>
 #include <vector>
-
-#ifndef ICESDK_USE_IMGUI
-#define ICESDK_USE_IMGUI 1
-#endif

@@ -79,8 +79,6 @@ GameWindow::GameWindow(int32_t pWidth, int32_t pHeight, const std::string &pTitl
 #elif defined(ICESDK_LINUX)
     platformData.ndt = wmInfo.info.x11.display;
     platformData.nwh = (void *)(uintptr_t)wmInfo.info.x11.window;
-#elif defined(ICESDK_EMSCRIPTEN)
-    platformData.nwh = (void *)"#canvas";
 #elif defined(ICESDK_ANDROID)
     platformData.ndt = 0;
     platformData.nwh = (void *)wmInfo.info.android.window;

@@ -26,7 +26,7 @@ namespace IceSDK::Graphics {
 
     class SpriteBatch {
     public:
-        explicit SpriteBatch();
+        SpriteBatch();
         ~SpriteBatch();
 
         void NewFrame();

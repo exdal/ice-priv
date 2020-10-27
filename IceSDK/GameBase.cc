@@ -5,8 +5,6 @@
 #include "Utils/Instrumentor.h"
 #include "Utils/Logger.h"
 
-#include "Graphics/ImGui/bgfx_imgui.h"
-
 using namespace IceSDK;
 
 GameBase::GameBase() {
@@ -57,7 +55,6 @@ void GameBase::Run() {
     this->_window->SetDrawCallback(GameBase::InternalDraw);
     this->_window->SetDrawInitCallback(GameBase::InternalDrawInit);
 
-#ifndef ICESDK_EMSCRIPTEN
     while (!this->_exit) {
         ICESDK_PROFILE_SCOPE("GameBase::MainLoop");
 
@@ -75,11 +72,6 @@ void GameBase::Run() {
         if (this->_window->ShouldClose())
             break;
     }
-#endif
-
-#ifdef ICESDK_EMSCRIPTEN
-    emscripten_set_main_loop_arg(GameBase::InternalMainLoop, this, -1, true);
-#endif
 
     ICESDK_PROFILE_END_SESSION();
 
@@ -87,31 +79,6 @@ void GameBase::Run() {
     GameBase::InternalShutdown();
     ICESDK_PROFILE_END_SESSION();
 }
-
-#ifdef ICESDK_EMSCRIPTEN
-void GameBase::InternalMainLoop(void *arg) {
-    auto self = static_cast<GameBase *>(arg);
-
-    ICESDK_PROFILE_SCOPE("GameBase::MainLoop");
-
-    self->_window->Update();
-
-    // Calculate delta time
-    const auto now = bx::getHPCounter();
-    const auto frameTime = now - self->_last_delta;
-    self->_last_delta = now;
-
-    const auto freq = static_cast<float>(bx::getHPFrequency());
-    const auto delta = static_cast<float>(frameTime) / freq;
-
-    GameBase::InternalTick(delta);
-
-    /*
-    if (self->_window->ShouldClose())
-            break;
-    */
-}
-#endif
 
 Memory::Ptr<Audio::AudioSystem> GameBase::GetAudioSystem() const {
     return this->_audio_system;
@@ -171,7 +138,7 @@ void GameBase::InternalDraw(const float pDelta) {
 // End Scene
 
 // Begin ImGui
-#ifdef ICESDK_USE_IMGUI
+#if ICESDK_USE_IMGUI
 #ifdef ICESDK_GLFW
     ImGui_ImplGlfw_NewFrame();
 #elif defined(ICESDK_SDL2)
@@ -202,29 +169,6 @@ void GameBase::InternalDrawInit() {
     ICESDK_PROFILE_FUNCTION();
 
     auto game = GetGameBase();
-#ifdef ICESDK_USE_IMGUI
-    // Scene::Init(game->GetShaderManager());
-
-    imguiCreate(16.0f, nullptr);
-
-    auto &io = ImGui::GetIO();
-    ImGui::StyleColorsDark();
-
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
-
-#ifdef ICESDK_ANDROID
-    io.ConfigFlags |= ImGuiConfigFlags_IsTouchScreen; // Enable Touch
-    io.FontGlobalScale = 3.0f;
-#endif
-
-#ifdef ICESDK_GLFW
-    ImGui_ImplGlfw_InitForBGFX(game->_window->_window, true);
-#elif defined(ICESDK_SDL2)
-    ImGui_ImplSDL2_InitForBGFX(game->_window->_window);
-#endif
-
-// ImGuiWidgets::AssetBrowser::Init(game->GetAssetManager());
-#endif
     game->InitDraw();
 }
 
@@ -232,9 +176,6 @@ void GameBase::InternalShutdown() {
     ICESDK_PROFILE_FUNCTION();
 
     auto game = GetGameBase();
-#ifdef ICESDK_USE_IMGUI
-    imguiDestroy();
-#endif
     game->Shutdown();
 }
 

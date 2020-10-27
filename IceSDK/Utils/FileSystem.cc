@@ -13,13 +13,7 @@
 #include <dirent.h>
 #include <stdlib.h>
 #include <unistd.h>
-
-#elif defined(ICESDK_EMSCRIPTEN)
-#include <sys/stat.h>
-#include <dirent.h>
-#include <emscripten.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include <fcntl.h>
 
 #else
 #error "Platform not implemented!"
@@ -45,7 +39,7 @@ bool FileSystem::Exists(std::string_view pPath) {
     const auto dir_type = GetFileAttributesA(pPath.data());
 
     return dir_type != INVALID_FILE_ATTRIBUTES;
-#elif defined(ICESDK_LINUX) || defined(ICESDK_EMSCRIPTEN) || defined(ICESDK_ANDROID)
+#elif defined(ICESDK_LINUX) || defined(ICESDK_ANDROID)
     return (access(pPath.data(), F_OK) != -1);
 #else
 #error "Platform not implemented!"
@@ -59,7 +53,7 @@ bool FileSystem::IsDirectory(std::string_view pPath) {
 
 #ifdef ICESDK_WIN32
     return GetFileAttributes(pPath.data()) & FILE_ATTRIBUTE_DIRECTORY;
-#elif defined(ICESDK_LINUX) || defined(ICESDK_EMSCRIPTEN) || defined(ICESDK_ANDROID)
+#elif defined(ICESDK_LINUX) || defined(ICESDK_ANDROID)
     struct stat st;
     stat(pPath.data(), &st);
     return S_ISDIR(st.st_mode);
@@ -86,7 +80,7 @@ std::vector<std::string> FileSystem::ReadDirectory(std::string_view pPath, bool 
         } while (FindNextFile(hFind, &FindFileData));
         FindClose(hFind);
     }
-#elif defined(ICESDK_LINUX) || defined(ICESDK_EMSCRIPTEN) || defined(ICESDK_ANDROID)
+#elif defined(ICESDK_LINUX) || defined(ICESDK_ANDROID)
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(pPath.data())) != nullptr) {
@@ -120,7 +114,7 @@ std::string FileSystem::ResolveFullPath(std::string_view pPath) {
         return "";
 
     return buffer;
-#elif defined(ICESDK_LINUX) || defined(ICESDK_EMSCRIPTEN) || defined(ICESDK_ANDROID)
+#elif defined(ICESDK_LINUX) || defined(ICESDK_ANDROID)
     char buffer[PATH_MAX + 1];
 
     realpath(pPath.data(), buffer);
@@ -178,8 +172,8 @@ void FileSystem::WriteBinaryFile(std::string_view path, uint8_t *data, uint32_t 
     fclose(fp);
 #endif
 
-#if defined(ICESDK_LINUX) || defined(ICESDK_EMSCRIPTEN) || defined(ICESDK_ANDROID)
-    chmod(pPath.data(),
+#if defined(ICESDK_LINUX) || defined(ICESDK_ANDROID)
+    chmod(path.data(),
         umask(0755)); // set the correct permissions cause it's wrong
 #endif
 }
@@ -187,7 +181,7 @@ void FileSystem::WriteBinaryFile(std::string_view path, uint8_t *data, uint32_t 
 void FileSystem::MkDir(std::string_view pPath) {
 #ifdef ICESDK_WIN32
     CreateDirectory(pPath.data(), NULL);
-#elif defined(ICESDK_LINUX) || defined(ICESDK_EMSCRIPTEN) || defined(ICESDK_ANDROID)
+#elif defined(ICESDK_LINUX) || defined(ICESDK_ANDROID)
     if (mkdir(pPath.data(), umask(0755)))
         ICESDK_CORE_ERROR("Failed to create Directory! {}", pPath);
 

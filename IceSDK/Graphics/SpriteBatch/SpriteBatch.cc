@@ -95,8 +95,6 @@ void SpriteBatch::SubmitTexturedQuad(Memory::Ptr<Texture2D> pTexture, const glm:
     CheckIndexes();
     glm::mat4 transform = glm::translate(glm::mat4(1.0f), { pPosition.x, pPosition.y, 1 }) * glm::scale(glm::mat4(1.0f), { pSize.x, pSize.y, 1.0f });
 
-    bgfx::setTransform(glm::value_ptr(transform));
-
     std::array<glm::vec2, QUAD_COUNT> g_DefTexCoords = { glm::vec2(1.0f, 1.0f), glm::vec2(1.0f, 0.0f), glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 1.0f) };
 
     DrawIndexed(transform, this->_vertexPositions, g_DefTexCoords, pColour, SetTexture(pTexture));
@@ -107,7 +105,6 @@ void SpriteBatch::SubmitTiledSprite(
     CheckIndexes();
     glm::mat4 transform = glm::translate(glm::mat4(1.0f), { pPosition.x, pPosition.y, 1 }) * glm::scale(glm::mat4(1.0f), { pSize.x, pSize.y, 1.0f });
 
-    bgfx::setTransform(glm::value_ptr(transform));
     DrawIndexed(transform, this->_vertexPositions, MakeTiled(pTexture, pTileInfo), pColour, SetTexture(pTexture));
 }
 
