@@ -23,8 +23,3 @@ jobs:
 
       - name: Build IceSDK
         run: .\tools\win\ninja.exe -C out
-      
-      - name: Execute Tests
-        run: |
-          cd out
-          .\TestIceSDK
