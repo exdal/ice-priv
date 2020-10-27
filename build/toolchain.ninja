@@ -1,0 +1,106 @@
+rule copy
+  command = C:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe toolchain/win/recursive_mirror.py ${in} ${out}
+  description = COPY ${in} ${out}
+  pool = build_toolchain_action_pool
+rule cxx
+  command = ninja -t msvc -e environment_x64 -- "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64/cl.exe" /nologo /showIncludes /FC ${defines} ${include_dirs} ${cflags} ${cflags_cc} /c ${in} /Fo${out} /Fd"${target_out_dir}/${label_name}_cc.pdb"
+  description = CXX ${out}
+  deps = msvc
+rule cc
+  command = ninja -t msvc -e environment_x64 -- "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64/cl.exe" /nologo /showIncludes /FC ${defines} ${include_dirs} ${cflags} ${cflags_c} /c ${in} /Fo${out} /Fd"${target_out_dir}/${label_name}_c.pdb"
+  description = CC ${out}
+  deps = msvc
+rule rc
+  command = C:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe toolchain/win/rc_wrapper.py environment_x64 ${in} ${out} rc.exe ${defines} ${include_dirs}
+  description = RC ${out}
+  deps = msvc
+rule asm
+  command = C:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe toolchain/win/asm_wrapper.py environment_x64 ml64.exe ${defines} ${include_dirs} ${asmflags} /c /Fo${out} ${in}
+  description = ASM ${out}
+rule stamp
+  command = cmd /c type nul > "${out}"
+  description = STAMP ${out}
+  pool = build_toolchain_action_pool
+rule solink_module
+  command = C:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe toolchain/win/link_wrapper.py environment_x64 False link.exe /nologo /DLL /OUT:${output_dir}/${target_output_name}${output_extension} /PDB:${output_dir}/${target_output_name}${output_extension}.pdb @${output_dir}/${target_output_name}${output_extension}.rsp
+  description = LINK_MODULE(DLL) ${out}
+  rspfile = ${output_dir}/${target_output_name}${output_extension}.rsp
+  rspfile_content = ${libs} ${solibs} ${in_newline} ${ldflags}
+  pool = build_toolchain_link_pool
+rule solink
+  command = C:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe toolchain/win/link_wrapper.py environment_x64 False link.exe /nologo /IMPLIB:${output_dir}/${target_output_name}${output_extension}.lib /DLL /OUT:${output_dir}/${target_output_name}${output_extension} /PDB:${output_dir}/${target_output_name}${output_extension}.pdb @${output_dir}/${target_output_name}${output_extension}.rsp
+  description = LINK(DLL) ${out}
+  rspfile = ${output_dir}/${target_output_name}${output_extension}.rsp
+  rspfile_content = ${libs} ${solibs} ${in_newline} ${ldflags}
+  pool = build_toolchain_link_pool
+  restat = 1
+rule alink
+  command = C:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe toolchain/win/link_wrapper.py environment_x64 False lib.exe /nologo ${arflags} /OUT:${out} @${out}.rsp
+  description = LIB ${out}
+  rspfile = ${out}.rsp
+  rspfile_content = ${in_newline}
+rule link
+  command = C:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe toolchain/win/link_wrapper.py environment_x64 False link.exe /nologo /OUT:${output_dir}/${target_output_name}${output_extension} /PDB:${output_dir}/${target_output_name}${output_extension}.pdb @${output_dir}/${target_output_name}${output_extension}.rsp
+  description = LINK ${out}
+  rspfile = ${output_dir}/${target_output_name}${output_extension}.rsp
+  rspfile_content = ${in_newline} ${libs} ${solibs} ${ldflags}
+  pool = build_toolchain_link_pool
+
+build phony/root: phony obj/IceSDK/IceSDK.lib phony/Examples/Examples phony/Tests/Tests phony/tools/sources/Tools
+build phony/Examples/Examples: phony ./BareBones.exe
+rule __Examples_BareBones_Assets_BareBones___build_toolchain_win_x64__rule
+  command = C$:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe ../tools/compile_assets.py win D$:/.icesdk/IceSDK/build ../Examples/BareBones
+  description = ACTION //Examples/BareBones:Assets_BareBones(//build/toolchain/win:x64)
+  restat = 1
+  pool = build_toolchain_action_pool
+
+build obj/Examples/BareBones/Assets/0.pxl: __Examples_BareBones_Assets_BareBones___build_toolchain_win_x64__rule | ../tools/compile_assets.py ../Examples/BareBones/Assets/Box.png ../Examples/BareBones/Assets/Ground.png
+
+build phony/Examples/BareBones/Assets_BareBones: phony obj/Examples/BareBones/Assets/0.pxl
+subninja obj/Examples/BareBones/BareBones.ninja
+subninja obj/IceSDK/IceSDK.ninja
+build fmod.dll: copy ../third-party/fmod/lib/win/x64/fmod.dll
+
+build phony/IceSDK/fmod: phony fmod.dll
+build phony/Tests/Tests: phony ./TestIceSDK.exe
+rule __Tests_IceSDK_Assets_TestIceSDK___build_toolchain_win_x64__rule
+  command = C$:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe ../tools/compile_assets.py win D$:/.icesdk/IceSDK/build ../Tests/IceSDK
+  description = ACTION //Tests/IceSDK:Assets_TestIceSDK(//build/toolchain/win:x64)
+  restat = 1
+  pool = build_toolchain_action_pool
+
+build obj/Tests/IceSDK/Assets/0.pxl: __Tests_IceSDK_Assets_TestIceSDK___build_toolchain_win_x64__rule | ../tools/compile_assets.py
+
+build phony/Tests/IceSDK/Assets_TestIceSDK: phony obj/Tests/IceSDK/Assets/0.pxl
+subninja obj/Tests/IceSDK/TestIceSDK.ninja
+subninja obj/third-party/bgfx/bgfx.ninja
+subninja obj/third-party/bimg/bimg.ninja
+subninja obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils.ninja
+subninja obj/third-party/bimg/3rdparty/astc-codec/src/decoder/codec.ninja
+subninja obj/third-party/bimg/3rdparty/astc-codec/src/decoder/footprint.ninja
+subninja obj/third-party/bx/bx.ninja
+subninja obj/third-party/freetype/freetype.ninja
+subninja obj/third-party/glfw/glfw.ninja
+subninja obj/third-party/googletest/googlemock/googlemock.ninja
+subninja obj/third-party/googletest/googletest/googletest.ninja
+subninja obj/third-party/harfbuzz/HarfBuzz.ninja
+build phony/third-party/icu/icu: phony obj/third-party/icu/icui18n.lib obj/third-party/icu/icuuc.lib
+build icudtl.dat: copy ../third-party/icu/common/icudtl.dat
+
+build phony/third-party/icu/icudata: phony icudtl.dat
+subninja obj/third-party/icu/icui18n.ninja
+subninja obj/third-party/icu/icui18n_hidden_visibility.ninja
+subninja obj/third-party/icu/icuuc.ninja
+subninja obj/third-party/icu/icuuc_hidden_visibility.ninja
+subninja obj/third-party/imgui/glfw/imgui.ninja
+build phony/tools/sources/Tools: phony ./AssetCompiler.exe
+subninja obj/tools/sources/AssetCompiler/AssetCompiler.ninja
+rule __tools_sources_AssetCompiler_Assets_AssetCompiler___build_toolchain_win_x64__rule
+  command = C$:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe ../tools/compile_assets.py win D$:/.icesdk/IceSDK/build ../tools/sources/AssetCompiler
+  description = ACTION //tools/sources/AssetCompiler:Assets_AssetCompiler(//build/toolchain/win:x64)
+  restat = 1
+  pool = build_toolchain_action_pool
+
+build obj/tools/sources/AssetCompiler/Assets/0.pxl: __tools_sources_AssetCompiler_Assets_AssetCompiler___build_toolchain_win_x64__rule | ../tools/compile_assets.py
+
+build phony/tools/sources/AssetCompiler/Assets_AssetCompiler: phony obj/tools/sources/AssetCompiler/Assets/0.pxl

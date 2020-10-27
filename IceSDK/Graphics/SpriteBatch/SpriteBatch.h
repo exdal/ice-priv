@@ -11,23 +11,20 @@
 
 #define QUAD_COUNT 4
 
-namespace IceSDK::Graphics
-{
-    static const uint32_t _maxQuads = 20000;
+namespace IceSDK::Graphics {
+    static const uint32_t _maxQuads = 200000;
     static const uint32_t _maxVertices = _maxQuads * 4;
     static const uint32_t _maxIndices = _maxQuads * 6;
     static const uint32_t _maxTextureSlots = 16;
 
-    struct VertexInfo
-    {
+    struct VertexInfo {
         glm::vec2 pos;
         glm::vec2 texture_pos;
         glm::vec4 color;
         glm::vec2 batch_info;
     };
 
-    class SpriteBatch
-    {
+    class SpriteBatch {
     public:
         explicit SpriteBatch();
         ~SpriteBatch();
@@ -37,28 +34,17 @@ namespace IceSDK::Graphics
         void Flush();
         void FlushReset();
 
-        void SubmitTexturedQuad(Memory::Ptr<Texture2D> pTexture,
-                                const glm::vec2& pPosition,
-                                const glm::vec2& pSize,
-                                const glm::vec4& pColour);
+        void SubmitTexturedQuad(Memory::Ptr<Texture2D> pTexture, const glm::vec2 &pPosition, const glm::vec2 &pSize, const glm::vec4 &pColour);
 
-        void SubmitTiledSprite(Memory::Ptr<Texture2D> pTexture,
-                               const glm::vec2& pPosition,
-                               const glm::vec2& pSize,
-                               const glm::vec4& pTileInfo,
-                               const glm::vec4& pColour);
+        void SubmitTiledSprite(Memory::Ptr<Texture2D> pTexture, const glm::vec2 &pPosition, const glm::vec2 &pSize, const glm::vec4 &pTileInfo, const glm::vec4 &pColour);
 
         void CheckIndexes();
-        void DrawIndexed(glm::mat4 pTransform,
-                         glm::vec4 pVertexPosition[QUAD_COUNT],
-                         std::array<glm::vec2, QUAD_COUNT> pUVs,
-                         const glm::vec4& pColour, float pTextureID = 0.f,
-                         uint32_t pIndexCount = 6);
+        void DrawIndexed(glm::mat4 pTransform, glm::vec4 pVertexPosition[QUAD_COUNT], std::array<glm::vec2, QUAD_COUNT> pUVs, const glm::vec4 &pColour,
+            float pTextureID = 0.f, uint32_t pIndexCount = 6);
 
         float SetTexture(Memory::Ptr<Texture2D> pTexture);
 
-        std::array<glm::vec2, QUAD_COUNT> MakeTiled(
-            Memory::Ptr<Texture2D> pTexture, const glm::vec4& pTileInfo);
+        std::array<glm::vec2, QUAD_COUNT> MakeTiled(Memory::Ptr<Texture2D> pTexture, const glm::vec4 &pTileInfo);
 
     private:
         /*
@@ -76,15 +62,14 @@ namespace IceSDK::Graphics
         //                                 ^^^^^^^^^^^^^^^^^ texture count -
         //                                 we can get it with bgfx::caps
 
-        VertexInfo* _vertexBuffer;
-        VertexInfo* _vertexBufferPtr;
+        VertexInfo *_vertexBuffer;
+        VertexInfo *_vertexBufferPtr;
 
         bgfx::VertexLayout _vertexLayout;
         bgfx::IndexBufferHandle _indexHandle;
 
-        std::array<bgfx::UniformHandle, _maxTextureSlots>
-            _textureUniforms;  // size of that member must be same as
-                               // _textureSlots
+        std::array<bgfx::UniformHandle, _maxTextureSlots> _textureUniforms; // size of that member must be same as
+                                                                            // _textureSlots
     };
 
-}  // namespace IceSDK::Graphics
+} // namespace IceSDK::Graphics

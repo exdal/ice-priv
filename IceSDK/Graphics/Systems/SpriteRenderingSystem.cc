@@ -10,9 +10,9 @@
 #include "Utils/Instrumentor.h"
 
 #include "GameBase.h"
-#include "Graphics/Components/MeshComponent.h"
 #include "Graphics/Components/ShaderComponent.h"
 #include "Graphics/Components/SpriteComponent.h"
+#include "Graphics/Components/TileComponent.h"
 
 using namespace IceSDK;
 using namespace IceSDK::Systems;
@@ -20,33 +20,30 @@ using namespace IceSDK::Components;
 using namespace IceSDK::Graphics;
 using namespace IceSDK::Graphics::Components;
 
-void SpriteRenderingSystem::Tick(float pDelta)
-{
+void SpriteRenderingSystem::Tick(float pDelta) {
     ICESDK_PROFILE_FUNCTION();
 }
 
-void SpriteRenderingSystem::Draw(float pDelta)
-{
+void SpriteRenderingSystem::Draw(float pDelta) {
     ICESDK_PROFILE_FUNCTION();
     const auto registry = this->_registry.lock();
-    if (registry == nullptr) return;
+    if (registry == nullptr)
+        return;
 
     auto spriteGroup = registry->view<SpriteComponent>();
-    for (auto rawSpriteEntity : spriteGroup)
-    {
+    for (auto rawSpriteEntity : spriteGroup) {
         auto spriteEntity = Entity(this->_registry, rawSpriteEntity);
 
-        auto& mesh = spriteEntity.GetComponent<MeshComponent>();
-        auto& transform = spriteEntity.GetComponent<TransformComponent>();
-        auto& sprite = spriteEntity.GetComponent<SpriteComponent>();
-        auto& shader = spriteEntity.GetComponent<ShaderComponent>();
+        auto &transform = spriteEntity.GetComponent<TransformComponent>();
+        auto &sprite = spriteEntity.GetComponent<SpriteComponent>();
 
-        if (sprite.texture == nullptr || !bgfx::isValid(mesh.index_buffer)
-            || !bgfx::isValid(mesh.vertex_buffer)
-            || !bgfx::isValid(sprite.texture->GetHandle())
-            || !bgfx::isValid(shader.handle))
+        if (sprite.texture == nullptr || !bgfx::isValid(sprite.texture->GetHandle()))
             continue;
 
-        GetGameBase()->GetSpriteBatch()->SubmitTexturedQuad(sprite.texture, transform.position, sprite.size, { 1, 1, 1, 1 });
+        if (spriteEntity.HasComponent<TileComponent>()) {
+            auto &tile = spriteEntity.GetComponent<TileComponent>();
+            GetGameBase()->GetSpriteBatch()->SubmitTiledSprite(sprite.texture, transform.position, sprite.size, tile.info, { 1, 1, 1, 1 });
+        } else
+            GetGameBase()->GetSpriteBatch()->SubmitTexturedQuad(sprite.texture, transform.position, sprite.size, { 1, 1, 1, 1 });
     }
 }

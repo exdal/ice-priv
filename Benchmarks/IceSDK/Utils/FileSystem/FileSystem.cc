@@ -32,13 +32,14 @@ static void BM_FileSystem_ResolveFullPath(benchmark::State& state)
 
 static void BM_FileSystem_ReadBinaryFile(benchmark::State& state)
 {
-    for (auto _ : state) { FileSystem::ReadBinaryFile("."); }
+    uint32_t size = 0;
+    for (auto _ : state) { FileSystem::ReadBinaryFile(".", &size); }
 }
 
 static void BM_FileSystem_WriteBinaryFile(benchmark::State& state)
 {
     std::vector<uint8_t> data = { 0xF0, 0x0D, 0xBA, 0xBE };
-    for (auto _ : state) { FileSystem::WriteBinaryFile("TestFile", data); }
+    for (auto _ : state) { FileSystem::WriteBinaryFile("TestFile", data.data(), data.size()); }
 }
 
 static void BM_FileSystem_HasExtension(benchmark::State& state)

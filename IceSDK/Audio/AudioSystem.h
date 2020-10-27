@@ -23,10 +23,10 @@ namespace IceSDK
 
             static void Init();
 
-            Memory::Ptr<Sound> Load(const std::string& pPath);
-            Memory::Ptr<Sound> Load(std::vector<uint8_t> pBuffer);
+            Memory::Ptr<Sound> Load(std::string_view _path);
+            Memory::Ptr<Sound> Load(uint8_t *_data, uint32_t _dataSize);
 
-            void CreateGroup(const std::string& pName);
+            void CreateGroup(std::string_view _name);
 
         private:
             std::vector<Memory::Ptr<Sound>> _loaded_audio;

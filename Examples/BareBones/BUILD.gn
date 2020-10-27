@@ -6,6 +6,9 @@ IceSDK_Project("BareBones") {
         "Assets/Ground.png"
     ]
     
+    # configs -= [ "//build/config/win:console" ]
+    # configs += [ "//build/config/win:windowed" ]
+
     sources = [
         "main.cc"
     ]

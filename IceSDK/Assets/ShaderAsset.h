@@ -10,24 +10,22 @@
 
 #include <vector>
 
-namespace IceSDK::Assets
-{
-    class ShaderAsset
-    {
+namespace IceSDK::Assets {
+    class ShaderAsset {
     public:
         // Memory::Ptr<Audio::Audio> LoadAudio() const;
 
-        constexpr static eAssetType GetAssetType()
-        {
+        constexpr static eAssetType GetAssetType() {
             return eAssetType::Shader;
         }
 
-        std::vector<uint8_t> ToByteArray() const;
-        static ShaderAsset From(std::string pName, std::vector<uint8_t> pData);
+        uint8_t *Data() const;
+        uint32_t DataSize() const;
+        
+        static ShaderAsset From(std::string_view _name, uint8_t *_data, const uint32_t _data_size);
 
     private:
-        struct Shader
-        {
+        struct Shader {
             Graphics::Shaders::eShaderType type;
             bgfx::RendererType::Enum platform;
             std::vector<uint8_t> code;
@@ -35,4 +33,4 @@ namespace IceSDK::Assets
 
         std::vector<Shader> _shaders{};
     };
-}  // namespace IceSDK::Assets
+} // namespace IceSDK::Assets

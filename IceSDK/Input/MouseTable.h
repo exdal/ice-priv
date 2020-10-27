@@ -1,9 +1,7 @@
 #pragma once
 
-namespace IceSDK::Input
-{
-    enum class MouseTable
-    {
+namespace IceSDK::Input {
+    enum class MouseTable {
         BTN_1 = 0,
         BTN_2 = 1,
         BTN_3 = 2,
@@ -17,4 +15,4 @@ namespace IceSDK::Input
         BTN_RIGHT = BTN_3,
         BTN_MIDDLE = BTN_4,
     };
-}  // namespace IceSDK::Input
+} // namespace IceSDK::Input

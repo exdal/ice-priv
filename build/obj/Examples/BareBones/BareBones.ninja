@@ -1,0 +1,17 @@
+defines = -DICESDK_WIN32 -DICESDK_FMOD -DHAVE_FREETYPE -DHB_NO_GETENV -DHAVE_ICU -D_CRT_SECURE_NO_DEPRECATE -DWIN32 -D_SECURE_ATL -D_USING_V110_SDK71_ -DWINAPI_FAMILY=WINAPI_FAMILY_DESKTOP_APP -DWIN32_LEAN_AND_MEAN -DNOMINMAX -DNTDDI_VERSION=0x0A000000 -D_WIN32_WINNT=0x0A00 -DWINVER=0x0A00 -D_DEBUG -D_HAS_ITERATOR_DEBUGGING=0
+include_dirs = -I../IceSDK -I../third-party/bgfx/include -I../third-party/bimg/include -I../third-party/bx/include -I../third-party/glfw/include -I../third-party/bx/include/compat/msvc -I../third-party/fmod/inc -I../third-party/bgfx/include -I../third-party/bimg/include -I../third-party/bx/include -I../third-party/glfw/include -I../third-party/entt/single_include -I../third-party/glm -I../third-party/imgui -I../third-party/sdl2/include -I../third-party/spdlog/include -I../third-party/freetype/include -I../third-party/harfbuzz/src -I../third-party/icu/source/common -I../third-party/icu/source/i18n
+cflags = /Gy /FS /bigobj /d2FastFail /Zc$:sizedDealloc- /Od /Ob0 /Zi /utf-8 /MTd
+cflags_cc = /TP /std$:c++17 /GR /EHsc
+label_name = BareBones
+target_out_dir = obj/Examples/BareBones
+target_output_name = BareBones
+
+build obj/Examples/BareBones/BareBones/main.obj: cxx ../Examples/BareBones/main.cc || phony/Examples/BareBones/Assets_BareBones phony/IceSDK/fmod phony/third-party/icu/icudata
+
+build ./BareBones.exe ./BareBones.exe.pdb: link obj/Examples/BareBones/BareBones/main.obj obj/IceSDK/IceSDK.lib obj/third-party/bgfx/bgfx.lib obj/third-party/bx/bx.lib obj/third-party/bimg/bimg.lib obj/third-party/bimg/3rdparty/astc-codec/src/decoder/codec.lib obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils.lib obj/third-party/bimg/3rdparty/astc-codec/src/decoder/footprint.lib obj/third-party/freetype/freetype.lib obj/third-party/harfbuzz/HarfBuzz.lib obj/third-party/icu/icui18n.lib obj/third-party/icu/icuuc.lib obj/third-party/glfw/glfw.lib obj/third-party/imgui/glfw/imgui.lib | ../third-party/fmod/lib/win/x64/fmod.lib || phony/Examples/BareBones/Assets_BareBones
+  ldflags = /DEBUG /MACHINE$:X64 /FIXED$:NO /ignore$:4199 /ignore$:4221 /NXCOMPAT /DYNAMICBASE /fastfail /INCREMENTAL /SUBSYSTEM$:CONSOLE,5.02 /LIBPATH:"C$:/Program$ Files$ (x86)/Windows$ Kits/10/Lib/10.0.18362.0/um/x64" /LIBPATH:"C$:/Program$ Files$ (x86)/Microsoft$ Visual$ Studio/2019/Community/VC/Tools/MSVC/14.26.28801/lib/x64" /LIBPATH:"C$:/Program$ Files$ (x86)/Microsoft$ Visual$ Studio/2019/Community/VC/Tools/MSVC/14.26.28801/atlmfc/lib/x64"
+  libs = kernel32.lib ../third-party/fmod/lib/win/x64/fmod.lib user32.lib gdi32.lib shell32.lib
+  frameworks =
+  swiftmodules =
+  output_extension = .exe
+  output_dir = .

@@ -4,8 +4,6 @@
 
 #include "Utils/Memory.h"
 
-
-namespace IceSDK::ImGuiWidgets::SceneGraph
-{
+namespace IceSDK::ImGuiWidgets::SceneGraph {
     void Frame(Memory::WeakPtr<Scene> pScene);
 }

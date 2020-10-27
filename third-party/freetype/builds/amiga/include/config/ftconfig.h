@@ -5,7 +5,7 @@
 /*    Amiga-specific configuration file (specification only).              */
 /*                                                                         */
 /*  Copyright (C) 2005-2020 by                                             */
-/*  Werner Lemberg and Detlef Würkner.                                     */
+/*  Werner Lemberg and Detlef Wï¿½rkner.                                     */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
 /*  modified, and distributed under the terms of the FreeType project      */
@@ -36,7 +36,7 @@
 #ifdef __SASC
 #include "FT:include/freetype/config/ftconfig.h"
 #else
-#include "/FT/include/freetype/config/ftconfig.h"
+#include "D:\.icesdk\IceSDK\third-party\freetype\include\freetype\config\ftconfig.h"
 #endif
 #else
 /* We must define that, it seems that
@@ -45,7 +45,7 @@
  * binaries from http://www.morphos.de)
  */
 #define _LIBC_LIMITS_H_
-#include "/FT/include/freetype/config/ftconfig.h"
+#include <ftconfig.h>
 #endif
 
 /*

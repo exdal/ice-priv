@@ -14,10 +14,8 @@
 
 #include <bx/allocator.h>
 
-namespace IceSDK
-{
-    class GameBase
-    {
+namespace IceSDK {
+    class GameBase {
     public:
         explicit GameBase();
         ~GameBase();
@@ -51,7 +49,7 @@ namespace IceSDK
 
         int64_t _last_delta;
 #ifdef ICESDK_EMSCRIPTEN
-        static void InternalMainLoop(void* arg);
+        static void InternalMainLoop(void *arg);
 #else
         bool _exit = false;
 #endif
@@ -64,7 +62,7 @@ namespace IceSDK
         Memory::Ptr<Graphics::FontManager> _font_manager;
         Memory::Ptr<Input::InputPipeline> _input_pipeline;
     };
-}  // namespace IceSDK
+} // namespace IceSDK
 
 extern IceSDK::Memory::Ptr<IceSDK::GameBase> GetGameBase();
 IceSDK::Memory::Ptr<IceSDK::Graphics::GameWindow> GetWindow();
@@ -72,8 +70,12 @@ IceSDK::Memory::Ptr<bx::AllocatorI> GetAllocator();
 IceSDK::Memory::Ptr<IceSDK::Audio::AudioSystem> GetAudioSystem();
 
 #if defined(ICESDK_SDL2) && defined(ICESDK_ANDROID)
-    #define IceSDKMain IceSDK_main
+#define IceSDKMain IceSDK_main
 #else
-    #undef main
-    #define IceSDKMain main
+#undef main
+#if defined(ICESDK_WINDOWED)
+#define IceSDKMain WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
+#else
+#define IceSDKMain main()
+#endif
 #endif

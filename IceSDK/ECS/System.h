@@ -4,12 +4,10 @@
 
 #include <entt/entt.hpp>
 
-namespace IceSDK
-{
-    class System
-    {
+namespace IceSDK {
+    class System {
     public:
-        explicit System(const Memory::WeakPtr<entt::registry>& pRegistry);
+        explicit System(const Memory::WeakPtr<entt::registry> &pRegistry);
         virtual ~System() = default;
 
         virtual void Tick(float pDelta) = 0;
@@ -18,4 +16,4 @@ namespace IceSDK
     protected:
         Memory::WeakPtr<entt::registry> _registry;
     };
-}  // namespace IceSDK
+} // namespace IceSDK

@@ -10,14 +10,11 @@ using namespace IceSDK::Graphics;
 
 static FT_Library g_FTLibrary;
 
-Memory::Ptr<FontFace> FontFace::FromMemory(const std::vector<uint8_t>& pData,
-                                           size_t pFontSize)
-{
+Memory::Ptr<FontFace> FontFace::FromMemory(const std::vector<uint8_t> &pData, size_t pFontSize) {
     Memory::Ptr<FontFace> font = std::make_shared<FontFace>();
     FT_Error err;
 
-    err = FT_New_Memory_Face(g_FTLibrary, pData.data(), pData.size(), 0,
-                             &font->_face);
+    err = FT_New_Memory_Face(g_FTLibrary, pData.data(), pData.size(), 0, &font->_face);
     if (err != FT_Err_Ok)
         ICESDK_CORE_ERROR("Failed to load FontFace! ({:x})", err);
 
@@ -27,14 +24,10 @@ Memory::Ptr<FontFace> FontFace::FromMemory(const std::vector<uint8_t>& pData,
     if (!hb_buffer_allocation_successful(font->_buffer))
         ICESDK_CORE_ERROR("Failed to allocate HarfBuzz buffer!");
 
-    for (int i = 0; i < font->_face->num_charmaps;
-         i++)  // Forcefully load UTF-16 characters
+    for (int i = 0; i < font->_face->num_charmaps; i++) // Forcefully load UTF-16 characters
     {
-        if (((font->_face->charmaps[i]->platform_id == 0)
-             && (font->_face->charmaps[i]->encoding_id == 3))
-            || ((font->_face->charmaps[i]->platform_id == 3)
-                && (font->_face->charmaps[i]->encoding_id == 1)))
-        {
+        if (((font->_face->charmaps[i]->platform_id == 0) && (font->_face->charmaps[i]->encoding_id == 3)) ||
+            ((font->_face->charmaps[i]->platform_id == 3) && (font->_face->charmaps[i]->encoding_id == 1))) {
             err = FT_Set_Charmap(font->_face, font->_face->charmaps[i]);
 
             if (err != FT_Err_Ok)
@@ -44,17 +37,13 @@ Memory::Ptr<FontFace> FontFace::FromMemory(const std::vector<uint8_t>& pData,
 
     // Cache most important ascii characters, everything else can be cached at
     // runtime
-    const char* ascii =
-        " abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ123456789!?.,";
+    const char *ascii = " abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ123456789!?.,";
 
     font->SetSize(pFontSize);
 
-    for (size_t i = 0; i < 65; i++)
-    {
+    for (size_t i = 0; i < 65; i++) {
         FT_Error err;
-        err = FT_Load_Char(
-            font->_face, ascii[i],
-            FT_LOAD_RENDER | FT_LOAD_NO_HINTING | FT_LOAD_TARGET_LIGHT);
+        err = FT_Load_Char(font->_face, ascii[i], FT_LOAD_RENDER | FT_LOAD_NO_HINTING | FT_LOAD_TARGET_LIGHT);
         if (err != FT_Err_Ok)
             ICESDK_CORE_ERROR("Failed to load Font Glyph! ({:x})", err);
 
@@ -64,16 +53,14 @@ Memory::Ptr<FontFace> FontFace::FromMemory(const std::vector<uint8_t>& pData,
     return font;
 }
 
-Memory::Ptr<FontFace> FontFace::FromFile(const std::string& pPath,
-                                         size_t pFontSize)
-{
-    if (!FileSystem::Exists(pPath)) return nullptr;
+Memory::Ptr<FontFace> FontFace::FromFile(const std::string &pPath, size_t pFontSize) {
+    if (!FileSystem::Exists(pPath))
+        return nullptr;
 
-    return FontFace::FromMemory(FileSystem::ReadBinaryFile(pPath), pFontSize);
+    return nullptr;
 }
 
-void FontFace::Init()
-{
+void FontFace::Init() {
     FT_Error err;
 
     err = FT_Init_FreeType(&g_FTLibrary);
@@ -81,9 +68,9 @@ void FontFace::Init()
         ICESDK_CORE_CRITICAL("Failed to initialize FreeType! ({:x})", err);
 }
 
-void FontFace::SetSize(size_t size)
-{
-    if (this->_size == size) return;
+void FontFace::SetSize(size_t size) {
+    if (this->_size == size)
+        return;
     FT_Error err;
 
     this->_size = size;
@@ -94,30 +81,27 @@ void FontFace::SetSize(size_t size)
     _glyphCache.clear();
 }
 
-size_t FontFace::GetSize()
-{
+size_t FontFace::GetSize() {
     return this->_size;
 }
 
-Glyph& FontFace::GetGlyph(uint32_t pGlyph)
-{
+Glyph &FontFace::GetGlyph(uint32_t pGlyph) {
     // We don't want a glyph to be loaded twice!
-    if (this->_glyphCache.count(pGlyph)) return this->_glyphCache[pGlyph];
+    if (this->_glyphCache.count(pGlyph))
+        return this->_glyphCache[pGlyph];
 
     FT_Load_Glyph(this->_face, pGlyph, FT_LOAD_DEFAULT);
 
     FT_GlyphSlot glyphSlot = this->_face->glyph;
     FT_Render_Glyph(glyphSlot, FT_RENDER_MODE_NORMAL);
 
-    FT_Bitmap* bmp = &glyphSlot->bitmap;
+    FT_Bitmap *bmp = &glyphSlot->bitmap;
     std::vector<uint8_t> pixel_data;
     pixel_data.reserve(bmp->width * bmp->rows * 4);
 
-    for (size_t row = 0; row < bmp->rows; ++row)
-    {
-        for (size_t col = 0; col < bmp->width; ++col)
-        {
-            auto pixel = (uint8_t) bmp->buffer[row * bmp->pitch + col];
+    for (size_t row = 0; row < bmp->rows; ++row) {
+        for (size_t col = 0; col < bmp->width; ++col) {
+            auto pixel = (uint8_t)bmp->buffer[row * bmp->pitch + col];
 
             pixel_data.push_back(pixel);
             pixel_data.push_back(pixel);
@@ -130,10 +114,7 @@ Glyph& FontFace::GetGlyph(uint32_t pGlyph)
         }
     }
 
-    Glyph glyph{ { bmp->width, bmp->rows },
-                 (float) (glyphSlot->metrics.horiBearingY >> 6),
-                 (float) (glyphSlot->bitmap_top),
-                 pixel_data };
+    Glyph glyph{ { bmp->width, bmp->rows }, (float)(glyphSlot->metrics.horiBearingY >> 6), (float)(glyphSlot->bitmap_top), pixel_data };
 
     this->_glyphCache.insert({ pGlyph, glyph });
 

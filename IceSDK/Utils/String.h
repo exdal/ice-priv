@@ -4,21 +4,18 @@
 
 #include <string>
 
-namespace IceSDK
-{
-    namespace String
-    {
-        inline std::string Trim(std::string input, std::string_view search)
-        {
+namespace IceSDK {
+    namespace String {
+        inline std::string Trim(std::string input, std::string_view search) {
             input.erase(0, input.find_first_not_of(search));
             input.erase(input.find_last_not_of(search) + 1);
 
             return input;
         }
 
-        constexpr uint64_t CalculateHash(std::string_view input)
-        {
-            if (input.empty()) return 0;
+        constexpr uint64_t CalculateHash(std::string_view input) {
+            if (input.empty())
+                return 0;
 
             uint32_t hash1 = 0;
             uint32_t hash2 = 0;
@@ -31,5 +28,5 @@ namespace IceSDK
 
             return hash;
         }
-    }  // namespace String
-}  // namespace IceSDK
+    } // namespace String
+} // namespace IceSDK

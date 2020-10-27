@@ -13,7 +13,7 @@ template("IceSDK_Project") {
 
         inputs = invoker.assets
 
-        outputs = [ "$target_out_dir/Assets/0.pxl" ]
+        outputs = [ "$target_out_dir/Assets/0.ice" ]
     }
 
     if (is_android) {

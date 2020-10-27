@@ -4,12 +4,10 @@
 
 #include <glm/vec2.hpp>
 
-namespace IceSDK::Graphics::Components
-{
-    struct SpriteComponent
-    {
+namespace IceSDK::Graphics::Components {
+    struct SpriteComponent {
         glm::vec2 size;
 
         Memory::Ptr<Graphics::Texture2D> texture;
     };
-}  // namespace IceSDK::Graphics::Components
+} // namespace IceSDK::Graphics::Components

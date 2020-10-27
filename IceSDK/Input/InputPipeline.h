@@ -7,30 +7,32 @@
 
 #include <glm/vec2.hpp>
 
-namespace IceSDK::Input
-{
-    class InputPipeline
-    {
+namespace IceSDK::Input {
+    class InputPipeline {
     public:
         void Init();
 
-        glm::vec2 GetMouseScrollAxis() { return this->_mouse_scroll_axis; }
-        glm::vec2 GetMousePosition() { return this->_mouse_move_delta; }
+        glm::vec2 GetMouseScrollAxis() {
+            return this->_mouse_scroll_axis;
+        }
+        glm::vec2 GetMousePosition() {
+            return this->_mouse_move_delta;
+        }
 
-        KeyboardMods GetKeyboardMods() { return this->_keyboard_mods; }
+        KeyboardMods GetKeyboardMods() {
+            return this->_keyboard_mods;
+        }
 
-        std::unordered_map<MouseTable, ButtonState> GetMouseButtonState()
-        {
+        std::unordered_map<MouseTable, ButtonState> GetMouseButtonState() {
             return this->_mouse_state;
         }
 
-        std::unordered_map<KeyboardTable, ButtonState> GetKeyboardButtonState()
-        {
+        std::unordered_map<KeyboardTable, ButtonState> GetKeyboardButtonState() {
             return this->_keyboard_state;
         }
 
 #if defined(ICESDK_SDL2)
-        void PumpSDL2Event(SDL_Event& pEvent);
+        void PumpSDL2Event(SDL_Event &pEvent);
 #endif
 
     private:
@@ -43,12 +45,10 @@ namespace IceSDK::Input
         std::unordered_map<KeyboardTable, ButtonState> _keyboard_state;
 
 #if defined(ICESDK_GLFW)
-        static void MouseButtonCallback(GLFWwindow* pWnd, int pButton,
-                                        int pButtonState, int pMods);
-        static void CursorCallback(GLFWwindow* pWnd, double pX, double pY);
-        static void ScrollCallback(GLFWwindow* pWnd, double pX, double pY);
-        static void KeybrdCallback(GLFWwindow* pWnd, int pKey, int pScanCode,
-                                   int pButtonState, int pMods);
+        static void MouseButtonCallback(GLFWwindow *pWnd, int pButton, int pButtonState, int pMods);
+        static void CursorCallback(GLFWwindow *pWnd, double pX, double pY);
+        static void ScrollCallback(GLFWwindow *pWnd, double pX, double pY);
+        static void KeybrdCallback(GLFWwindow *pWnd, int pKey, int pScanCode, int pButtonState, int pMods);
 #endif
     };
-}  // namespace IceSDK::Input
+} // namespace IceSDK::Input

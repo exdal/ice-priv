@@ -8,7 +8,7 @@
             ],
             "defines": [
                 "_DEBUG",
-                "ICESDK_GLFW",
+                "ICESDK_SDL2",
                 "ICESDK_FMOD",
                 "ICESDK_WIN32"
             ],
