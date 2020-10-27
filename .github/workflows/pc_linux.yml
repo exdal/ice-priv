@@ -37,9 +37,4 @@ jobs:
           export CCACHE_DIR=/tmp/ccache
           chmod +x ./tools/linux/ninja
           ./tools/linux/ninja -C out
-
-      - name: Execute Tests
-        run: |
-          cd out
-          ./TestIceSDK
   
