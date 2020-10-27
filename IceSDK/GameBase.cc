@@ -30,7 +30,6 @@ GameBase::GameBase() {
     this->_audio_system = std::make_shared<Audio::AudioSystem>();
     this->_sprite_batch = std::make_shared<Graphics::SpriteBatch>();
     this->_asset_manager = std::make_shared<Assets::AssetManager>();
-    this->_font_manager = std::make_shared<Graphics::FontManager>();
     this->_shader_manager = std::make_shared<Graphics::Shaders::ShaderManager>();
     this->_input_pipeline = std::make_shared<Input::InputPipeline>();
 
@@ -44,7 +43,6 @@ GameBase::~GameBase() {
     this->_asset_manager = nullptr;
     this->_sprite_batch = nullptr;
     this->_audio_system = nullptr;
-    this->_font_manager = nullptr;
     this->_shader_manager = nullptr;
     this->_input_pipeline = nullptr;
     this->_window = nullptr;
@@ -133,10 +131,6 @@ Memory::Ptr<Graphics::GameWindow> GameBase::GetGameWindow() const {
 
 Memory::Ptr<Graphics::Shaders::ShaderManager> GameBase::GetShaderManager() const {
     return this->_shader_manager;
-}
-
-Memory::Ptr<Graphics::FontManager> GameBase::GetFontManager() const {
-    return this->_font_manager;
 }
 
 Memory::Ptr<Input::InputPipeline> GameBase::GetInputPipeline() const {

@@ -5,7 +5,6 @@
 #include "GameBase.h"
 #include "Graphics/Debug/Draw.h"
 #include "Graphics/EntityHelper.h"
-#include "Graphics/Fonts/FontFace.h"
 #include "Graphics/ImGui/Widgets/SceneGraph.h"
 #include "Graphics/SpriteBatch/SpriteBatch.h"
 #include "Graphics/TextureAtlas/Packer.h"

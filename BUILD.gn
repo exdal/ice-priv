@@ -1,17 +1,8 @@
-declare_args() {
-    build_benchmarks = true
-}
-
 group("root") {
     deps = [
         "//IceSDK",
 
         "//Examples",
-        "//Tests",
         "//tools/sources:Tools",
     ]
-
-    if (!is_debug && build_benchmarks) {
-        deps += [ "//Benchmarks" ] 
-    }
 }

@@ -1,9 +1,0 @@
-static_library("googlemock") {
-    sources = [
-        "src/gmock_main.cc",
-        "src/gmock-all.cc"
-    ]
-
-    include_dirs = [ "../googletest/include", "include", "." ]
-    deps = [ "../googletest" ]
-}

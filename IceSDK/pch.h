@@ -6,10 +6,6 @@
 #include <Windows.h>
 #endif
 
-#ifdef ICESDK_EMSCRIPTEN
-#include <emscripten.h>
-#endif
-
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
 #include <bimg/bimg.h>
@@ -71,19 +67,11 @@
 #include <imgui_impl_glfw.h>
 #endif
 
-#include <spdlog/sinks/android_sink.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/spdlog.h>
-
 #include <ft2build.h>
 #include <imgui.h>
 #include <imgui_internal.h>
 
 #include FT_FREETYPE_H
-
-#include <hb-ft.h>
-#include <hb.hh>
 
 #include <cassert>
 #include <cstring>
