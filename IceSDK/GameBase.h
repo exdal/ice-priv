@@ -47,7 +47,6 @@ namespace IceSDK {
 
         int64_t _last_delta;
         bool _exit = false;
-#endif
 
         Memory::Ptr<Graphics::GameWindow> _window;
         Memory::Ptr<Audio::AudioSystem> _audio_system;
