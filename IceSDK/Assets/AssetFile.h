@@ -21,7 +21,7 @@ namespace IceSDK::Assets {
         }
         template <typename IAsset>
         IAsset Get(const std::uint32_t pIndex) {
-            return this->Get(pIndex).Into<IAsset>(this->header.asset_register[pIndex].name);
+            return this->Get(pIndex).Into<IAsset>(this->content[pIndex].name);
         }
 
         Asset Get(const std::string &pName);
