@@ -5,18 +5,15 @@
 
 #include <entt/entt.hpp>
 
-namespace IceSDK
-{
-    class Scene final
-    {
+namespace IceSDK {
+    class Scene final {
     public:
         explicit Scene();
 
-        Entity CreateEntity(const std::string& pName) const;
+        Entity CreateEntity(const std::string &pName) const;
 
-        template<typename Sys>
-        void RegisterSystem()
-        {
+        template <typename Sys>
+        void RegisterSystem() {
             auto registry = Memory::WeakPtr<entt::registry>(this->_registry);
             _systems.push_back(std::make_shared<Sys>(registry));
         }
@@ -33,4 +30,4 @@ namespace IceSDK
 
         Memory::Ptr<entt::registry> _registry;
     };
-}  // namespace IceSDK
+} // namespace IceSDK

@@ -4,10 +4,8 @@
 
 #include <glm/vec4.hpp>
 
-namespace IceSDK::Graphics::Components
-{
-    struct TileComponent
-    {
+namespace IceSDK::Graphics::Components {
+    struct TileComponent {
         glm::vec4 info;
     };
-}  // namespace IceSDK::Graphics::Components
+} // namespace IceSDK::Graphics::Components

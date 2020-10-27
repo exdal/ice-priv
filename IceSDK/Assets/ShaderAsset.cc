@@ -1,7 +1,5 @@
 #include "pch.h"
-
 #include "Assets/ShaderAsset.h"
-
 #include "Utils/Instrumentor.h"
 
 using namespace IceSDK;
@@ -13,8 +11,7 @@ uint16_t[] (Platform | Type)
 
 uint8_t[][] (Buffer)
 */
-std::vector<uint8_t> ShaderAsset::ToByteArray() const
-{
+uint8_t *ShaderAsset::Data() const {
     ICESDK_PROFILE_FUNCTION();
     size_t offset = 0;
     std::vector<uint8_t> buffer;
@@ -25,15 +22,13 @@ std::vector<uint8_t> ShaderAsset::ToByteArray() const
     offset += 1;
 
     buffer.resize(offset + static_cast<size_t>(shaderSize) * 2);
-    for (const auto& shader : this->_shaders)
-    {
+    for (const auto &shader : this->_shaders) {
         memcpy(buffer.data() + offset, &shader, 2);
 
         offset += 2;
     }
 
-    for (const auto& shader : this->_shaders)
-    {
+    for (const auto &shader : this->_shaders) {
         uint32_t shaderSize = shader.code.size();
 
         buffer.resize(offset + 4);
@@ -46,40 +41,41 @@ std::vector<uint8_t> ShaderAsset::ToByteArray() const
         offset += shader.code.size();
     }
 
-    return buffer;
+    return buffer.data(); // im not going to fucking touch that mess
 }
 
-ShaderAsset ShaderAsset::From(std::string pName, std::vector<uint8_t> pData)
-{
+uint32_t ShaderAsset::DataSize() const {
+    return 0;
+}
+
+ShaderAsset ShaderAsset::From(std::string_view _name, uint8_t *_data, const uint32_t _dataSize) {
     ICESDK_PROFILE_FUNCTION();
     ShaderAsset shaderAsset;
 
     uint8_t shaderSize = 0;
-    memcpy(&shaderSize, pData.data(), 1);
+    memcpy(&shaderSize, _data, 1);
 
     auto offset = 1;
 
-    for (auto i = 0; i < shaderSize; ++i)
-    {
+    for (auto i = 0; i < shaderSize; ++i) {
         Shader shader{};
 
-        memcpy(&shader.platform, pData.data() + offset, 1);
-        memcpy(&shader.type, pData.data() + 1 + offset, 1);
+        memcpy(&shader.platform,_data + offset, 1);
+        memcpy(&shader.type, _data + 1 + offset, 1);
 
         offset += 2;
 
         shaderAsset._shaders.push_back(shader);
     }
 
-    for (auto shader : shaderAsset._shaders)
-    {
+    for (auto shader : shaderAsset._shaders) {
         uint32_t shaderSize = 0;
-        memcpy(&shaderSize, pData.data(), 4);
+        memcpy(&shaderSize, _data, 4);
 
         offset += 4;
 
         shader.code.resize(shaderSize);
-        memcpy(shader.code.data(), pData.data() + offset, shaderSize);
+        memcpy(shader.code.data(), _data + offset, shaderSize);
 
         offset += shaderSize;
     }

@@ -20,39 +20,30 @@ using namespace IceSDK::Components;
 using namespace IceSDK::Graphics;
 using namespace IceSDK::Graphics::Components;
 
-void SpriteRenderingSystem::Tick(float pDelta)
-{
+void SpriteRenderingSystem::Tick(float pDelta) {
     ICESDK_PROFILE_FUNCTION();
 }
 
-void SpriteRenderingSystem::Draw(float pDelta)
-{
+void SpriteRenderingSystem::Draw(float pDelta) {
     ICESDK_PROFILE_FUNCTION();
     const auto registry = this->_registry.lock();
-    if (registry == nullptr) return;
+    if (registry == nullptr)
+        return;
 
     auto spriteGroup = registry->view<SpriteComponent>();
-    for (auto rawSpriteEntity : spriteGroup)
-    {
+    for (auto rawSpriteEntity : spriteGroup) {
         auto spriteEntity = Entity(this->_registry, rawSpriteEntity);
 
-        auto& transform = spriteEntity.GetComponent<TransformComponent>();
-        auto& sprite = spriteEntity.GetComponent<SpriteComponent>();
+        auto &transform = spriteEntity.GetComponent<TransformComponent>();
+        auto &sprite = spriteEntity.GetComponent<SpriteComponent>();
 
-        if (sprite.texture == nullptr
-            || !bgfx::isValid(sprite.texture->GetHandle()))
+        if (sprite.texture == nullptr || !bgfx::isValid(sprite.texture->GetHandle()))
             continue;
 
-        if (spriteEntity.HasComponent<TileComponent>())
-        {
-            auto& tile = spriteEntity.GetComponent<TileComponent>();
-            GetGameBase()->GetSpriteBatch()->SubmitTiledSprite(
-                sprite.texture, transform.position, sprite.size, tile.info,
-                { 1, 1, 1, 1 });
-        }
-        else
-            GetGameBase()->GetSpriteBatch()->SubmitTexturedQuad(
-                sprite.texture, transform.position, sprite.size,
-                { 1, 1, 1, 1 });
+        if (spriteEntity.HasComponent<TileComponent>()) {
+            auto &tile = spriteEntity.GetComponent<TileComponent>();
+            GetGameBase()->GetSpriteBatch()->SubmitTiledSprite(sprite.texture, transform.position, sprite.size, tile.info, { 1, 1, 1, 1 });
+        } else
+            GetGameBase()->GetSpriteBatch()->SubmitTexturedQuad(sprite.texture, transform.position, sprite.size, { 1, 1, 1, 1 });
     }
 }

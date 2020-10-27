@@ -5,21 +5,22 @@
 #include <string>
 #include <vector>
 
-namespace IceSDK::Assets
-{
-    class TextAsset
-    {
+namespace IceSDK::Assets {
+    class TextAsset {
     public:
         explicit TextAsset(std::string pData);
 
         std::string ToString() const;
 
-        constexpr static eAssetType GetAssetType() { return eAssetType::Text; }
+        constexpr static eAssetType GetAssetType() {
+            return eAssetType::Text;
+        }
 
-        std::vector<uint8_t> ToByteArray();
-        static TextAsset From(std::string pName, std::vector<uint8_t> pData);
+        uint8_t *Data() const;
+        uint32_t DataSize() const;
+        static TextAsset From(std::string_view _name, uint8_t *_data, const uint32_t _dataSize);
 
     private:
-        std::string _data;
+        std::string m_data;
     };
-}  // namespace IceSDK::Assets
+} // namespace IceSDK::Assets

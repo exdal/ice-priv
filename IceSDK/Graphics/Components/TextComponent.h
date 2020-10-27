@@ -4,10 +4,8 @@
 
 #include <string>
 
-namespace IceSDK::Graphics::Components
-{
-    struct TextComponent
-    {
+namespace IceSDK::Graphics::Components {
+    struct TextComponent {
         std::string text;
         uint64_t _old_text;
 
@@ -15,4 +13,4 @@ namespace IceSDK::Graphics::Components
 
         FontFaceHandle font_face_handle;
     };
-}  // namespace IceSDK::Graphics::Components
+} // namespace IceSDK::Graphics::Components

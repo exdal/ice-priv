@@ -7,31 +7,21 @@
 #include <string>
 #include <vector>
 
-namespace IceSDK::Graphics::Shaders
-{
-    enum class eShaderType : uint8_t
-    {
-        Fragment = 0,
-        Vertex = 1
-    };
+namespace IceSDK::Graphics::Shaders {
+    enum class eShaderType : uint8_t { Fragment = 0, Vertex = 1 };
 
-    class ShaderManager
-    {
+    class ShaderManager {
     public:
         // Internal function, can be used but shouldn't! use at your own risk!
-        void AppendShader(const std::string& pKey,
-                          bgfx::RendererType::Enum pRenderer, eShaderType pType,
-                          const std::vector<uint8_t>& pSrc);
+        void AppendShader(const std::string &pKey, bgfx::RendererType::Enum pRenderer, eShaderType pType, const std::vector<uint8_t> &pSrc);
 
         // Internal function, can be used but shouldn't! use at your own risk!
-        bgfx::ShaderHandle LoadShader(const std::string& pKey,
-                                      const eShaderType pShaderType);
+        bgfx::ShaderHandle LoadShader(const std::string &pKey, const eShaderType pShaderType);
 
-        bgfx::ProgramHandle LoadProgram(const std::string& pKey);
+        bgfx::ProgramHandle LoadProgram(const std::string &pKey);
 
     private:
-        struct Shader
-        {
+        struct Shader {
             std::string name;
             bgfx::RendererType::Enum renderer;
             eShaderType type;
@@ -43,4 +33,4 @@ namespace IceSDK::Graphics::Shaders
 
         std::vector<Shader> _shaders;
     };
-}  // namespace IceSDK::Graphics::Shaders
+} // namespace IceSDK::Graphics::Shaders

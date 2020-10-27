@@ -1,15 +1,13 @@
-#include <iostream>
-
 #include "Assets/AssetFile.h"
-#include "Assets/Texture2DAsset.h"
 #include "Assets/AudioAsset.h"
 #include "Assets/TextAsset.h"
+#include "Assets/Texture2DAsset.h"
 #include "Utils/FileSystem.h"
 #include "Utils/Memory.h"
 #include "Utils/String.h"
+#include <iostream>
 #undef mix // fuck yourself jenkins
 #include "Utils/Logger.h"
-
 #include "GameBase.h"
 
 using namespace IceSDK;
@@ -22,17 +20,15 @@ const char *g_FileWhitelist[] = {
     ".png", ".jpg", ".bmp",
 
     // Text Files
-    ".txt"};
+    ".txt"
+};
 
-IceSDK::Memory::Ptr<IceSDK::GameBase> GetGameBase()
-{
+IceSDK::Memory::Ptr<IceSDK::GameBase> GetGameBase() {
     return nullptr;
 }
 
-int main(const int pArgc, char *pArgv[])
-{
-    if (pArgc < 3)
-    {
+int main(const int pArgc, char *pArgv[]) {
+    if (pArgc < 3) {
         std::cout << "Usage: AssetCompiler.exe "
                   << "./Path/To/Assets "
                   << "./build" << std::endl;
@@ -46,22 +42,20 @@ int main(const int pArgc, char *pArgv[])
 
     std::vector<Memory::Ptr<Assets::AssetFile>> assets;
 
-    for (const auto &dir : FileSystem::ReadDirectory(assetPath, true))
-    {
+    for (const auto &dir : FileSystem::ReadDirectory(assetPath, true)) {
         if (FileSystem::IsDirectory(dir))
             continue;
 
         Memory::Ptr<Assets::AssetFile> free_asset = nullptr;
         for (const auto &asset : assets) // NOTE: this will get slower and slower the more assets we have!
         {
-            if (!asset->IsFull())
+            if (!asset->IsFull()) {
                 free_asset = asset;
+            }
         }
 
-        if (free_asset == nullptr)
-        {
+        if (free_asset == nullptr) {
             free_asset = std::make_shared<Assets::AssetFile>();
-
             assets.push_back(free_asset);
         }
 
@@ -73,35 +67,35 @@ int main(const int pArgc, char *pArgv[])
         name = String::Trim(name, "./");
         name = "/" + name;
 
-        if (FileSystem::HasExtension(dir, ".txt"))
-        {
-            free_asset->Append(name, Assets::TextAsset::From(name, FileSystem::ReadBinaryFile(dir)));
+        if (FileSystem::HasExtension(dir, ".txt")) {
+            uint32_t size = 0;
+            uint8_t *data = FileSystem::ReadBinaryFile(dir, &size);
+            free_asset->Append(name, Assets::TextAsset::From(name, data, size));
 
-            ICESDK_INFO("Asset (Text): {} -> {}.pxl:{}", dir, assets.size() - 1, name);
+            ICESDK_INFO("Asset (Text): \"{}\" {} -> {}.ice:{}", std::string((const char *)data, size), dir, assets.size() - 1, name);
         }
 
-        else if (
-            FileSystem::HasExtension(dir, ".png") ||
-            FileSystem::HasExtension(dir, ".jpg") ||
-            FileSystem::HasExtension(dir, ".bmp"))
-        { // TODO: Unpack into a specially crafted Texture format instead of using the existing ones for faster decoding
-            free_asset->Append(name, Assets::Texture2DAsset::From(name, FileSystem::ReadBinaryFile(dir)));
+        else if (FileSystem::HasExtension(dir, ".png") || FileSystem::HasExtension(dir, ".jpg") ||
+                 FileSystem::HasExtension(dir, ".bmp")) { // TODO: Unpack into a specially crafted Texture format instead of using the existing ones for faster decoding
 
-            ICESDK_INFO("Asset (Texture2D): {} -> {}.pxl:{}", dir, assets.size() - 1, name);
+            uint32_t size = 0;
+            uint8_t *data = FileSystem::ReadBinaryFile(dir, &size);
+            free_asset->Append(name, Assets::Texture2DAsset::From(name, data, size));
+            
+            ICESDK_INFO("Asset (Texture2D): {} -> {}.ice:{}", dir, assets.size() - 1, name);
         }
 
-        else if (
-            FileSystem::HasExtension(dir, ".ogg") ||
-            FileSystem::HasExtension(dir, ".mp3") ||
-            FileSystem::HasExtension(dir, ".wav"))
-        { // TODO: Unpack into a specially crafted Audio format instead of using the existing ones for faster decoding
-            free_asset->Append(name, Assets::AudioAsset::From(name, FileSystem::ReadBinaryFile(dir)));
+        else if (FileSystem::HasExtension(dir, ".ogg") || FileSystem::HasExtension(dir, ".mp3") ||
+                 FileSystem::HasExtension(dir, ".wav")) { // TODO: Unpack into a specially crafted Audio format instead of using the existing ones for faster decoding
 
-            ICESDK_INFO("Asset (Audio): {} -> {}.pxl:{}", dir, assets.size() - 1, name);
+            uint32_t size = 0;
+            uint8_t *data = FileSystem::ReadBinaryFile(dir, &size);
+            free_asset->Append(name, Assets::AudioAsset::From(name, data, size));
+
+            ICESDK_INFO("Asset (Audio): {} -> {}.ice:{}", dir, assets.size() - 1, name);
         }
 
-        else
-        {
+        else {
             ICESDK_WARN("Unknown Asset!");
         }
     }
@@ -109,14 +103,14 @@ int main(const int pArgc, char *pArgv[])
     if (!FileSystem::Exists(buildPath))
         FileSystem::MkDir(buildPath);
 
-    for (size_t i = 0; i < assets.size(); ++i)
-    {
+    for (size_t i = 0; i < assets.size(); ++i) {
         auto asset = assets[i];
 
-        auto assetPath = FileSystem::JoinPath(buildPath, std::to_string(i) + ".pxl");
+        auto assetPath = FileSystem::JoinPath(buildPath, std::to_string(i) + ".ice");
 
         ICESDK_INFO("Saving {}", assetPath);
         asset->Save(assetPath);
+        ICESDK_INFO("Saved asset {}", i);
     }
 
     return 0;

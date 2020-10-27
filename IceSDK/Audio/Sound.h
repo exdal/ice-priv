@@ -3,17 +3,14 @@
 #include <cstdint>
 
 #if defined(ICESDK_FMOD)
-    #include <fmod.hpp>
+#include <fmod.hpp>
 #endif
 
-namespace IceSDK
-{
-    namespace Audio
-    {
+namespace IceSDK {
+    namespace Audio {
         class AudioSystem;
 
-        class Sound
-        {
+        class Sound {
         public:
             ~Sound();
 
@@ -33,11 +30,11 @@ namespace IceSDK
             explicit Sound() = default;
 
 #if defined(ICESDK_FMOD)
-            FMOD::Sound* _sound = nullptr;
-            FMOD::Channel* _sound_channel = nullptr;
+            FMOD::Sound *_sound = nullptr;
+            FMOD::Channel *_sound_channel = nullptr;
 #endif
 
             friend AudioSystem;
         };
-    }  // namespace Audio
-}  // namespace IceSDK
+    } // namespace Audio
+} // namespace IceSDK

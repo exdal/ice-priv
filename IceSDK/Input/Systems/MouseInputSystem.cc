@@ -12,11 +12,11 @@ using namespace IceSDK;
 using namespace IceSDK::Input;
 using namespace IceSDK::Systems;
 
-void MouseInputSystem::Tick(float pDelta)
-{
+void MouseInputSystem::Tick(float pDelta) {
     ICESDK_PROFILE_FUNCTION();
     const auto registry = this->_registry.lock();
-    if (registry == nullptr) return;
+    if (registry == nullptr)
+        return;
 
     auto inputPipeline = GetGameBase()->GetInputPipeline();
 
@@ -26,14 +26,11 @@ void MouseInputSystem::Tick(float pDelta)
     // Calculate Delta
     glm::vec2 Position = inputPipeline->GetMousePosition();
 
-    auto mouseInputGroup =
-        registry->view<Input::Components::MouseInputComponent>();
-    for (auto rawMouseInputEntity : mouseInputGroup)
-    {
+    auto mouseInputGroup = registry->view<Input::Components::MouseInputComponent>();
+    for (auto rawMouseInputEntity : mouseInputGroup) {
         auto mouseEntity = Entity(this->_registry, rawMouseInputEntity);
 
-        auto& mouse =
-            mouseEntity.GetComponent<Input::Components::MouseInputComponent>();
+        auto &mouse = mouseEntity.GetComponent<Input::Components::MouseInputComponent>();
 
         mouse.Position = Position;
         mouse.ScrollAxis = Axis;
@@ -41,4 +38,5 @@ void MouseInputSystem::Tick(float pDelta)
     }
 }
 
-void MouseInputSystem::Draw(float pDelta) { }
+void MouseInputSystem::Draw(float pDelta) {
+}

@@ -1,45 +1,41 @@
 #pragma once
 
 #include "Utils/Memory.h"
-
+#include "Utils/Instrumentor.h"
 #include <entt/entt.hpp>
 
-namespace IceSDK
-{
-    class Entity final
-    {
+namespace IceSDK {
+    class Entity final {
     public:
-        explicit Entity(const Memory::WeakPtr<entt::registry>& pRegistry);
-        explicit Entity(const Memory::WeakPtr<entt::registry>& pRegistry,
-                        entt::entity pEntity);
+        explicit Entity(const Memory::WeakPtr<entt::registry> &pRegistry);
+        explicit Entity(const Memory::WeakPtr<entt::registry> &pRegistry, entt::entity pEntity);
         explicit Entity();
 
-        template<typename T>
-        bool HasComponent()
-        {
+        template <typename T>
+        bool HasComponent() {
+            ICESDK_PROFILE_FUNCTION();
             return this->_registry.lock()->has<T>(this->_inner);
         }
 
-        template<typename T, typename... Args>
-        T& AddComponent(Args&&... pArgs)
-        {
+        template <typename T, typename... Args>
+        T &AddComponent(Args &&... pArgs) {
+            ICESDK_PROFILE_FUNCTION();
             const auto registry = this->_registry.lock();
 
-            return registry->emplace<T>(this->_inner,
-                                        std::forward<Args>(pArgs)...);
+            return registry->emplace<T>(this->_inner, std::forward<Args>(pArgs)...);
         }
 
-        template<typename T>
-        T& GetComponent()
-        {
+        template <typename T>
+        T &GetComponent() {
+            ICESDK_PROFILE_FUNCTION();
             const auto registry = this->_registry.lock();
             return registry->get<T>(this->_inner);
         }
 
-        template<typename T>
-        bool RemoveComponent(T pComponent)
-        {
-            if (!this->HasComponent(pComponent)) return false;
+        template <typename T>
+        bool RemoveComponent(T pComponent) {
+            if (!this->HasComponent(pComponent))
+                return false;
 
             const auto registry = this->_registry.lock();
             registry->remove_all(this->_inner, pComponent);
@@ -47,10 +43,10 @@ namespace IceSDK
             return true;
         }
 
-        static bool IsValid(const Entity& pEntity);
+        static bool IsValid(const Entity &pEntity);
 
     private:
         Memory::WeakPtr<entt::registry> _registry;
         entt::entity _inner = entt::null;
     };
-}  // namespace IceSDK
+} // namespace IceSDK

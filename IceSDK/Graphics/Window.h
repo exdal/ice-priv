@@ -8,32 +8,23 @@
 #include <string>
 
 #ifdef ICESDK_GLFW
-    #include <GLFW/glfw3.h>
+#include <GLFW/glfw3.h>
 #elif defined(ICESDK_SDL2)
-    #include <SDL.h>
+#include <SDL.h>
 #endif
 
-namespace IceSDK
-{
+namespace IceSDK {
     class GameBase;
 
     using DrawCallback_t = std::function<void(float)>;
     using DrawInitCallback_t = std::function<void()>;
 
-    namespace Graphics
-    {
-        enum eGameWindowFlags
-        {
-            None = 0,
-            Fullscreen = 1 << 1
-        };
+    namespace Graphics {
+        enum eGameWindowFlags { None = 0, Fullscreen = 1 << 1 };
 
-        class GameWindow
-        {
+        class GameWindow {
         public:
-            explicit GameWindow(
-                int32_t pWidth, int32_t pHeight, const std::string& pTitle,
-                eGameWindowFlags pFlags = eGameWindowFlags::None);
+            explicit GameWindow(int32_t pWidth, int32_t pHeight, const std::string &pTitle, eGameWindowFlags pFlags = eGameWindowFlags::None);
             ~GameWindow();
 
             void Update();
@@ -48,23 +39,26 @@ namespace IceSDK
             uint32_t Height() const;
 
 #if defined(ICESDK_GLFW)
-            GLFWwindow* GetNativeWindow() { return this->_window; }
+            GLFWwindow *GetNativeWindow() {
+                return this->_window;
+            }
 #elif defined(ICESDK_SDL2)
-            SDL_Window* GetNativeWindow() { return this->_window; }
+            SDL_Window *GetNativeWindow() {
+                return this->_window;
+            }
 #endif
 
         private:
             friend GameBase;
 
 #ifdef ICESDK_GLFW
-            static void ResizeGameWindow(GLFWwindow* pWindow, int pWidth,
-                                         int pHeight);
+            static void ResizeGameWindow(GLFWwindow *pWindow, int pWidth, int pHeight);
 #endif
 
 #ifdef ICESDK_GLFW
-            GLFWwindow* _window = nullptr;
+            GLFWwindow *_window = nullptr;
 #elif defined(ICESDK_SDL2)
-            SDL_Window* _window = nullptr;
+            SDL_Window *_window = nullptr;
 
             bool _should_exit = false;
 #endif
@@ -76,5 +70,5 @@ namespace IceSDK
 
             int64_t _last_time = bx::getHPCounter();
         };
-    }  // namespace Graphics
-}  // namespace IceSDK
+    } // namespace Graphics
+} // namespace IceSDK

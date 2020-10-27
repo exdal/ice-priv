@@ -1,5 +1,5 @@
 /*
-    DON'T USER SMART POINTERS, we literally manage the memory here
+    DON'T USER SMART POINTERS, i dont like them
 */
 
 #pragma once
@@ -7,13 +7,9 @@
 
 #include <bgfx/bgfx.h>
 
-namespace IceSDK::Graphics
-{
-    struct Node
-    {
-        Node(uint32_t _x, uint32_t _y, uint32_t _width) :
-            x(_x), y(_y), width(_width)
-        {
+namespace IceSDK::Graphics {
+    struct Node {
+        Node(uint32_t _x, uint32_t _y, uint32_t _width) : x(_x), y(_y), width(_width) {
         }
 
         uint32_t x;
@@ -21,13 +17,11 @@ namespace IceSDK::Graphics
         uint32_t width;
     };
 
-    class Packer
-    {
+    class Packer {
     public:
         Packer();
         Packer(uint32_t pWidth, uint32_t pHeight);
-        bool Push(uint32_t pWidth, uint32_t pHeight, uint32_t& pXOut,
-                  uint32_t& pYOut);
+        bool Push(uint32_t pWidth, uint32_t pHeight, uint32_t &pXOut, uint32_t &pYOut);
 
         uint32_t UsedSurface();
         uint32_t TotalSurface();
@@ -43,4 +37,4 @@ namespace IceSDK::Graphics
         uint32_t _usedSpace;
         std::vector<Node> _skyline;
     };
-}  // namespace IceSDK::Graphics
+} // namespace IceSDK::Graphics

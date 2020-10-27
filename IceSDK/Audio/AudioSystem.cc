@@ -9,22 +9,19 @@
 using namespace IceSDK::Audio;
 
 #if defined(ICESDK_FMOD)
-FMOD::System* g_FMODSystem = nullptr;
+FMOD::System *g_FMODSystem = nullptr;
 #endif
 
-AudioSystem::AudioSystem()
-{
+AudioSystem::AudioSystem() {
 #ifdef ICESDK_FMOD
-    assert(g_FMODSystem
-           && "AudioSystem::Init() wasn't called or failed! Could not "
-              "continue...");
+    assert(g_FMODSystem && "AudioSystem::Init() wasn't called or failed! Could not "
+                           "continue...");
 #else
-    #warning "No AudioSystem!"
+#warning "No AudioSystem!"
 #endif
 }
 
-void AudioSystem::Init()
-{
+void AudioSystem::Init() {
     ICESDK_PROFILE_FUNCTION();
 
 #if defined(ICESDK_FMOD)
@@ -39,13 +36,11 @@ void AudioSystem::Init()
 #endif
 }
 
-IceSDK::Memory::Ptr<Sound> AudioSystem::Load(const std::string& pPath)
-{
-    return this->Load(FileSystem::ReadBinaryFile(pPath));
+IceSDK::Memory::Ptr<Sound> AudioSystem::Load(std::string_view _path) {
+    return nullptr;
 }
 
-IceSDK::Memory::Ptr<Sound> AudioSystem::Load(std::vector<uint8_t> pBuffer)
-{
+IceSDK::Memory::Ptr<Sound> AudioSystem::Load(uint8_t *_data, uint32_t _dataSize) {
     ICESDK_PROFILE_FUNCTION();
 
 #if defined(ICESDK_FMOD)
@@ -54,13 +49,10 @@ IceSDK::Memory::Ptr<Sound> AudioSystem::Load(std::vector<uint8_t> pBuffer)
     auto sound = Memory::Ptr<Sound>(new Sound);
 
     sound_info.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
-    sound_info.length = static_cast<uint32_t>(pBuffer.size());
+    sound_info.length = _dataSize;
 
-    const auto result =
-        g_FMODSystem->createSound(reinterpret_cast<const char*>(pBuffer.data()),
-                                  FMOD_OPENMEMORY, &sound_info, &sound->_sound);
-    if (result != FMOD_OK)
-    {
+    const auto result = g_FMODSystem->createSound((const char *)_data, FMOD_OPENMEMORY, &sound_info, &sound->_sound);
+    if (result != FMOD_OK) {
         ICESDK_CORE_ERROR("FMOD: {}", FMOD_ErrorString(result));
         return nullptr;
     }

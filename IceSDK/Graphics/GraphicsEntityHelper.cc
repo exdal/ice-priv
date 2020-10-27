@@ -31,12 +31,8 @@ using namespace IceSDK;
 using namespace IceSDK::Graphics;
 using namespace IceSDK::Graphics::Entity;
 
-IceSDK::Entity Graphics::Entity::CreateSprite(
-    Memory::Ptr<IceSDK::Scene> pScene,
-    Memory::Ptr<Shaders::ShaderManager> pShaderManager,
-    Memory::Ptr<Texture2D> pTex, const glm::vec3& pPosition,
-    const glm::vec2& pSize, const glm::vec4& pTileinfo, float pRotation)
-{
+IceSDK::Entity Graphics::Entity::CreateSprite(Memory::Ptr<IceSDK::Scene> pScene, Memory::Ptr<Shaders::ShaderManager> pShaderManager, Memory::Ptr<Texture2D> pTex,
+    const glm::vec3 &pPosition, const glm::vec2 &pSize, const glm::vec4 &pTileinfo, float pRotation) {
     ICESDK_PROFILE_FUNCTION();
 
     auto entity = pScene->CreateEntity("Sprite");
@@ -47,13 +43,11 @@ IceSDK::Entity Graphics::Entity::CreateSprite(
     else if (pTex != nullptr)
         TexSize = { pTex->Width(), pTex->Height() };
 
-    entity.AddComponent<IceSDK::Components::TransformComponent>(
-        pPosition, glm::vec3{ 1.0f, 1.0f, 1.0f }, pRotation);
+    entity.AddComponent<IceSDK::Components::TransformComponent>(pPosition, glm::vec3{ 1.0f, 1.0f, 1.0f }, pRotation);
 
     entity.AddComponent<Graphics::Components::SpriteComponent>(TexSize, pTex);
 
-    if (pTileinfo.x != -1.f && pTileinfo.y != -1.f)
-    {
+    if (pTileinfo.x != -1.f && pTileinfo.y != -1.f) {
         entity.AddComponent<Graphics::Components::TileComponent>(pTileinfo);
     }
 
@@ -61,87 +55,53 @@ IceSDK::Entity Graphics::Entity::CreateSprite(
 }
 
 IceSDK::Entity Graphics::Entity::CreateText(
-    Memory::Ptr<IceSDK::Scene> pScene,
-    Memory::Ptr<Shaders::ShaderManager> pShaderManager,
-    const std::string& pText, size_t pFontSize, FontFaceHandle pFontFace)
-{
+    Memory::Ptr<IceSDK::Scene> pScene, Memory::Ptr<Shaders::ShaderManager> pShaderManager, const std::string &pText, size_t pFontSize, FontFaceHandle pFontFace) {
     ICESDK_PROFILE_FUNCTION();
 
     auto entity = Entity::CreateSprite(pScene, pShaderManager, nullptr);
 
-    auto& baseComponent =
-        entity.GetComponent<IceSDK::Components::BaseComponent>();
+    auto &baseComponent = entity.GetComponent<IceSDK::Components::BaseComponent>();
     baseComponent.name = "TextSprite";
 
-    entity.AddComponent<Graphics::Components::TextComponent>(
-        pText, (uint64_t) 0, pFontSize, pFontFace);
+    entity.AddComponent<Graphics::Components::TextComponent>(pText, (uint64_t)0, pFontSize, pFontFace);
 
     return entity;
 }
 
-void Graphics::Entity::Init(
-    const Memory::Ptr<Graphics::Shaders::ShaderManager>& pShaderManager)
-{
+void Graphics::Entity::Init(const Memory::Ptr<Graphics::Shaders::ShaderManager> &pShaderManager) {
     ICESDK_PROFILE_FUNCTION();
 
     Pos2DTexCoordColourVertex::Init();
     Graphics::FontFace::Init();
 
     pShaderManager->AppendShader(
-        "Sprite", bgfx::RendererType::Direct3D9, Shaders::eShaderType::Fragment,
-        std::vector<uint8_t>(&fs_sprite_d3d9[0],
-                             &fs_sprite_d3d9[sizeof fs_sprite_d3d9]));
+        "Sprite", bgfx::RendererType::Direct3D9, Shaders::eShaderType::Fragment, std::vector<uint8_t>(&fs_sprite_d3d9[0], &fs_sprite_d3d9[sizeof fs_sprite_d3d9]));
     pShaderManager->AppendShader(
-        "Sprite", bgfx::RendererType::Direct3D11,
-        Shaders::eShaderType::Fragment,
-        std::vector<uint8_t>(&fs_sprite_d3d11[0],
-                             &fs_sprite_d3d11[sizeof fs_sprite_d3d11]));
+        "Sprite", bgfx::RendererType::Direct3D11, Shaders::eShaderType::Fragment, std::vector<uint8_t>(&fs_sprite_d3d11[0], &fs_sprite_d3d11[sizeof fs_sprite_d3d11]));
     pShaderManager->AppendShader(
-        "Sprite", bgfx::RendererType::Direct3D12,
-        Shaders::eShaderType::Fragment,
-        std::vector<uint8_t>(&fs_sprite_d3d12[0],
-                             &fs_sprite_d3d12[sizeof fs_sprite_d3d12]));
+        "Sprite", bgfx::RendererType::Direct3D12, Shaders::eShaderType::Fragment, std::vector<uint8_t>(&fs_sprite_d3d12[0], &fs_sprite_d3d12[sizeof fs_sprite_d3d12]));
     pShaderManager->AppendShader(
-        "Sprite", bgfx::RendererType::OpenGL, Shaders::eShaderType::Fragment,
-        std::vector<uint8_t>(&fs_sprite_glsl[0],
-                             &fs_sprite_glsl[sizeof fs_sprite_glsl]));
+        "Sprite", bgfx::RendererType::OpenGL, Shaders::eShaderType::Fragment, std::vector<uint8_t>(&fs_sprite_glsl[0], &fs_sprite_glsl[sizeof fs_sprite_glsl]));
     pShaderManager->AppendShader(
-        "Sprite", bgfx::RendererType::Metal, Shaders::eShaderType::Fragment,
-        std::vector<uint8_t>(&fs_sprite_metal[0],
-                             &fs_sprite_metal[sizeof fs_sprite_metal]));
+        "Sprite", bgfx::RendererType::Metal, Shaders::eShaderType::Fragment, std::vector<uint8_t>(&fs_sprite_metal[0], &fs_sprite_metal[sizeof fs_sprite_metal]));
     pShaderManager->AppendShader(
-        "Sprite", bgfx::RendererType::Vulkan, Shaders::eShaderType::Fragment,
-        std::vector<uint8_t>(&fs_sprite_vulkan[0],
-                             &fs_sprite_vulkan[sizeof fs_sprite_vulkan]));
+        "Sprite", bgfx::RendererType::Vulkan, Shaders::eShaderType::Fragment, std::vector<uint8_t>(&fs_sprite_vulkan[0], &fs_sprite_vulkan[sizeof fs_sprite_vulkan]));
 
     pShaderManager->AppendShader(
-        "Sprite", bgfx::RendererType::Direct3D9, Shaders::eShaderType::Vertex,
-        std::vector<uint8_t>(&vs_sprite_d3d9[0],
-                             &vs_sprite_d3d9[sizeof vs_sprite_d3d9]));
+        "Sprite", bgfx::RendererType::Direct3D9, Shaders::eShaderType::Vertex, std::vector<uint8_t>(&vs_sprite_d3d9[0], &vs_sprite_d3d9[sizeof vs_sprite_d3d9]));
     pShaderManager->AppendShader(
-        "Sprite", bgfx::RendererType::Direct3D11, Shaders::eShaderType::Vertex,
-        std::vector<uint8_t>(&vs_sprite_d3d11[0],
-                             &vs_sprite_d3d11[sizeof vs_sprite_d3d11]));
+        "Sprite", bgfx::RendererType::Direct3D11, Shaders::eShaderType::Vertex, std::vector<uint8_t>(&vs_sprite_d3d11[0], &vs_sprite_d3d11[sizeof vs_sprite_d3d11]));
     pShaderManager->AppendShader(
-        "Sprite", bgfx::RendererType::Direct3D12, Shaders::eShaderType::Vertex,
-        std::vector<uint8_t>(&vs_sprite_d3d12[0],
-                             &vs_sprite_d3d12[sizeof vs_sprite_d3d12]));
+        "Sprite", bgfx::RendererType::Direct3D12, Shaders::eShaderType::Vertex, std::vector<uint8_t>(&vs_sprite_d3d12[0], &vs_sprite_d3d12[sizeof vs_sprite_d3d12]));
     pShaderManager->AppendShader(
-        "Sprite", bgfx::RendererType::OpenGL, Shaders::eShaderType::Vertex,
-        std::vector<uint8_t>(&vs_sprite_glsl[0],
-                             &vs_sprite_glsl[sizeof vs_sprite_glsl]));
+        "Sprite", bgfx::RendererType::OpenGL, Shaders::eShaderType::Vertex, std::vector<uint8_t>(&vs_sprite_glsl[0], &vs_sprite_glsl[sizeof vs_sprite_glsl]));
     pShaderManager->AppendShader(
-        "Sprite", bgfx::RendererType::Metal, Shaders::eShaderType::Vertex,
-        std::vector<uint8_t>(&vs_sprite_metal[0],
-                             &vs_sprite_metal[sizeof vs_sprite_metal]));
+        "Sprite", bgfx::RendererType::Metal, Shaders::eShaderType::Vertex, std::vector<uint8_t>(&vs_sprite_metal[0], &vs_sprite_metal[sizeof vs_sprite_metal]));
     pShaderManager->AppendShader(
-        "Sprite", bgfx::RendererType::Vulkan, Shaders::eShaderType::Vertex,
-        std::vector<uint8_t>(&vs_sprite_vulkan[0],
-                             &vs_sprite_vulkan[sizeof vs_sprite_vulkan]));
+        "Sprite", bgfx::RendererType::Vulkan, Shaders::eShaderType::Vertex, std::vector<uint8_t>(&vs_sprite_vulkan[0], &vs_sprite_vulkan[sizeof vs_sprite_vulkan]));
 }
 
-void Graphics::Entity::InitScene(const Memory::Ptr<IceSDK::Scene>& pScene)
-{
+void Graphics::Entity::InitScene(const Memory::Ptr<IceSDK::Scene> &pScene) {
     ICESDK_PROFILE_FUNCTION();
 
     pScene->RegisterSystem<Systems::SpriteRenderingSystem>();

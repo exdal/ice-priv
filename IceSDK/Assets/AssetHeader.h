@@ -1,16 +1,17 @@
 #pragma once
 
+#include <string>
 #include <cstdint>
+#include <vector>
 
-namespace IceSDK::Assets
-{
-    constexpr auto asset_magic_value = 0x53464C45584950;
+namespace IceSDK::Assets {
+    constexpr auto asset_tag = 6000566310344672073;
     constexpr auto asset_version = 0x0001;
     constexpr auto asset_register_size = 256;
-    constexpr auto asset_name_length = 128;
 
-    enum class eAssetType : uint8_t
-    {
+    enum class eFileFlags : uint32_t { NONE, ENCRYPTED = 1 << 0, COMPRESSED = 1 << 1 };
+
+    enum class eAssetType : uint8_t {
         Unknown = 0,
 
         Texture = 1,
@@ -24,18 +25,21 @@ namespace IceSDK::Assets
         Text = 7
     };
 
-    struct AssetRegion
-    {
+#pragma pack(push, 1)
+    struct AssetRegion {
         eAssetType type = eAssetType::Unknown;
-        uint32_t size = 0;
-        char name[asset_name_length]{};
+        std::string name = "";
+        
+        uint32_t data_size = 0;
+        uint8_t *data = nullptr;
     };
 
-    struct AssetHeader
-    {
-        uint64_t magic_value = asset_magic_value;
-        uint16_t version = asset_version;
-
-        AssetRegion asset_register[asset_register_size];
+    struct AssetHeader {
+        uint64_t tag = 0;
+        uint16_t version = 0;
+        eFileFlags flags = eFileFlags::NONE;
+        uint8_t content_count = 0; // max 256 assets are ok
     };
-}  // namespace IceSDK::Assets
+#pragma pack(pop)
+
+} // namespace IceSDK::Assets

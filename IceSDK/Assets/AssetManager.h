@@ -12,30 +12,31 @@
 #include <vector>
 
 #ifdef ICESDK_EMSCRIPTEN
-    #include <emscripten/fetch.h>
+#include <emscripten/fetch.h>
 #endif
 
-namespace IceSDK::Assets
-{
-    class AssetManager
-    {
+namespace IceSDK::Assets {
+    class AssetManager {
     public:
-        void Init();  // Load all asset files into memory
-                      //	TODO:	Don't do that
-                      //	TODO:	make it faster for low end devices!
+        void Init(); // Load all asset files into memory
+                     //	TODO:	Don't do that
+                     //	TODO:	make it faster for low end devices!
 
-        Memory::Ptr<Graphics::Texture2D> LoadTexture(const std::string& pName);
+        Memory::Ptr<Graphics::Texture2D> LoadTexture(const std::string &pName);
 
-        Memory::Ptr<Audio::Sound> LoadAudio(const std::string& pName);
+        uint8_t *GetTextureData(const std::string &pName);
+        uint32_t GetTextureDataSize(const std::string &pName);
 
-        std::string LoadText(const std::string& pName);
+        Memory::Ptr<Audio::Sound> LoadAudio(const std::string &pName);
 
-        std::vector<Memory::Ptr<AssetFile>>& GetAll();
+        std::string LoadText(const std::string &pName);
+
+        std::vector<Memory::Ptr<AssetFile>> &GetAll();
 
     private:
-        Asset Search(const std::string& pName);
+        Asset Search(const std::string &pName);
 
         std::unordered_map<std::string, Asset> _search_cache;
         std::vector<Memory::Ptr<AssetFile>> _assets;
     };
-}  // namespace IceSDK::Assets
+} // namespace IceSDK::Assets

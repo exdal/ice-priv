@@ -9,11 +9,10 @@
 
 using namespace IceSDK;
 
-GameBase::GameBase()
-{
+GameBase::GameBase() {
     ICESDK_PROFILE_BEGIN_SESSION("Startup", "Benchmark-Startup.json");
 
-    Log::Init();  // TODO show more metrics
+    Log::Init(); // TODO show more metrics
     ICESDK_CORE_INFO("Powered by IceSDK V0.0.0");
 
 #if ICESDK_FMOD
@@ -27,14 +26,12 @@ GameBase::GameBase()
 
     Audio::AudioSystem::Init();
 
-    this->_window = std::make_shared<Graphics::GameWindow>(
-        1280, 800, "IceSDK: Game Window");
+    this->_window = std::make_shared<Graphics::GameWindow>(1280, 800, "IceSDK: Game Window");
     this->_audio_system = std::make_shared<Audio::AudioSystem>();
     this->_sprite_batch = std::make_shared<Graphics::SpriteBatch>();
     this->_asset_manager = std::make_shared<Assets::AssetManager>();
     this->_font_manager = std::make_shared<Graphics::FontManager>();
-    this->_shader_manager =
-        std::make_shared<Graphics::Shaders::ShaderManager>();
+    this->_shader_manager = std::make_shared<Graphics::Shaders::ShaderManager>();
     this->_input_pipeline = std::make_shared<Input::InputPipeline>();
 
     this->_asset_manager->Init();
@@ -42,8 +39,7 @@ GameBase::GameBase()
     ICESDK_PROFILE_END_SESSION();
 }
 
-GameBase::~GameBase()
-{
+GameBase::~GameBase() {
     this->_active_scene = nullptr;
     this->_asset_manager = nullptr;
     this->_sprite_batch = nullptr;
@@ -54,8 +50,7 @@ GameBase::~GameBase()
     this->_window = nullptr;
 }
 
-void GameBase::Run()
-{
+void GameBase::Run() {
     ICESDK_PROFILE_BEGIN_SESSION("Runtime", "Benchmark-Runtime.json");
 
     this->Init();
@@ -65,8 +60,7 @@ void GameBase::Run()
     this->_window->SetDrawInitCallback(GameBase::InternalDrawInit);
 
 #ifndef ICESDK_EMSCRIPTEN
-    while (!this->_exit)
-    {
+    while (!this->_exit) {
         ICESDK_PROFILE_SCOPE("GameBase::MainLoop");
 
         this->_window->Update();
@@ -80,7 +74,8 @@ void GameBase::Run()
         const auto delta = static_cast<float>(frameTime) / freq;
 
         GameBase::InternalTick(delta);
-        if (this->_window->ShouldClose()) break;
+        if (this->_window->ShouldClose())
+            break;
     }
 #endif
 
@@ -96,9 +91,8 @@ void GameBase::Run()
 }
 
 #ifdef ICESDK_EMSCRIPTEN
-void GameBase::InternalMainLoop(void* arg)
-{
-    auto self = static_cast<GameBase*>(arg);
+void GameBase::InternalMainLoop(void *arg) {
+    auto self = static_cast<GameBase *>(arg);
 
     ICESDK_PROFILE_SCOPE("GameBase::MainLoop");
 
@@ -121,104 +115,96 @@ void GameBase::InternalMainLoop(void* arg)
 }
 #endif
 
-Memory::Ptr<Audio::AudioSystem> GameBase::GetAudioSystem() const
-{
+Memory::Ptr<Audio::AudioSystem> GameBase::GetAudioSystem() const {
     return this->_audio_system;
 }
 
-Memory::Ptr<Graphics::SpriteBatch> GameBase::GetSpriteBatch() const
-{
+Memory::Ptr<Graphics::SpriteBatch> GameBase::GetSpriteBatch() const {
     return this->_sprite_batch;
 }
 
-Memory::Ptr<Assets::AssetManager> GameBase::GetAssetManager() const
-{
+Memory::Ptr<Assets::AssetManager> GameBase::GetAssetManager() const {
     return this->_asset_manager;
 }
 
-Memory::Ptr<Graphics::GameWindow> GameBase::GetGameWindow() const
-{
+Memory::Ptr<Graphics::GameWindow> GameBase::GetGameWindow() const {
     return this->_window;
 }
 
-Memory::Ptr<Graphics::Shaders::ShaderManager> GameBase::GetShaderManager() const
-{
+Memory::Ptr<Graphics::Shaders::ShaderManager> GameBase::GetShaderManager() const {
     return this->_shader_manager;
 }
 
-Memory::Ptr<Graphics::FontManager> GameBase::GetFontManager() const
-{
+Memory::Ptr<Graphics::FontManager> GameBase::GetFontManager() const {
     return this->_font_manager;
 }
 
-Memory::Ptr<Input::InputPipeline> GameBase::GetInputPipeline() const
-{
+Memory::Ptr<Input::InputPipeline> GameBase::GetInputPipeline() const {
     return this->_input_pipeline;
 }
 
-Memory::WeakPtr<Scene> GameBase::GetActiveScene() const
-{
+Memory::WeakPtr<Scene> GameBase::GetActiveScene() const {
     return this->_active_scene;
 }
 
 // User implemented functions
-void GameBase::Init() { }
+void GameBase::Init() {
+}
 
-void GameBase::Shutdown() { }
+void GameBase::Shutdown() {
+}
 
-void GameBase::Update(float pDelta)
-{
+void GameBase::Update(float pDelta) {
     BX_UNUSED(pDelta)
 }
 
-void GameBase::Draw(float pDelta)
-{
+void GameBase::Draw(float pDelta) {
     BX_UNUSED(pDelta)
 }
 
-void GameBase::InitDraw() { }
+void GameBase::InitDraw() {
+}
 
 // Internal functions
-void GameBase::InternalDraw(const float pDelta)
-{
+void GameBase::InternalDraw(const float pDelta) {
     ICESDK_PROFILE_FUNCTION();
 
     auto game = GetGameBase();
 
     // Begin Scene
-    if (game->_active_scene != nullptr) game->_active_scene->Draw(pDelta);
+    if (game->_active_scene != nullptr)
+        game->_active_scene->Draw(pDelta);
 // End Scene
 
 // Begin ImGui
 #ifdef ICESDK_USE_IMGUI
-    #ifdef ICESDK_GLFW
+#ifdef ICESDK_GLFW
     ImGui_ImplGlfw_NewFrame();
-    #elif defined(ICESDK_SDL2)
+#elif defined(ICESDK_SDL2)
     ImGui_ImplSDL2_NewFrame(game->_window->_window);
-    #else
-        #warning "Undefined Graphics API"
-    #endif
+#else
+#warning "Undefined Graphics API"
+#endif
     ImGui::NewFrame();
     game->Draw(pDelta);
     imguiEndFrame();
 #endif
 }
 
-void GameBase::InternalTick(const float pDelta)
-{
+void GameBase::InternalTick(const float pDelta) {
     ICESDK_PROFILE_FUNCTION();
 
     auto game = GetGameBase();
 
     // Begin Scene
-    if (game->_active_scene != nullptr) game->_active_scene->Tick(pDelta);
+    if (game->_active_scene != nullptr)
+        game->_active_scene->Tick(pDelta);
     // End Scene
 
     game->Update(pDelta);
 }
 
-void GameBase::InternalDrawInit()
-{
+void GameBase::InternalDrawInit() {
     ICESDK_PROFILE_FUNCTION();
 
     auto game = GetGameBase();
@@ -227,29 +213,28 @@ void GameBase::InternalDrawInit()
 
     imguiCreate(16.0f, nullptr);
 
-    auto& io = ImGui::GetIO();
+    auto &io = ImGui::GetIO();
     ImGui::StyleColorsDark();
 
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;  // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
 
-    #ifdef ICESDK_ANDROID
-    io.ConfigFlags |= ImGuiConfigFlags_IsTouchScreen;  // Enable Touch
+#ifdef ICESDK_ANDROID
+    io.ConfigFlags |= ImGuiConfigFlags_IsTouchScreen; // Enable Touch
     io.FontGlobalScale = 3.0f;
-    #endif
+#endif
 
-    #ifdef ICESDK_GLFW
+#ifdef ICESDK_GLFW
     ImGui_ImplGlfw_InitForBGFX(game->_window->_window, true);
-    #elif defined(ICESDK_SDL2)
+#elif defined(ICESDK_SDL2)
     ImGui_ImplSDL2_InitForBGFX(game->_window->_window);
-    #endif
+#endif
 
 // ImGuiWidgets::AssetBrowser::Init(game->GetAssetManager());
 #endif
     game->InitDraw();
 }
 
-void GameBase::InternalShutdown()
-{
+void GameBase::InternalShutdown() {
     ICESDK_PROFILE_FUNCTION();
 
     auto game = GetGameBase();
@@ -259,29 +244,23 @@ void GameBase::InternalShutdown()
     game->Shutdown();
 }
 
-static Memory::Ptr<bx::AllocatorI> g_Allocator =
-    std::make_shared<bx::DefaultAllocator>();
+static Memory::Ptr<bx::AllocatorI> g_Allocator = std::make_shared<bx::DefaultAllocator>();
 
-Memory::Ptr<bx::AllocatorI> GetAllocator()
-{
+Memory::Ptr<bx::AllocatorI> GetAllocator() {
     return g_Allocator;
 }
 
-Memory::Ptr<Graphics::GameWindow> GetWindow()
-{
+Memory::Ptr<Graphics::GameWindow> GetWindow() {
     return GetGameBase()->GetGameWindow();
 }
 
-IceSDK::Memory::Ptr<IceSDK::Audio::AudioSystem> GetAudioSystem()
-{
+IceSDK::Memory::Ptr<IceSDK::Audio::AudioSystem> GetAudioSystem() {
     return GetGameBase()->GetAudioSystem();
 }
 
 #if defined(ICESDK_SDL2) && defined(ICESDK_ANDROID)
 int IceSDKMain();
-extern "C" SDLMAIN_DECLSPEC __attribute__((visibility("default"))) int SDL_main(
-    int argc, char* argv[])
-{
+extern "C" SDLMAIN_DECLSPEC __attribute__((visibility("default"))) int SDL_main(int argc, char *argv[]) {
     return IceSDKMain();
 }
 #endif

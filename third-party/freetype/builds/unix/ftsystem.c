@@ -17,7 +17,7 @@
 
 #include <ft2build.h>
 /* we use our special ftconfig.h file, not the standard one */
-#include "ftconfig.h"
+#include "D:\.icesdk\IceSDK\third-party\freetype\builds\amiga\include\config\ftconfig.h"
 #include FT_INTERNAL_DEBUG_H
 #include FT_SYSTEM_H
 #include FT_ERRORS_H
@@ -30,6 +30,7 @@
 #endif
 
 #include <sys/mman.h>
+#include <fcntl.h>
 #ifndef MAP_FILE
 #define MAP_FILE 0x00
 #endif

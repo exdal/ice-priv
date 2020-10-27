@@ -9,32 +9,26 @@
 
 #include <vector>
 
-#undef getenv  // Harfbuzz sets this but it's incompatible with spdlog
+#undef getenv // Harfbuzz sets this but it's incompatible with spdlog
 
-namespace IceSDK::Graphics
-{
-    struct Glyph
-    {
-        glm::vec2 Size;  // Bottom && Right
+namespace IceSDK::Graphics {
+    struct Glyph {
+        glm::vec2 Size; // Bottom && Right
         float BearingBase;
         float GlyphTop;
 
         std::vector<uint8_t> PixelData;
     };
 
-    class FontFace
-    {
+    class FontFace {
     public:
-        ~FontFace()
-        {
+        ~FontFace() {
             hb_buffer_destroy(this->_buffer);
             hb_font_destroy(this->_font);
         }
 
-        static Memory::Ptr<FontFace> FromMemory(
-            const std::vector<uint8_t>& pData, size_t pFontSize);
-        static Memory::Ptr<FontFace> FromFile(const std::string& pPath,
-                                              size_t pFontSize);
+        static Memory::Ptr<FontFace> FromMemory(const std::vector<uint8_t> &pData, size_t pFontSize);
+        static Memory::Ptr<FontFace> FromFile(const std::string &pPath, size_t pFontSize);
 
         static void Init();
 
@@ -45,18 +39,22 @@ namespace IceSDK::Graphics
         size_t GetSize();
 
         // Load a single character to a font atlas
-        Glyph& GetGlyph(uint32_t pGlyph);
+        Glyph &GetGlyph(uint32_t pGlyph);
 
-        hb_buffer_t* _hb_buffer() { return _buffer; }
+        hb_buffer_t *_hb_buffer() {
+            return _buffer;
+        }
 
-        hb_font_t* _hb_font() { return _font; }
+        hb_font_t *_hb_font() {
+            return _font;
+        }
 
     private:
-        hb_buffer_t* _buffer;
-        hb_font_t* _font;
+        hb_buffer_t *_buffer;
+        hb_font_t *_font;
         FT_Face _face;
         size_t _size;
 
         std::unordered_map<uint32_t, Glyph> _glyphCache;
     };
-}  // namespace IceSDK::Graphics
+} // namespace IceSDK::Graphics

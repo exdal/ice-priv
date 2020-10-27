@@ -8,15 +8,13 @@
 
 #include <vector>
 
-namespace IceSDK::Graphics
-{
-    class Tilesheet
-    {
+namespace IceSDK::Graphics {
+    class Tilesheet {
     public:
         explicit Tilesheet(Memory::Ptr<Texture2D> pTexture, int pSize);
         ~Tilesheet();
 
-        glm::vec4 GetTile(int pID);
+        glm::vec4 GetTile(uint32_t pID);
         Memory::Ptr<Texture2D> GetTexture();
         uint32_t TileSize();
 
@@ -24,4 +22,4 @@ namespace IceSDK::Graphics
         Memory::Ptr<Texture2D> _texture;
         std::vector<glm::vec4> _textureCoordinates;
     };
-}  // namespace IceSDK::Graphics
+} // namespace IceSDK::Graphics

@@ -1,9 +1,7 @@
 #pragma once
 
-namespace IceSDK::Input
-{
-    enum KeyboardMods : uint8_t
-    {
+namespace IceSDK::Input {
+    enum KeyboardMods : uint8_t {
         None = 0,
         SHIFT = 1 << 0,
         CONTROL = 1 << 1,
@@ -12,4 +10,4 @@ namespace IceSDK::Input
         CAPS_LOCK = 1 << 4,
         NUM_LOCK = 1 << 5,
     };
-}  // namespace IceSDK::Input
+} // namespace IceSDK::Input

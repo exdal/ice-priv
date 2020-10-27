@@ -8,20 +8,16 @@
 
 #include <glm/vec2.hpp>
 
-namespace IceSDK::Input::Components
-{
-    struct KeyboardInputComponent
-    {
+namespace IceSDK::Input::Components {
+    struct KeyboardInputComponent {
         KeyboardMods Mods;
         std::unordered_map<KeyboardTable, ButtonState> KeyboardState;
 
-        bool IsPressed(KeyboardTable pBtn)
-        {
+        bool IsPressed(KeyboardTable pBtn) {
             return this->KeyboardState.at(pBtn) == ButtonState::Pressed;
         }
-        bool IsReleased(KeyboardTable pBtn)
-        {
+        bool IsReleased(KeyboardTable pBtn) {
             return this->KeyboardState.at(pBtn) == ButtonState::Released;
         }
     };
-}  // namespace IceSDK::Input::Components
+} // namespace IceSDK::Input::Components

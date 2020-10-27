@@ -6,35 +6,32 @@
 #include <string>
 #include <vector>
 
-namespace IceSDK::Assets
-{
-    struct Asset
-    {
-        Asset() { }
+namespace IceSDK::Assets {
+    struct Asset {
+        Asset() {
+        }
 
-        Asset(eAssetType eType, std::vector<uint8_t> pData) :
-            asset_type(eType), data(pData)
-        {
+        Asset(eAssetType eType, uint8_t *_data, const uint32_t _dataSize) : asset_type(eType), data(_data), dataSize(_dataSize) {
         }
 
         eAssetType asset_type = eAssetType::Unknown;
-        std::vector<uint8_t> data{};
+        uint8_t *data = nullptr;
+        uint32_t dataSize = 0;
 
-        template<typename IAsset>
-        IAsset Into(const std::string& pName)
-        {
-            return IAsset::From(pName, this->data);
+        template <typename IAsset>
+        IAsset Into(const std::string &name) {
+            return IAsset::From(name, data, dataSize);
         }
 
-        template<typename IAsset>
-        static Asset From(IAsset pTo)
-        {
+        template <typename IAsset>
+        static Asset From(IAsset pTo) {
             Asset asset;
 
             asset.asset_type = IAsset::GetAssetType();
-            asset.data = pTo.ToByteArray();
+            asset.data = pTo.Data();
+            asset.dataSize = pTo.DataSize();
 
             return asset;
         }
     };
-}  // namespace IceSDK::Assets
+} // namespace IceSDK::Assets

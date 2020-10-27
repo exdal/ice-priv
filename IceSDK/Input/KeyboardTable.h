@@ -1,9 +1,7 @@
 #pragma once
 
-namespace IceSDK::Input
-{
-    enum class KeyboardTable
-    {
+namespace IceSDK::Input {
+    enum class KeyboardTable {
         Key_UNKNOWN = 0,
 
         Key_SPACE = 32,

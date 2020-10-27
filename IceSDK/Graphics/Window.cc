@@ -10,11 +10,9 @@
 using namespace IceSDK::Graphics;
 
 #ifdef ICESDK_GLFW
-void GameWindow::ResizeGameWindow(GLFWwindow* pWindow, const int pWidth,
-                                  const int pHeight)
-{
+void GameWindow::ResizeGameWindow(GLFWwindow *pWindow, const int pWidth, const int pHeight) {
     ICESDK_PROFILE_FUNCTION();
-    auto* self = static_cast<GameWindow*>(glfwGetWindowUserPointer(pWindow));
+    auto *self = static_cast<GameWindow *>(glfwGetWindowUserPointer(pWindow));
 
     self->_width = static_cast<uint32_t>(pWidth);
     self->_height = static_cast<uint32_t>(pHeight);
@@ -26,22 +24,20 @@ void GameWindow::ResizeGameWindow(GLFWwindow* pWindow, const int pWidth,
 }
 #endif
 
-GameWindow::GameWindow(int32_t pWidth, int32_t pHeight,
-                       const std::string& pTitle, const eGameWindowFlags pFlags)
-{
+GameWindow::GameWindow(int32_t pWidth, int32_t pHeight, const std::string &pTitle, const eGameWindowFlags pFlags) {
     ICESDK_PROFILE_FUNCTION();
 
 #ifdef ICESDK_GLFW
-    if (!glfwInit()) ICESDK_CORE_CRITICAL("Failed to initialize GLFW!");
+    if (!glfwInit())
+        ICESDK_CORE_CRITICAL("Failed to initialize GLFW!");
 
-    GLFWmonitor* monitor = nullptr;
+    GLFWmonitor *monitor = nullptr;
     if (pFlags & eGameWindowFlags::Fullscreen)
         monitor = glfwGetPrimaryMonitor();
 
     // glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    this->_window =
-        glfwCreateWindow(pWidth, pHeight, pTitle.c_str(), monitor, nullptr);
+    this->_window = glfwCreateWindow(pWidth, pHeight, pTitle.c_str(), monitor, nullptr);
     if (this->_window == nullptr)
         ICESDK_CORE_CRITICAL("Failed to create window!");
 
@@ -51,15 +47,12 @@ GameWindow::GameWindow(int32_t pWidth, int32_t pHeight,
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0)
         ICESDK_CORE_CRITICAL("Failed to initialize SDL2!");
 
-    #ifdef ICESDK_ANDROID
+#ifdef ICESDK_ANDROID
     SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
-    this->_window = SDL_CreateWindow(pTitle.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                                     SDL_WINDOWPOS_UNDEFINED, 0, 0, 0);
-    #else
-    this->_window =
-        SDL_CreateWindow(pTitle.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                         SDL_WINDOWPOS_UNDEFINED, pWidth, pHeight, 0);
-    #endif
+    this->_window = SDL_CreateWindow(pTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 0, 0, 0);
+#else
+    this->_window = SDL_CreateWindow(pTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, pWidth, pHeight, 0);
+#endif
 
     if (this->_window == nullptr)
         ICESDK_CORE_CRITICAL("Failed to create window!");
@@ -69,35 +62,34 @@ GameWindow::GameWindow(int32_t pWidth, int32_t pHeight,
 
     bgfx::PlatformData platformData;
 #ifdef ICESDK_GLFW
-    #ifdef ICESDK_WIN32
+#ifdef ICESDK_WIN32
     platformData.nwh = glfwGetWin32Window(this->_window);
-    #elif defined(ICESDK_LINUX)
-    platformData.nwh = (void*) glfwGetX11Window(this->_window);
-    #else
-        #error "Platform not implemented!"
-    #endif
+#elif defined(ICESDK_LINUX)
+    platformData.nwh = (void *)glfwGetX11Window(this->_window);
+#else
+#error "Platform not implemented!"
+#endif
 #elif defined(ICESDK_SDL2)
     SDL_SysWMinfo wmInfo;
     SDL_VERSION(&wmInfo.version)
     SDL_GetWindowWMInfo(this->_window, &wmInfo);
 
-    #ifdef ICESDK_WIN32
+#ifdef ICESDK_WIN32
     platformData.nwh = wmInfo.info.win.window;
-    #elif defined(ICESDK_LINUX)
+#elif defined(ICESDK_LINUX)
     platformData.ndt = wmInfo.info.x11.display;
-    platformData.nwh = (void*) (uintptr_t) wmInfo.info.x11.window;
-    #elif defined(ICESDK_EMSCRIPTEN)
-    platformData.nwh = (void*) "#canvas";
-    #elif defined(ICESDK_ANDROID)
+    platformData.nwh = (void *)(uintptr_t)wmInfo.info.x11.window;
+#elif defined(ICESDK_EMSCRIPTEN)
+    platformData.nwh = (void *)"#canvas";
+#elif defined(ICESDK_ANDROID)
     platformData.ndt = 0;
-    platformData.nwh = (void*) wmInfo.info.android.window;
+    platformData.nwh = (void *)wmInfo.info.android.window;
 
     // Delete existing surface
-    eglDestroySurface(eglGetDisplay(EGL_DEFAULT_DISPLAY),
-                      wmInfo.info.android.surface);
-    #else
-        #error "Platform not implemented!"
-    #endif
+    eglDestroySurface(eglGetDisplay(EGL_DEFAULT_DISPLAY), wmInfo.info.android.surface);
+#else
+#error "Platform not implemented!"
+#endif
 
 #endif
 
@@ -105,9 +97,8 @@ GameWindow::GameWindow(int32_t pWidth, int32_t pHeight,
     this->_height = static_cast<uint32_t>(pHeight);
 
     bgfx::Init bgfxInit;
-    bgfxInit.debug = true;
-    bgfxInit.type =
-        bgfx::RendererType::Count;  // Automatically choose a renderer.
+    bgfxInit.debug = false;
+    bgfxInit.type = bgfx::RendererType::Count;
     bgfxInit.platformData = platformData;
     bgfxInit.resolution.width = pWidth;
     bgfxInit.resolution.height = pHeight;
@@ -117,8 +108,7 @@ GameWindow::GameWindow(int32_t pWidth, int32_t pHeight,
 
     ICESDK_CORE_INFO("BGFX Initialized...");
 
-    bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000FF, 1.0f,
-                       0);
+    bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000FF, 1.0f, 0);
 
     bgfx::setViewRect(0, 0, 0, bgfx::BackbufferRatio::Equal);
 
@@ -135,8 +125,7 @@ GameWindow::GameWindow(int32_t pWidth, int32_t pHeight,
 #endif
 }
 
-GameWindow::~GameWindow()
-{
+GameWindow::~GameWindow() {
     ICESDK_PROFILE_FUNCTION();
     bgfx::shutdown();
 
@@ -146,8 +135,7 @@ GameWindow::~GameWindow()
 #endif
 }
 
-void GameWindow::Update()
-{
+void GameWindow::Update() {
     ICESDK_PROFILE_FUNCTION();
 
 #ifdef ICESDK_GLFW
@@ -156,13 +144,11 @@ void GameWindow::Update()
 
 #ifdef ICESDK_SDL2
     SDL_Event e;
-    while (SDL_PollEvent(&e) != 0)
-    {  // TODO: handle events
-        if (e.type == SDL_QUIT) { _should_exit = true; }
-        else if (e.type == SDL_WINDOWEVENT)
-        {
-            if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-            {
+    while (SDL_PollEvent(&e) != 0) { // TODO: handle events
+        if (e.type == SDL_QUIT) {
+            _should_exit = true;
+        } else if (e.type == SDL_WINDOWEVENT) {
+            if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
                 ICESDK_CORE_INFO("Window size changed...");
 
                 SDL_DisplayMode displayMode;
@@ -194,32 +180,29 @@ void GameWindow::Update()
     bgfx::dbgTextClear();
 
     GetGameBase()->GetSpriteBatch()->NewFrame();
-    if (this->_draw_init_callback != nullptr && !this->_initialized)
-    {
+    if (this->_draw_init_callback != nullptr && !this->_initialized) {
         this->_draw_init_callback();
         this->_initialized = true;
     }
-    if (this->_draw_callback != nullptr) this->_draw_callback(delta);
+    if (this->_draw_callback != nullptr)
+        this->_draw_callback(delta);
     // Advance to next frame. Main thread will be kicked to process submitted
     // rendering primitives.
     GetGameBase()->GetSpriteBatch()->EndFrame();
     bgfx::frame();
 }
 
-void GameWindow::SetDrawCallback(const DrawCallback_t pCallback)
-{
+void GameWindow::SetDrawCallback(const DrawCallback_t pCallback) {
     ICESDK_PROFILE_FUNCTION();
     this->_draw_callback = pCallback;
 }
 
-void GameWindow::SetDrawInitCallback(const DrawInitCallback_t pCallback)
-{
+void GameWindow::SetDrawInitCallback(const DrawInitCallback_t pCallback) {
     ICESDK_PROFILE_FUNCTION();
     this->_draw_init_callback = pCallback;
 }
 
-bool GameWindow::ShouldClose() const
-{
+bool GameWindow::ShouldClose() const {
     ICESDK_PROFILE_FUNCTION();
 
 #ifdef ICESDK_GLFW
@@ -227,19 +210,17 @@ bool GameWindow::ShouldClose() const
 #elif defined(ICESDK_SDL2)
     return _should_exit;
 #else
-    #warning "Unknown Window Library"
+#warning "Unknown Window Library"
     return false;
 #endif
 }
 
-uint32_t GameWindow::Width() const
-{
+uint32_t GameWindow::Width() const {
     ICESDK_PROFILE_FUNCTION();
     return this->_width;
 }
 
-uint32_t GameWindow::Height() const
-{
+uint32_t GameWindow::Height() const {
     ICESDK_PROFILE_FUNCTION();
     return this->_height;
 }
