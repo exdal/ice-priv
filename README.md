@@ -1,4 +1,4 @@
-<img src="./.assets/logo-primary.svg" width="512px"/>
+<img src="./.assets/logo-primary.svg" width="128px"/>
 
 # IceSDK
 
