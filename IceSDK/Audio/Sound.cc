@@ -30,7 +30,7 @@ void Sound::Play() {
 
     const auto result = g_FMODSystem->playSound(this->_sound, nullptr, false, &this->_sound_channel);
     if (result != FMOD_OK)
-        ICESDK_CORE_ERROR("FMOD: {}", FMOD_ErrorString(result));
+        ICESDK_ERROR("FMOD: %s", FMOD_ErrorString(result));
 #endif
 }
 

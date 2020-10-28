@@ -11,16 +11,16 @@ GameBase::GameBase() {
     ICESDK_PROFILE_BEGIN_SESSION("Startup", "Benchmark-Startup.json");
 
     Log::Init(); // TODO show more metrics
-    ICESDK_CORE_INFO("Powered by IceSDK V0.0.0");
+    ICESDK_INFO("Powered by IceSDK V0.0.0");
 
 #if ICESDK_FMOD
-    ICESDK_CORE_INFO("AudioSystem: FMOD");
+    ICESDK_INFO("AudioSystem: FMOD");
 #else
-    ICESDK_CORE_INFO("AudioSystem: NONE");
+    ICESDK_INFO("AudioSystem: NONE");
 
 #endif
 
-    ICESDK_CORE_INFO("GAL        : BGFX");
+    ICESDK_INFO("GAL        : BGFX");
 
     Audio::AudioSystem::Init();
 

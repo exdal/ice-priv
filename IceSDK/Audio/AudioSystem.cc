@@ -26,13 +26,13 @@ void AudioSystem::Init() {
 
 #if defined(ICESDK_FMOD)
     if (FMOD::Debug_Initialize(FMOD_DEBUG_LEVEL_LOG))
-        ICESDK_CORE_ERROR("Failed to initialize FMOD::Debug");
+        ICESDK_ERROR("Failed to initialize FMOD::Debug");
 
     if (FMOD::System_Create(&g_FMODSystem) != FMOD_OK)
-        ICESDK_CORE_CRITICAL("Failed to create FMOD::System!");
+        ICESDK_CRITICAL("Failed to create FMOD::System!");
 
     if (g_FMODSystem->init(2048, FMOD_INIT_NORMAL, nullptr) != FMOD_OK)
-        ICESDK_CORE_CRITICAL("Failed to initialize FMOD::System!");
+        ICESDK_CRITICAL("Failed to initialize FMOD::System!");
 #endif
 }
 
@@ -53,7 +53,7 @@ IceSDK::Memory::Ptr<Sound> AudioSystem::Load(uint8_t *_data, uint32_t _dataSize)
 
     const auto result = g_FMODSystem->createSound((const char *)_data, FMOD_OPENMEMORY, &sound_info, &sound->_sound);
     if (result != FMOD_OK) {
-        ICESDK_CORE_ERROR("FMOD: {}", FMOD_ErrorString(result));
+        ICESDK_ERROR("FMOD: %s", FMOD_ErrorString(result));
         return nullptr;
     }
 

@@ -7,22 +7,14 @@ namespace IceSDK {
     public:
         static void Init();
 
-       
     private:
     };
 
 } // namespace IceSDK
 
-// Core log macros
-#define ICESDK_CORE_TRACE(...) 
-#define ICESDK_CORE_INFO(...) 
-#define ICESDK_CORE_WARN(...) 
-#define ICESDK_CORE_ERROR(...) 
-#define ICESDK_CORE_CRITICAL(...) 
-
 // Client log macros
-#define ICESDK_TRACE(...) 
-#define ICESDK_INFO(...) 
-#define ICESDK_WARN(...) 
-#define ICESDK_ERROR(...) 
-#define ICESDK_CRITICAL(...) 
+#define ICESDK_VERBOSE(str, ...) printf("[VERBOSE]: " str "\n", __VA_ARGS__)
+#define ICESDK_INFO(str, ...) printf("[INFO]: " str "\n", __VA_ARGS__)
+#define ICESDK_WARN(str, ...) printf("[WARNING]: " str "\n", __VA_ARGS__)
+#define ICESDK_ERROR(str, ...) printf("[ERROR]: " str "\n", __VA_ARGS__)
+#define ICESDK_CRITICAL(str, ...) printf("[CRITICAL]: " str "\n", __VA_ARGS__)
