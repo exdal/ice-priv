@@ -38,9 +38,9 @@ please checkout .ide and or .github/workflows
 Current supported platforms:
 iOS/MacOS aren't currently supported since i lack those devices.
 
-| ![Windows](./.assets/windows_64x64.png) | ![Linux](./.assets/linux_64x64.png) | ![osX](./.assets/osx_64x64.png) | ![android](./.assets/android_64x64.png) | ![ios](./.assets/ios_64x64.png) | ![web](./.assets/wasm_64x64.png) |
-| --------------------------------------- | ----------------------------------- | ------------------------------- | --------------------------------------- | ------------------------------- | -------------------------------- |
-| :heavy_check_mark:                      | :heavy_check_mark:                  | :x:                             | :heavy_check_mark:                      | :x:                             | :heavy_check_mark:               |
+| ![Windows](./.assets/windows_64x64.png) | ![Linux](./.assets/linux_64x64.png) | ![osX](./.assets/osx_64x64.png) | ![android](./.assets/android_64x64.png) | ![ios](./.assets/ios_64x64.png) |
+| --------------------------------------- | ----------------------------------- | ------------------------------- | --------------------------------------- | ------------------------------- |
+| :heavy_check_mark:                      | :heavy_check_mark:                  | :x:                             | :heavy_check_mark:                      | :x:                             |
 
 ## Compile Status
 
@@ -49,7 +49,6 @@ iOS/MacOS aren't currently supported since i lack those devices.
 | PC         | ![GitHub Workflow Status](https://github.com/IceSDK/IceSDK/workflows/PC%20Windows/badge.svg)       | ![GitHub Workflow Status](https://github.com/IceSDK/IceSDK/workflows/PC%20Linux/badge.svg)         | :x:   |
 | Android    | ![GitHub Workflow Status](https://github.com/IceSDK/IceSDK/workflows/Win32%20Android/badge.svg)    | ![GitHub Workflow Status](https://github.com/IceSDK/IceSDK/workflows/Linux%20Android/badge.svg)    | :x:   |
 | iOS        | :x:                                                                                                 | :x:                                                                                                 | :x:   |
-| Emscripten | ![GitHub Workflow Status](https://github.com/IceSDK/IceSDK/workflows/Win32%20Emscripten/badge.svg) | ![GitHub Workflow Status](https://github.com/IceSDK/IceSDK/workflows/Linux%20Emscripten/badge.svg) | :x:   |
 
 ## License
 
