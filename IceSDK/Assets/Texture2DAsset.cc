@@ -7,8 +7,8 @@ using namespace IceSDK::Assets;
 Texture2DAsset::Texture2DAsset(std::string_view _name, uint8_t *_data, const uint32_t _dataSize) : m_name(_name), m_data(_data), m_dataSize(_dataSize) {
 }
 
-Memory::Ptr<Graphics::Texture2D> Texture2DAsset::LoadTexture() const {
-    return /*Graphics::Texture2D::Load(m_name, m_data)*/ nullptr;
+Memory::Ptr<Graphics::Texture2D> Texture2DAsset::LoadTexture(bool antiAliasing) const {
+    return Graphics::Texture2D::Load(m_name, antiAliasing, m_data, m_dataSize);
 }
 
 uint8_t *Texture2DAsset::Data() const {

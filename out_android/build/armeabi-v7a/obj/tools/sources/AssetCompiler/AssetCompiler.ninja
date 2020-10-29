@@ -1,0 +1,17 @@
+defines = -DICESDK_ANDROID -D__ANDROID__ -DICESDK_FMOD -DHAVE_PTHREAD -D_DEBUG
+include_dirs = -I../../../IceSDK -I../../../third-party/bgfx/include -I../../../third-party/bimg/include -I../../../third-party/bx/include -I../../../third-party/glfw/include -I../../../third-party/fmod/inc -I../../../third-party/bgfx/include -I../../../third-party/bimg/include -I../../../third-party/bx/include -I../../../third-party/glfw/include -I../../../third-party/entt/single_include -I../../../third-party/glm -I../../../third-party/imgui -I../../../third-party/sdl2/include -I../../../third-party/freetype/include
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions
+label_name = AssetCompiler
+target_out_dir = obj/tools/sources/AssetCompiler
+target_output_name = libAssetCompiler
+
+build obj/tools/sources/AssetCompiler/AssetCompiler/main.o: cxx ../../../tools/sources/AssetCompiler/main.cc || phony/third-party/sdl2/hidapi_copy phony/third-party/sdl2/sdl2_copy
+
+build ./libAssetCompiler.so ./libAssetCompiler.so.TOC: solink obj/tools/sources/AssetCompiler/AssetCompiler/main.o obj/IceSDK/libIceSDK.a obj/third-party/bgfx/libbgfx.a obj/third-party/bx/libbx.a obj/third-party/bimg/libbimg.a obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libcodec.a obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libastc_utils.a obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libfootprint.a obj/third-party/bimg/3rdparty/libsquish/libsquish.a obj/third-party/bimg/3rdparty/etc1/libetc1.a obj/third-party/bimg/3rdparty/etc2/libetc2.a obj/third-party/bimg/3rdparty/pvrtc/libpvrtc.a obj/third-party/bimg/3rdparty/astc/libastc.a obj/third-party/bimg/3rdparty/nvtt/libnvtt.a obj/third-party/bimg/3rdparty/edtaa3/libedtaa3.a obj/third-party/bimg/3rdparty/iqa/libiqa.a obj/third-party/freetype/libfreetype.a obj/third-party/sdl2/libsdl2.a obj/third-party/imgui/sdl2/libimgui.a | ../../../third-party/sdl2/lib/android/armv7a/libSDL2.so ../../../third-party/sdl2/lib/android/armv7a/libhidapi.so
+  ldflags = -fPIC -Wl,-z,noexecstack -Wl,-z,now -Wl,-z,relro -Wl,-z,defs -Wl,--as-needed -fuse-ld=lld -Wl,--icf=all
+  libs = -lstdc++ -lpthread -ldl -lm -lAndroid -llog -lGLESv2 -lEGL ../../../third-party/sdl2/lib/android/armv7a/libSDL2.so ../../../third-party/sdl2/lib/android/armv7a/libhidapi.so
+  frameworks =
+  swiftmodules =
+  output_extension = .so
+  output_dir = .

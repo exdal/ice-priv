@@ -37,6 +37,7 @@ namespace IceSDK {
 
             uint32_t Width() const;
             uint32_t Height() const;
+            uint32_t GetTicks() const;
 
 #if defined(ICESDK_GLFW)
             GLFWwindow *GetNativeWindow() {

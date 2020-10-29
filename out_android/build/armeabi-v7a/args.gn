@@ -1,0 +1,11 @@
+
+is_clang = true
+use_lld = true
+
+android_ndk_target = "21"
+android_ndk_path = "D:\ASDK\ndk\20.0.5594570"
+
+clang_base_path = "$android_ndk_path/toolchains/llvm/prebuilt/windows-x86_64"
+
+target_os = "android"
+target_cpu = "armv7a"

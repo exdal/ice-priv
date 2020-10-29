@@ -32,12 +32,12 @@ void AssetManager::Init() {
     }
 }
 
-Memory::Ptr<Graphics::Texture2D> AssetManager::LoadTexture(const std::string &pName) {
+Memory::Ptr<Graphics::Texture2D> AssetManager::LoadTexture(const std::string &pName, bool antiAliasing) {
     auto asset = this->Search(pName);
     if (!asset.data) // Null objects aren't acceptable.
         return nullptr;
 
-    return asset.Into<Texture2DAsset>(pName).LoadTexture();
+    return asset.Into<Texture2DAsset>(pName).LoadTexture(antiAliasing);
 }
 
 uint8_t *AssetManager::GetTextureData(const std::string &pName) {

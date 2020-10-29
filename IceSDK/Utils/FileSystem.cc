@@ -129,7 +129,7 @@ std::string FileSystem::ResolveFullPath(std::string_view pPath) {
 uint8_t *FileSystem::ReadBinaryFile(std::string_view path, uint32_t *size) {
     FILE *fp = fopen(path.data(), "rb");
     if (!fp) {
-        ICESDK_ERROR("Failed to open %s", path.data());
+        ICESDK_ERROR_V("Failed to open %s", path.data());
         return nullptr;
     }
 
@@ -138,11 +138,12 @@ uint8_t *FileSystem::ReadBinaryFile(std::string_view path, uint32_t *size) {
     fseek(fp, 0, SEEK_SET);
 
     if (fileSize <= 0)
-        return {};
+        return nullptr;
 
     uint8_t *data = (uint8_t *)malloc(fileSize);
 
     if (!data) {
+        ICESDK_CRITICAL_V("OUT OF MEMORY WHILE READING %s", path.data());
         // print out of mem error
         return nullptr;
     }
@@ -156,7 +157,7 @@ void FileSystem::WriteBinaryFile(std::string_view path, uint8_t *data, uint32_t 
 #if defined(ICESDK_LINUX) || defined(ICESDK_ANDROID)
     auto fp = open(path.data(), O_WRONLY | O_CREAT, umask(0755));
     if (fp < 0)
-        ICESDK_ERROR("Failed to open %s", path.data());
+        ICESDK_ERROR_V("Failed to open %s", path.data());
 
     write(fp, data, size);
 
@@ -164,7 +165,7 @@ void FileSystem::WriteBinaryFile(std::string_view path, uint8_t *data, uint32_t 
 #else
     FILE *fp = fopen(path.data(), "wb");
     if (!fp)
-        ICESDK_ERROR("Failed to open %s", path.data());
+        ICESDK_ERROR_V("Failed to open %s", path.data());
 
     if (data)
         fwrite(data, size, 1, fp); // maybe we want to touch the file
@@ -183,7 +184,7 @@ void FileSystem::MkDir(std::string_view pPath) {
     CreateDirectory(pPath.data(), NULL);
 #elif defined(ICESDK_LINUX) || defined(ICESDK_ANDROID)
     if (mkdir(pPath.data(), umask(0755)))
-        ICESDK_ERROR("Failed to create Directory! %s", pPath.data());
+        ICESDK_ERROR_V("Failed to create Directory! %s", pPath.data());
 
     chmod(pPath.data(), umask(0755)); // set the correct permissions cause
                                       // it's wrong for some reason

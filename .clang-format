@@ -200,7 +200,6 @@ ConstructorInitializerAllOnOneLineOrOnePerLine: 'false'
 ConstructorInitializerIndentWidth: '100'
 Cpp11BracedListStyle: 'false'
 DerivePointerAlignment: 'false'
-IncludeBlocks: Merge
 IndentCaseLabels: 'true'
 IndentPPDirectives: None
 IndentWidth: '4'

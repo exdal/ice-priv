@@ -108,7 +108,7 @@ Memory::Ptr<AssetFile> AssetFile::Load(uint8_t *mem, const uint32_t &size) {
         mem += content.data_size;
         file->content.push_back(content);
 
-        ICESDK_INFO("AssetManager: Loaded %s(type: %d, size: %d)", content.name.c_str(), content.type, content.data_size);
+        ICESDK_INFO_V("AssetManager: Loaded %s(type: %d, size: %d)", content.name.c_str(), content.type, content.data_size);
     }
 
     mem = mem_ptr;

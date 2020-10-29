@@ -18,7 +18,7 @@ namespace IceSDK::Assets {
                      //	TODO:	Don't do that
                      //	TODO:	make it faster for low end devices!
 
-        Memory::Ptr<Graphics::Texture2D> LoadTexture(const std::string &pName);
+        Memory::Ptr<Graphics::Texture2D> LoadTexture(const std::string &pName, bool antiAliasing);
 
         uint8_t *GetTextureData(const std::string &pName);
         uint32_t GetTextureDataSize(const std::string &pName);

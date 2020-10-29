@@ -1,0 +1,18 @@
+defines = -D_DEBUG
+include_dirs =
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions
+label_name = pvrtc
+target_out_dir = obj/third-party/bimg/3rdparty/pvrtc
+target_output_name = libpvrtc
+
+build obj/third-party/bimg/3rdparty/pvrtc/pvrtc/BitScale.o: cxx ../../../third-party/bimg/3rdparty/pvrtc/BitScale.cpp
+build obj/third-party/bimg/3rdparty/pvrtc/pvrtc/MortonTable.o: cxx ../../../third-party/bimg/3rdparty/pvrtc/MortonTable.cpp
+build obj/third-party/bimg/3rdparty/pvrtc/pvrtc/PvrTcDecoder.o: cxx ../../../third-party/bimg/3rdparty/pvrtc/PvrTcDecoder.cpp
+build obj/third-party/bimg/3rdparty/pvrtc/pvrtc/PvrTcEncoder.o: cxx ../../../third-party/bimg/3rdparty/pvrtc/PvrTcEncoder.cpp
+build obj/third-party/bimg/3rdparty/pvrtc/pvrtc/PvrTcPacket.o: cxx ../../../third-party/bimg/3rdparty/pvrtc/PvrTcPacket.cpp
+
+build obj/third-party/bimg/3rdparty/pvrtc/libpvrtc.a: alink obj/third-party/bimg/3rdparty/pvrtc/pvrtc/BitScale.o obj/third-party/bimg/3rdparty/pvrtc/pvrtc/MortonTable.o obj/third-party/bimg/3rdparty/pvrtc/pvrtc/PvrTcDecoder.o obj/third-party/bimg/3rdparty/pvrtc/pvrtc/PvrTcEncoder.o obj/third-party/bimg/3rdparty/pvrtc/pvrtc/PvrTcPacket.o
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/bimg/3rdparty/pvrtc

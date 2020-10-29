@@ -1,0 +1,53 @@
+defines = -DFT2_BUILD_LIBRARY -D_DEBUG
+include_dirs = -I../../../third-party/freetype/include
+cflags = -Wno-everything -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_c =
+label_name = freetype
+target_out_dir = obj/third-party/freetype
+target_output_name = libfreetype
+
+build obj/third-party/freetype/freetype/autofit.o: cc ../../../third-party/freetype/src/autofit/autofit.c
+build obj/third-party/freetype/freetype/ftbase.o: cc ../../../third-party/freetype/src/base/ftbase.c
+build obj/third-party/freetype/freetype/ftbbox.o: cc ../../../third-party/freetype/src/base/ftbbox.c
+build obj/third-party/freetype/freetype/ftbdf.o: cc ../../../third-party/freetype/src/base/ftbdf.c
+build obj/third-party/freetype/freetype/ftbitmap.o: cc ../../../third-party/freetype/src/base/ftbitmap.c
+build obj/third-party/freetype/freetype/ftcid.o: cc ../../../third-party/freetype/src/base/ftcid.c
+build obj/third-party/freetype/freetype/ftfstype.o: cc ../../../third-party/freetype/src/base/ftfstype.c
+build obj/third-party/freetype/freetype/ftgasp.o: cc ../../../third-party/freetype/src/base/ftgasp.c
+build obj/third-party/freetype/freetype/ftglyph.o: cc ../../../third-party/freetype/src/base/ftglyph.c
+build obj/third-party/freetype/freetype/ftgxval.o: cc ../../../third-party/freetype/src/base/ftgxval.c
+build obj/third-party/freetype/freetype/ftinit.o: cc ../../../third-party/freetype/src/base/ftinit.c
+build obj/third-party/freetype/freetype/ftmm.o: cc ../../../third-party/freetype/src/base/ftmm.c
+build obj/third-party/freetype/freetype/ftotval.o: cc ../../../third-party/freetype/src/base/ftotval.c
+build obj/third-party/freetype/freetype/ftpatent.o: cc ../../../third-party/freetype/src/base/ftpatent.c
+build obj/third-party/freetype/freetype/ftpfr.o: cc ../../../third-party/freetype/src/base/ftpfr.c
+build obj/third-party/freetype/freetype/ftstroke.o: cc ../../../third-party/freetype/src/base/ftstroke.c
+build obj/third-party/freetype/freetype/ftsynth.o: cc ../../../third-party/freetype/src/base/ftsynth.c
+build obj/third-party/freetype/freetype/fttype1.o: cc ../../../third-party/freetype/src/base/fttype1.c
+build obj/third-party/freetype/freetype/ftwinfnt.o: cc ../../../third-party/freetype/src/base/ftwinfnt.c
+build obj/third-party/freetype/freetype/bdf.o: cc ../../../third-party/freetype/src/bdf/bdf.c
+build obj/third-party/freetype/freetype/ftbzip2.o: cc ../../../third-party/freetype/src/bzip2/ftbzip2.c
+build obj/third-party/freetype/freetype/ftcache.o: cc ../../../third-party/freetype/src/cache/ftcache.c
+build obj/third-party/freetype/freetype/cff.o: cc ../../../third-party/freetype/src/cff/cff.c
+build obj/third-party/freetype/freetype/type1cid.o: cc ../../../third-party/freetype/src/cid/type1cid.c
+build obj/third-party/freetype/freetype/ftgzip.o: cc ../../../third-party/freetype/src/gzip/ftgzip.c
+build obj/third-party/freetype/freetype/ftlzw.o: cc ../../../third-party/freetype/src/lzw/ftlzw.c
+build obj/third-party/freetype/freetype/pcf.o: cc ../../../third-party/freetype/src/pcf/pcf.c
+build obj/third-party/freetype/freetype/pfr.o: cc ../../../third-party/freetype/src/pfr/pfr.c
+build obj/third-party/freetype/freetype/psaux.o: cc ../../../third-party/freetype/src/psaux/psaux.c
+build obj/third-party/freetype/freetype/pshinter.o: cc ../../../third-party/freetype/src/pshinter/pshinter.c
+build obj/third-party/freetype/freetype/psnames.o: cc ../../../third-party/freetype/src/psnames/psnames.c
+build obj/third-party/freetype/freetype/raster.o: cc ../../../third-party/freetype/src/raster/raster.c
+build obj/third-party/freetype/freetype/sfnt.o: cc ../../../third-party/freetype/src/sfnt/sfnt.c
+build obj/third-party/freetype/freetype/smooth.o: cc ../../../third-party/freetype/src/smooth/smooth.c
+build obj/third-party/freetype/freetype/truetype.o: cc ../../../third-party/freetype/src/truetype/truetype.c
+build obj/third-party/freetype/freetype/type1.o: cc ../../../third-party/freetype/src/type1/type1.c
+build obj/third-party/freetype/freetype/type42.o: cc ../../../third-party/freetype/src/type42/type42.c
+build obj/third-party/freetype/freetype/winfnt.o: cc ../../../third-party/freetype/src/winfonts/winfnt.c
+build obj/third-party/freetype/freetype/ftsystem.o: cc ../../../third-party/freetype/builds/unix/ftsystem.c
+build obj/third-party/freetype/freetype/ftdebug.o: cc ../../../third-party/freetype/src/base/ftdebug.c
+
+build obj/third-party/freetype/libfreetype.a: alink obj/third-party/freetype/freetype/autofit.o obj/third-party/freetype/freetype/ftbase.o obj/third-party/freetype/freetype/ftbbox.o obj/third-party/freetype/freetype/ftbdf.o obj/third-party/freetype/freetype/ftbitmap.o obj/third-party/freetype/freetype/ftcid.o obj/third-party/freetype/freetype/ftfstype.o obj/third-party/freetype/freetype/ftgasp.o obj/third-party/freetype/freetype/ftglyph.o obj/third-party/freetype/freetype/ftgxval.o obj/third-party/freetype/freetype/ftinit.o obj/third-party/freetype/freetype/ftmm.o obj/third-party/freetype/freetype/ftotval.o obj/third-party/freetype/freetype/ftpatent.o obj/third-party/freetype/freetype/ftpfr.o obj/third-party/freetype/freetype/ftstroke.o obj/third-party/freetype/freetype/ftsynth.o obj/third-party/freetype/freetype/fttype1.o obj/third-party/freetype/freetype/ftwinfnt.o obj/third-party/freetype/freetype/bdf.o obj/third-party/freetype/freetype/ftbzip2.o obj/third-party/freetype/freetype/ftcache.o obj/third-party/freetype/freetype/cff.o obj/third-party/freetype/freetype/type1cid.o obj/third-party/freetype/freetype/ftgzip.o obj/third-party/freetype/freetype/ftlzw.o obj/third-party/freetype/freetype/pcf.o obj/third-party/freetype/freetype/pfr.o obj/third-party/freetype/freetype/psaux.o obj/third-party/freetype/freetype/pshinter.o obj/third-party/freetype/freetype/psnames.o obj/third-party/freetype/freetype/raster.o obj/third-party/freetype/freetype/sfnt.o obj/third-party/freetype/freetype/smooth.o obj/third-party/freetype/freetype/truetype.o obj/third-party/freetype/freetype/type1.o obj/third-party/freetype/freetype/type42.o obj/third-party/freetype/freetype/winfnt.o obj/third-party/freetype/freetype/ftsystem.o obj/third-party/freetype/freetype/ftdebug.o
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/freetype

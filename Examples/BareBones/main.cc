@@ -1,3 +1,5 @@
+#include "Assets/TextAsset.h"
+
 #include "Utils/FileSystem.h"
 #include "Utils/Instrumentor.h"
 #include "Utils/Logger.h"
@@ -27,29 +29,31 @@ protected:
         Graphics::Entity::Init(this->GetShaderManager());
         Graphics::Entity::InitScene(activeScene);
 
-        atlas = new Graphics::TextureAtlas(1024, false);
+        _texture = GetAssetManager()->LoadTexture("/Assets/tiles.png", false);
 
-        atlas->Push("/Assets/mario.png");
-        atlas->Push("/Assets/windows_64x64.png");
-        atlas->Push("/Assets/Ground.png");
-        atlas->Push("/Assets/Box.png");
+        Graphics::Components::AnimationComponent ac;
 
-        Graphics::Entity::CreateSprite(activeScene, this->GetShaderManager(), atlas->Texture(), { 10.f, 10.f, 0.f }, atlas->SizeOf(1), atlas->CoordinatesOf(1));
+        ac.frames.push_back({ 16 * 0, 0 });
+        ac.frames.push_back({ 16 * 1, 0 });
+        ac.delay = 0.1;
+
+        for (size_t x = 0; x < 20; x++) {
+            for (size_t y = 0; y < 15; y++) {
+                et = Graphics::Entity::CreateSprite(activeScene, this->GetShaderManager(), _texture, { x * 64, y * 64, 0.f }, { 64, 64 }, { 16 * 0, 0, 16, 16 });
+                Graphics::Entity::AttachAnimation(et, ac);
+            }
+        }
     }
 
     void Draw(float pDelta) override {
     }
 
-    /* Not really needed as we use Systems by default */
     void Update(float pDelta) override {
     }
 
 private:
-    Graphics::TextureAtlas *atlas;
-    /* Make sure the code above is uncommented.
-    Entity _text;
-    IceSDK::Graphics::FontFaceHandle _faceHandle;
-    */
+    Entity et;
+    Memory::Ptr<Graphics::Texture2D> _texture;
 };
 
 Memory::Ptr<Game> g_Game;

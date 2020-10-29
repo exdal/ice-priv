@@ -1,7 +1,5 @@
 #include "pch.h"
-
 #include "GameBase.h"
-
 #include "Utils/Instrumentor.h"
 #include "Utils/Logger.h"
 
@@ -10,8 +8,7 @@ using namespace IceSDK;
 GameBase::GameBase() {
     ICESDK_PROFILE_BEGIN_SESSION("Startup", "Benchmark-Startup.json");
 
-    Log::Init(); // TODO show more metrics
-    ICESDK_INFO("Powered by IceSDK V0.0.0");
+    ICESDK_INFO("Powered by IceSDK V0.0.0b");
 
 #if ICESDK_FMOD
     ICESDK_INFO("AudioSystem: FMOD");
@@ -54,7 +51,6 @@ void GameBase::Run() {
     this->_input_pipeline->Init();
     this->_window->SetDrawCallback(GameBase::InternalDraw);
     this->_window->SetDrawInitCallback(GameBase::InternalDrawInit);
-
     while (!this->_exit) {
         ICESDK_PROFILE_SCOPE("GameBase::MainLoop");
 

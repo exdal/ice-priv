@@ -1,0 +1,14 @@
+defines = -D_DEBUG
+include_dirs = -I../../../third-party/bx/include -I../../../third-party/bx/3rdparty
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions
+label_name = bx
+target_out_dir = obj/third-party/bx
+target_output_name = libbx
+
+build obj/third-party/bx/bx/amalgamated.o: cxx ../../../third-party/bx/src/amalgamated.cpp
+
+build obj/third-party/bx/libbx.a: alink obj/third-party/bx/bx/amalgamated.o
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/bx

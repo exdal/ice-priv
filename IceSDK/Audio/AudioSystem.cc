@@ -53,7 +53,7 @@ IceSDK::Memory::Ptr<Sound> AudioSystem::Load(uint8_t *_data, uint32_t _dataSize)
 
     const auto result = g_FMODSystem->createSound((const char *)_data, FMOD_OPENMEMORY, &sound_info, &sound->_sound);
     if (result != FMOD_OK) {
-        ICESDK_ERROR("FMOD: %s", FMOD_ErrorString(result));
+        ICESDK_ERROR_V("FMOD: %s", FMOD_ErrorString(result));
         return nullptr;
     }
 

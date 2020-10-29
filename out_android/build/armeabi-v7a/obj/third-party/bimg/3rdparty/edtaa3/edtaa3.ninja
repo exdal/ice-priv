@@ -1,0 +1,14 @@
+defines = -D_DEBUG
+include_dirs =
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions
+label_name = edtaa3
+target_out_dir = obj/third-party/bimg/3rdparty/edtaa3
+target_output_name = libedtaa3
+
+build obj/third-party/bimg/3rdparty/edtaa3/edtaa3/edtaa3func.o: cxx ../../../third-party/bimg/3rdparty/edtaa3/edtaa3func.cpp
+
+build obj/third-party/bimg/3rdparty/edtaa3/libedtaa3.a: alink obj/third-party/bimg/3rdparty/edtaa3/edtaa3/edtaa3func.o
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/bimg/3rdparty/edtaa3

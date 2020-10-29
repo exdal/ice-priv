@@ -19,7 +19,7 @@ namespace IceSDK::Graphics {
         }
 
         static Memory::Ptr<Texture2D> Load(const std::string &pPath);
-        static Memory::Ptr<Texture2D> Load(const std::string &pName, const std::vector<uint8_t> &pData);
+        static Memory::Ptr<Texture2D> Load(const std::string &pName, bool antiAliasing, uint8_t *data, const uint32_t dataSize);
 
         static uint8_t *LoadRawBitmap(uint8_t *data, uint32_t data_size, uint32_t *width, uint32_t *height);
 

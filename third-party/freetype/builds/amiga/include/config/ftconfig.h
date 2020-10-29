@@ -36,7 +36,7 @@
 #ifdef __SASC
 #include "FT:include/freetype/config/ftconfig.h"
 #else
-#include "D:\.icesdk\IceSDK\third-party\freetype\include\freetype\config\ftconfig.h"
+#include "D:\.icesdk\ice-priv\third-party\freetype\include\freetype\config\ftconfig.h"
 #endif
 #else
 /* We must define that, it seems that

@@ -65,24 +65,24 @@ int main(const int pArgc, char *pArgv[]) {
         name = String::Trim(name, "\\");
         name = String::Trim(name, ".\\");
         name = String::Trim(name, "./");
-        name = "/" + name;
-
-        if (FileSystem::HasExtension(dir, ".txt")) {
-            uint32_t size = 0;
-            uint8_t *data = FileSystem::ReadBinaryFile(dir, &size);
-            free_asset->Append(name, Assets::TextAsset::From(name, data, size));
-
-            ICESDK_INFO("Asset (Text): \"{}\" {} -> {}.ice:{}", std::string((const char *)data, size), dir, assets.size() - 1, name);
-        }
-
-        else if (FileSystem::HasExtension(dir, ".png") || FileSystem::HasExtension(dir, ".jpg") ||
+        name = "/" + name; 
+        
+        if (FileSystem::HasExtension(dir, ".png") || FileSystem::HasExtension(dir, ".jpg") ||
                  FileSystem::HasExtension(dir, ".bmp")) { // TODO: Unpack into a specially crafted Texture format instead of using the existing ones for faster decoding
 
             uint32_t size = 0;
             uint8_t *data = FileSystem::ReadBinaryFile(dir, &size);
             free_asset->Append(name, Assets::Texture2DAsset::From(name, data, size));
             
-            ICESDK_INFO("Asset (Texture2D): {} -> {}.ice:{}", dir, assets.size() - 1, name);
+            ICESDK_INFO("Asset (Texture2D): %s -> %zd.ice:%s", dir.c_str(), assets.size() - 1, name.c_str());
+        }
+
+        else if (FileSystem::HasExtension(dir, ".txt")) {
+            uint32_t size = 0;
+            uint8_t *data = FileSystem::ReadBinaryFile(dir, &size);
+            free_asset->Append(name, Assets::TextAsset::From(name, data, size));
+
+            ICESDK_INFO("Asset (Text): \"%s\" %s -> %zd.ice:%s", std::string((const char *)data, size).c_str(), dir.c_str(), assets.size() - 1, name.c_str());
         }
 
         else if (FileSystem::HasExtension(dir, ".ogg") || FileSystem::HasExtension(dir, ".mp3") ||
@@ -92,7 +92,7 @@ int main(const int pArgc, char *pArgv[]) {
             uint8_t *data = FileSystem::ReadBinaryFile(dir, &size);
             free_asset->Append(name, Assets::AudioAsset::From(name, data, size));
 
-            ICESDK_INFO("Asset (Audio): {} -> {}.ice:{}", dir, assets.size() - 1, name);
+            ICESDK_INFO("Asset (Audio): %s -> %zd.ice:%s", dir.c_str(), assets.size() - 1, name.c_str());
         }
 
         else {

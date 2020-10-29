@@ -1,10 +1,7 @@
 #include "pch.h"
-
 #include "Graphics/Window.h"
-
 #include "Utils/Instrumentor.h"
 #include "Utils/Logger.h"
-
 #include "GameBase.h"
 
 using namespace IceSDK::Graphics;
@@ -221,4 +218,12 @@ uint32_t GameWindow::Width() const {
 uint32_t GameWindow::Height() const {
     ICESDK_PROFILE_FUNCTION();
     return this->_height;
+}
+
+uint32_t GameWindow::GetTicks() const {
+#ifdef ICESDK_GLFW
+    return (uint32_t)glfwGetTime();
+#elif defined(ICESDK_SDL2)
+    return SDL_GetTicks();
+#endif
 }

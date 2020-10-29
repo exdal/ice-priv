@@ -9,7 +9,7 @@ namespace IceSDK::Assets {
     public:
         explicit Texture2DAsset(std::string_view _name, uint8_t *_data, const uint32_t _dataSize);
 
-        Memory::Ptr<Graphics::Texture2D> LoadTexture() const;
+        Memory::Ptr<Graphics::Texture2D> LoadTexture(bool antiAliasing) const;
 
         constexpr static eAssetType GetAssetType() {
             return eAssetType::Texture;

@@ -1,0 +1,36 @@
+defines = -D_DEBUG
+include_dirs =
+cflags = -Wno-everything -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions
+label_name = astc
+target_out_dir = obj/third-party/bimg/3rdparty/astc
+target_output_name = libastc
+
+build obj/third-party/bimg/3rdparty/astc/astc/astc_averages_and_directions.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_averages_and_directions.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_block_sizes2.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_block_sizes2.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_color_quantize.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_color_quantize.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_color_unquantize.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_color_unquantize.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_compress_symbolic.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_compress_symbolic.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_compute_variance.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_compute_variance.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_decompress_symbolic.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_decompress_symbolic.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_encoding_choice_error.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_encoding_choice_error.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_find_best_partitioning.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_find_best_partitioning.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_ideal_endpoints_and_weights.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_ideal_endpoints_and_weights.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_imageblock.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_imageblock.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_integer_sequence.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_integer_sequence.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_kmeans_partitioning.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_kmeans_partitioning.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_lib.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_lib.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_partition_tables.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_partition_tables.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_percentile_tables.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_percentile_tables.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_pick_best_endpoint_format.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_pick_best_endpoint_format.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_quantization.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_quantization.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_symbolic_physical.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_symbolic_physical.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_weight_align.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_weight_align.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/astc_weight_quant_xfer_tables.o: cxx ../../../third-party/bimg/3rdparty/astc/astc_weight_quant_xfer_tables.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/mathlib.o: cxx ../../../third-party/bimg/3rdparty/astc/mathlib.cpp
+build obj/third-party/bimg/3rdparty/astc/astc/softfloat.o: cxx ../../../third-party/bimg/3rdparty/astc/softfloat.cpp
+
+build obj/third-party/bimg/3rdparty/astc/libastc.a: alink obj/third-party/bimg/3rdparty/astc/astc/astc_averages_and_directions.o obj/third-party/bimg/3rdparty/astc/astc/astc_block_sizes2.o obj/third-party/bimg/3rdparty/astc/astc/astc_color_quantize.o obj/third-party/bimg/3rdparty/astc/astc/astc_color_unquantize.o obj/third-party/bimg/3rdparty/astc/astc/astc_compress_symbolic.o obj/third-party/bimg/3rdparty/astc/astc/astc_compute_variance.o obj/third-party/bimg/3rdparty/astc/astc/astc_decompress_symbolic.o obj/third-party/bimg/3rdparty/astc/astc/astc_encoding_choice_error.o obj/third-party/bimg/3rdparty/astc/astc/astc_find_best_partitioning.o obj/third-party/bimg/3rdparty/astc/astc/astc_ideal_endpoints_and_weights.o obj/third-party/bimg/3rdparty/astc/astc/astc_imageblock.o obj/third-party/bimg/3rdparty/astc/astc/astc_integer_sequence.o obj/third-party/bimg/3rdparty/astc/astc/astc_kmeans_partitioning.o obj/third-party/bimg/3rdparty/astc/astc/astc_lib.o obj/third-party/bimg/3rdparty/astc/astc/astc_partition_tables.o obj/third-party/bimg/3rdparty/astc/astc/astc_percentile_tables.o obj/third-party/bimg/3rdparty/astc/astc/astc_pick_best_endpoint_format.o obj/third-party/bimg/3rdparty/astc/astc/astc_quantization.o obj/third-party/bimg/3rdparty/astc/astc/astc_symbolic_physical.o obj/third-party/bimg/3rdparty/astc/astc/astc_weight_align.o obj/third-party/bimg/3rdparty/astc/astc/astc_weight_quant_xfer_tables.o obj/third-party/bimg/3rdparty/astc/astc/mathlib.o obj/third-party/bimg/3rdparty/astc/astc/softfloat.o
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/bimg/3rdparty/astc

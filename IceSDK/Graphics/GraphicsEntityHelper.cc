@@ -51,6 +51,10 @@ IceSDK::Entity Graphics::Entity::CreateSprite(Memory::Ptr<IceSDK::Scene> pScene,
     return entity;
 }
 
+void Graphics::Entity::AttachAnimation(IceSDK::Entity &entity, IceSDK::Graphics::Components::AnimationComponent anim_component) {
+    entity.AddComponent<Graphics::Components::AnimationComponent>(anim_component);
+}
+
 void Graphics::Entity::Init(const Memory::Ptr<Graphics::Shaders::ShaderManager> &pShaderManager) {
     ICESDK_PROFILE_FUNCTION();
 
