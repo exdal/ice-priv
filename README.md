@@ -6,11 +6,12 @@ IceSDK is a cold little Game SDK to create games. You can use individuel parts o
 just use it as a Game Engine itself.
 
 # v0.0.0a
-- I wrote rendering part and rewrote file system, mempler wrote the every other code including github stuff.
+ ~~-I wrote rendering part and rewrote file system, mempler wrote the every other code including github stuff.~~
 
 # v0.0.0b
 Todo:
- - Animations, use some timer to update sprites using the batch renderer.
+ ~~- Animations, use some timer to update sprites using the batch renderer.~~
+ - Beautiful looking imgui system.
 
 ## How to setup
 
