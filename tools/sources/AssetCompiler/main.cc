@@ -35,8 +35,6 @@ int main(const int pArgc, char *pArgv[]) {
         return 1;
     }
 
-    IceSDK::Log::Init();
-
     const std::string assetPath = pArgv[1];
     const std::string buildPath = pArgv[2];
 

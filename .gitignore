@@ -4,3 +4,5 @@ out_android/
 .idea/
 *.log
 build/toolchain/android/toolchain.py
+"+
+    0""
