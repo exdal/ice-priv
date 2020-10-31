@@ -10,7 +10,7 @@ just use it as a Game Engine itself.
 
 # v0.0.0b
 Todo:
- ~~- Animations, use some timer to update sprites using the batch renderer.~~
+ - ~~Animations, use some timer to update sprites using the batch renderer.~~
  - Beautiful looking imgui system.
 
 ## How to setup
