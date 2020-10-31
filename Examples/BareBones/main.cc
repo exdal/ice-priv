@@ -35,7 +35,7 @@ protected:
 
         ac.frames.push_back({ 16 * 0, 0 });
         ac.frames.push_back({ 16 * 1, 0 });
-        ac.delay = 0.1;
+        ac.delay = 0.7;
 
         for (size_t x = 0; x < 20; x++) {
             for (size_t y = 0; y < 15; y++) {
@@ -59,7 +59,12 @@ private:
 Memory::Ptr<Game> g_Game;
 Memory::Ptr<IceSDK::GameBase> g_GameBase;
 
-int IceSDKMain {
+#ifdef ICESDK_ANDROID
+#include <SDL_main.h>
+extern "C" SDLMAIN_DECLSPEC __attribute__((visibility("default"))) int SDL_main(int argc, char *argv[]) {
+#else
+int IceSDKMain() {
+#endif
     g_Game = std::make_shared<Game>();
     g_GameBase = g_Game;
 

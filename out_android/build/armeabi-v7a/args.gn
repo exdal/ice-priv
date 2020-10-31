@@ -2,6 +2,9 @@
 is_clang = true
 use_lld = true
 
+use_glfw = false
+use_sdl2 = true
+
 android_ndk_target = "21"
 android_ndk_path = "D:\ASDK\ndk\20.0.5594570"
 

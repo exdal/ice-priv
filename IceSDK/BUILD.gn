@@ -183,8 +183,8 @@ unity_lib("IceSDK") {
     }
 
     if (is_posix) {
-        defines += [ "HAVE_PTHREAD" ]
-        libs += [ "pthread" ]
+        #defines += [ "HAVE_PTHREAD" ]
+        #libs += [ "pthread" ]
     }
 }
 

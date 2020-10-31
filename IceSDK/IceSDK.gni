@@ -76,8 +76,8 @@ template("IceSDK_Project") {
 
             libs += [ "stdc++" ]
 
-            defines += [ "HAVE_PTHREAD" ]
-            libs += [ "pthread" ]
+            #defines += [ "HAVE_PTHREAD" ]
+            #libs += [ "pthread" ]
         }
     } else {
         orig_target_name = target_name
@@ -152,7 +152,7 @@ template("IceSDK_Project") {
 
            
             if (is_posix) {
-                defines += [ "HAVE_PTHREAD" ]
+                #defines += [ "HAVE_PTHREAD" ]
             }
         }
     }

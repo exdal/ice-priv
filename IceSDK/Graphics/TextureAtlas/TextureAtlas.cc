@@ -1,4 +1,7 @@
+#include "pch.h"
+
 #include "TextureAtlas.h"
+
 #include "GameBase.h"
 #include "Graphics/TextureAtlas/Packer.h"
 
@@ -66,6 +69,6 @@ glm::vec2 TextureAtlas::SizeOf(uint32_t id) {
     return { m_regions[id].width, m_regions[id].height };
 }
 
-Memory::Ptr<Graphics::Texture2D> TextureAtlas::Texture() {
+IceSDK::Memory::Ptr<Texture2D> TextureAtlas::Texture() {
     return m_texture;
 }

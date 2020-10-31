@@ -1,5 +1,7 @@
 #include "pch.h"
+
 #include "GameBase.h"
+
 #include "Utils/Instrumentor.h"
 #include "Utils/Logger.h"
 
@@ -51,6 +53,10 @@ void GameBase::Run() {
     this->_input_pipeline->Init();
     this->_window->SetDrawCallback(GameBase::InternalDraw);
     this->_window->SetDrawInitCallback(GameBase::InternalDrawInit);
+
+    int frames = 0;
+    float accum = 0;
+
     while (!this->_exit) {
         ICESDK_PROFILE_SCOPE("GameBase::MainLoop");
 
@@ -61,8 +67,16 @@ void GameBase::Run() {
         const auto frameTime = now - this->_last_delta;
         this->_last_delta = now;
 
-        const auto freq = static_cast<float>(bx::getHPFrequency());
-        const auto delta = static_cast<float>(frameTime) / freq;
+        const auto freq = (float)bx::getHPFrequency();
+        const auto delta = (float)(frameTime / freq);
+
+        frames++;
+        accum += delta;
+        if (accum >= 1.0) {
+            ICESDK_INFO_V("FPS: %d %dms", frames, frameTime / 1000);
+            accum = 0;
+            frames = 0;
+        }
 
         GameBase::InternalTick(delta);
         if (this->_window->ShouldClose())
@@ -189,9 +203,8 @@ IceSDK::Memory::Ptr<IceSDK::Audio::AudioSystem> GetAudioSystem() {
     return GetGameBase()->GetAudioSystem();
 }
 
-#if defined(ICESDK_SDL2) && defined(ICESDK_ANDROID)
-int IceSDKMain();
+/*#if defined(ICESDK_SDL2) && defined(ICESDK_ANDROID)
 extern "C" SDLMAIN_DECLSPEC __attribute__((visibility("default"))) int SDL_main(int argc, char *argv[]) {
     return IceSDKMain();
 }
-#endif
+#endif*/

@@ -1,4 +1,4 @@
-defines = -DICESDK_ANDROID -DICESDK_SDL2 -DHAVE_PTHREAD -D_DEBUG
+defines = -DICESDK_ANDROID -DICESDK_SDL2 -D_DEBUG
 include_dirs = -I../../../IceSDK -I../../../third-party/fmod/inc -I../../../third-party/bgfx/include -I../../../third-party/bimg/include -I../../../third-party/bx/include -I../../../third-party/glfw/include -I../../../third-party/sdl2/include -I../../../third-party/freetype/include -I../../../third-party/glm -I../../../third-party/entt/single_include
 cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
 cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions -include obj/IceSDK/IceSDK/pch.h-cc

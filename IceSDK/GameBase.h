@@ -69,6 +69,6 @@ IceSDK::Memory::Ptr<IceSDK::Audio::AudioSystem> GetAudioSystem();
 #if defined(ICESDK_WINDOWED)
 #define IceSDKMain WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 #else
-#define IceSDKMain main()
+#define IceSDKMain main
 #endif
 #endif

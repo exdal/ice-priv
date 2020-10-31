@@ -34,13 +34,13 @@ namespace IceSDK::Graphics {
         void Flush();
         void FlushReset();
 
-        void SubmitTexturedQuad(Memory::Ptr<Texture2D> pTexture, const glm::vec2 &pPosition, const glm::vec2 &pSize, const glm::vec4 &pColour);
+        void SubmitTexturedQuad(Memory::Ptr<Texture2D> texture, const glm::vec2 &position, const glm::vec2 &size, const glm::vec4 &color);
 
-        void SubmitTiledSprite(Memory::Ptr<Texture2D> pTexture, const glm::vec2 &pPosition, const glm::vec2 &pSize, const glm::vec4 &pTileInfo, const glm::vec4 &pColour);
+        void SubmitTiledSprite(Memory::Ptr<Texture2D> texture, const glm::vec2 &position, const glm::vec2 &size, const glm::vec4 &tileInfo, const glm::vec4 &color);
 
         void CheckIndexes();
-        void DrawIndexed(glm::mat4 pTransform, glm::vec4 pVertexPosition[QUAD_COUNT], std::array<glm::vec2, QUAD_COUNT> pUVs, const glm::vec4 &pColour,
-            float pTextureID = 0.f, uint32_t pIndexCount = 6);
+        void DrawIndexed(const glm::mat4& transform, glm::vec4 vertexpos[QUAD_COUNT], const std::array<glm::vec2, QUAD_COUNT>& uvs, const glm::vec4 &color,
+            float textureID = 0.f, uint32_t indexCount = 6);
 
         float SetTexture(Memory::Ptr<Texture2D> pTexture);
 
@@ -54,21 +54,22 @@ namespace IceSDK::Graphics {
             don't bother adding any smart pointer for quads or
             vertex_XX
         */
-        uint32_t _indexes;
-        uint32_t _textureIndex;
+        uint32_t m_drawCalls;
+        uint32_t m_indexes;
+        uint32_t m_textureIndex;
 
-        glm::vec4 _vertexPositions[4];
-        std::array<Memory::Ptr<Texture2D>, _maxTextureSlots> _textureSlots;
+        glm::vec4 m_vertexPositions[4];
+        std::array<Memory::Ptr<Texture2D>, _maxTextureSlots> m_textureSlots;
         //                                 ^^^^^^^^^^^^^^^^^ texture count -
         //                                 we can get it with bgfx::caps
 
-        VertexInfo *_vertexBuffer;
-        VertexInfo *_vertexBufferPtr;
+        VertexInfo *m_vertexBuffer;
+        VertexInfo *m_vertexBufferPtr;
 
-        bgfx::VertexLayout _vertexLayout;
-        bgfx::IndexBufferHandle _indexHandle;
+        bgfx::VertexLayout m_vertexLayout;
+        bgfx::IndexBufferHandle m_indexHandle;
 
-        std::array<bgfx::UniformHandle, _maxTextureSlots> _textureUniforms; // size of that member must be same as
+        std::array<bgfx::UniformHandle, _maxTextureSlots> m_textureUniforms; // size of that member must be same as
                                                                             // _textureSlots
     };
 
