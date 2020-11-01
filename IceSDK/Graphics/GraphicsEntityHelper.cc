@@ -40,7 +40,7 @@ IceSDK::Entity Graphics::Entity::CreateSprite(Memory::Ptr<IceSDK::Scene> pScene,
     else if (pTex != nullptr)
         TexSize = { pTex->Width(), pTex->Height() };
 
-    entity.AddComponent<IceSDK::Components::TransformComponent>(pPosition, glm::vec3{ 1.0f, 1.0f, 1.0f }, pRotation);
+    entity.AddComponent<IceSDK::Components::TransformComponent>(pPosition, glm::vec3{ TexSize.x, TexSize.y, 1.0f }, pRotation);
 
     entity.AddComponent<Graphics::Components::SpriteComponent>(TexSize, pTex);
 

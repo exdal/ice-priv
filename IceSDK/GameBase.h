@@ -29,6 +29,9 @@ namespace IceSDK {
         Memory::Ptr<Input::InputPipeline> GetInputPipeline() const;
         Memory::WeakPtr<Scene> GetActiveScene() const;
 
+        uint32_t FPS = 0;
+        uint32_t FrameMS = 0;
+
     protected:
         virtual void Init();
         virtual void Shutdown();

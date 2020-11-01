@@ -58,8 +58,8 @@ void SpriteRenderingSystem::Draw(float pDelta) {
                     tile.info.y = anim.frames[anim.current_frame].y;
                 }
             }
-            GetGameBase()->GetSpriteBatch()->SubmitTiledSprite(sprite.texture, transform.position, sprite.size, tile.info, { 1, 1, 1, 1 });
+            GetGameBase()->GetSpriteBatch()->SubmitTiledSprite(sprite.texture, transform.model_matrix, tile.info, { 1, 1, 1, 1 });
         } else
-            GetGameBase()->GetSpriteBatch()->SubmitTexturedQuad(sprite.texture, transform.position, sprite.size, { 1, 1, 1, 1 });
+            GetGameBase()->GetSpriteBatch()->SubmitTexturedQuad(sprite.texture, transform.model_matrix, { 1, 1, 1, 1 });
     }
 }

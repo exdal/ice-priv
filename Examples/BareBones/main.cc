@@ -6,10 +6,13 @@
 
 #include "GameBase.h"
 #include "Graphics/EntityHelper.h"
+#include "Graphics/ImGui/Widgets/SceneGraph.h"
 #include "Graphics/SpriteBatch/SpriteBatch.h"
 #include "Graphics/TextureAtlas/Packer.h"
 #include "Graphics/TextureAtlas/TextureAtlas.h"
 #include "Graphics/Tilesheet/Tilesheet.h"
+
+#include <imgui.h>
 
 using namespace IceSDK;
 
@@ -32,20 +35,19 @@ protected:
         _texture = GetAssetManager()->LoadTexture("/Assets/tiles.png", false);
 
         Graphics::Components::AnimationComponent ac;
+        for (size_t i = 0; i < 14; i++) { ac.frames.push_back({ i * 16, 16 * 3 }); }
 
-        ac.frames.push_back({ 16 * 0, 0 });
-        ac.frames.push_back({ 16 * 1, 0 });
-        ac.delay = 0.7;
-
-        for (size_t x = 0; x < 20; x++) {
-            for (size_t y = 0; y < 15; y++) {
-                et = Graphics::Entity::CreateSprite(activeScene, this->GetShaderManager(), _texture, { x * 64, y * 64, 0.f }, { 64, 64 }, { 16 * 0, 0, 16, 16 });
+        ac.delay = 0.07;
+        for (size_t x = 0; x < 200; x++) {
+            for (size_t y = 0; y < 100; y++) {
+                et = Graphics::Entity::CreateSprite(activeScene, this->GetShaderManager(), _texture, { x * 64, y * 64, 0.f }, { 64, 64 }, { 16 * 0, 16, 16, 16 });
                 Graphics::Entity::AttachAnimation(et, ac);
             }
         }
     }
 
     void Draw(float pDelta) override {
+        ImGuiWidgets::SceneGraph::Frame(this->GetActiveScene());
     }
 
     void Update(float pDelta) override {

@@ -31,19 +31,14 @@ void CameraSystem::Tick(float pDelta) {
     auto &camera = activeCam.GetComponent<CameraComponent>();
     auto &transform = activeCam.GetComponent<TransformComponent>();
 
-    switch (camera.render_mode) {
-        case eCameraRenderingMode::Orthographic: // TODO: only execute if value
-                                                 // changed
-            const auto window = GetWindow();
+    const auto window = GetWindow();
 
-            camera.screen_size = { window->Width(), window->Height() };
+    camera.screen_size = { window->Width(), window->Height() };
 
-            camera.view_matrix = transform.model_matrix;
-            camera.projection_matrix = glm::ortho(0.0f, static_cast<float>(window->Width()), static_cast<float>(window->Height()), 0.0f, 0.1f, 1000.0f);
+    camera.view_matrix = transform.model_matrix;
+    camera.projection_matrix = glm::ortho(0.0f, (float)window->Width(), (float)window->Height(), 0.0f, 0.1f, 1000.0f);
 
-            camera.projection_matrix[3].z = 1; // TODO: Fix
-            break;
-    }
+    camera.projection_matrix[3].z = 1; // TODO: Fix
 }
 
 Entity CameraSystem::GetActiveCamera(const Memory::WeakPtr<entt::registry> pRegistry) {

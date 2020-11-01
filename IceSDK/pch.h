@@ -74,3 +74,14 @@
 #include <sstream>
 #include <string>
 #include <vector>
+
+#define ICESDK_USE_IMGUI
+#ifdef ICESDK_USE_IMGUI
+#include <imgui.h>
+#include <imgui_internal.h>
+#ifdef ICESDK_SDL2
+#include <imgui_impl_sdl.h>
+#elif defined(ICESDK_GLFW)
+#include <imgui_impl_glfw.h>
+#endif
+#endif

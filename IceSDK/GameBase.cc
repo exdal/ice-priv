@@ -5,6 +5,8 @@
 #include "Utils/Instrumentor.h"
 #include "Utils/Logger.h"
 
+#include "Graphics/ImGui/bgfx_imgui.h"
+
 using namespace IceSDK;
 
 GameBase::GameBase() {
@@ -73,7 +75,9 @@ void GameBase::Run() {
         frames++;
         accum += delta;
         if (accum >= 1.0) {
-            ICESDK_INFO_V("FPS: %d %dms", frames, frameTime / 1000);
+            FPS = frames;
+            FrameMS = frameTime / 10000;
+
             accum = 0;
             frames = 0;
         }
@@ -148,7 +152,7 @@ void GameBase::InternalDraw(const float pDelta) {
 // End Scene
 
 // Begin ImGui
-#if ICESDK_USE_IMGUI
+#ifdef ICESDK_USE_IMGUI
 #ifdef ICESDK_GLFW
     ImGui_ImplGlfw_NewFrame();
 #elif defined(ICESDK_SDL2)
@@ -180,6 +184,26 @@ void GameBase::InternalDrawInit() {
 
     auto game = GetGameBase();
     game->InitDraw();
+
+#ifdef ICESDK_USE_IMGUI
+    imguiCreate(16.0f, nullptr);
+
+    auto &io = ImGui::GetIO();
+    ImGui::StyleColorsDark();
+
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
+
+#ifdef ICESDK_ANDROID
+    io.ConfigFlags |= ImGuiConfigFlags_IsTouchScreen; // Enable Touch
+    io.FontGlobalScale = 3.0f;
+#endif
+
+#ifdef ICESDK_GLFW
+    ImGui_ImplGlfw_InitForBGFX(game->_window->_window, true);
+#elif defined(ICESDK_SDL2)
+    ImGui_ImplSDL2_InitForBGFX(game->_window->_window);
+#endif
+#endif
 }
 
 void GameBase::InternalShutdown() {

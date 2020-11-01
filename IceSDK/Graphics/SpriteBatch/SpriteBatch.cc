@@ -50,7 +50,6 @@ SpriteBatch::~SpriteBatch() {
 }
 
 void SpriteBatch::NewFrame() {
-    m_drawCalls = 0;
     m_indexes = 0;
     m_vertexBufferPtr = m_vertexBuffer;
     m_textureIndex = 0;
@@ -81,7 +80,7 @@ void SpriteBatch::Flush() {
 
     auto shader = GetGameBase()->GetShaderManager()->LoadProgram("Sprite");
     bgfx::submit(0, shader);
-    m_drawCalls++;
+    m_stats.drawCalls++;
 }
 
 void SpriteBatch::FlushReset() {
@@ -101,6 +100,12 @@ void SpriteBatch::SubmitTexturedQuad(Memory::Ptr<Texture2D> texture, const glm::
     DrawIndexed(transform, m_vertexPositions, g_DefTexCoords, color, SetTexture(texture));
 }
 
+void SpriteBatch::SubmitTexturedQuad(Memory::Ptr<Texture2D> texture, const glm::mat4 &transform, const glm::vec4 &color) {
+    CheckIndexes();
+    std::array<glm::vec2, QUAD_COUNT> g_DefTexCoords = { glm::vec2(1.0f, 1.0f), glm::vec2(1.0f, 0.0f), glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 1.0f) };
+    DrawIndexed(transform, m_vertexPositions, g_DefTexCoords, color, SetTexture(texture));
+}
+
 void SpriteBatch::SubmitTiledSprite(
     Memory::Ptr<Texture2D> texture, const glm::vec2 &position, const glm::vec2 &size, const glm::vec4 &pTileInfo, const glm::vec4 &color) {
     CheckIndexes();
@@ -109,12 +114,17 @@ void SpriteBatch::SubmitTiledSprite(
     DrawIndexed(transform, m_vertexPositions, MakeTiled(texture, pTileInfo), color, SetTexture(texture));
 }
 
+void SpriteBatch::SubmitTiledSprite(Memory::Ptr<Texture2D> texture, const glm::mat4 &transform, const glm::vec4 &pTileInfo, const glm::vec4 &color) {
+    CheckIndexes();
+    DrawIndexed(transform, m_vertexPositions, MakeTiled(texture, pTileInfo), color, SetTexture(texture));
+}
+
 void SpriteBatch::CheckIndexes() {
     if (m_indexes >= _maxIndices)
         FlushReset();
 }
 
-void SpriteBatch::DrawIndexed(const glm::mat4& transform, glm::vec4 vertexPos[QUAD_COUNT], const std::array<glm::vec2, QUAD_COUNT>& uvs, const glm::vec4 &color,
+void SpriteBatch::DrawIndexed(const glm::mat4 &transform, glm::vec4 vertexPos[QUAD_COUNT], const std::array<glm::vec2, QUAD_COUNT> &uvs, const glm::vec4 &color,
     float pTextureID, uint32_t pIndexCount) {
     for (size_t i = 0; i < QUAD_COUNT; i++) {
         m_vertexBufferPtr->pos = transform * vertexPos[i];
@@ -125,6 +135,7 @@ void SpriteBatch::DrawIndexed(const glm::mat4& transform, glm::vec4 vertexPos[QU
         m_vertexBufferPtr++;
     }
     m_indexes += pIndexCount;
+    m_stats.quadCount++;
 }
 
 float SpriteBatch::SetTexture(Memory::Ptr<Texture2D> texture) {
@@ -159,4 +170,12 @@ std::array<glm::vec2, QUAD_COUNT> SpriteBatch::MakeTiled(Memory::Ptr<Texture2D> 
     ret[2] = { X, Y };
     ret[3] = { X, Y + H };
     return ret;
+}
+
+BatchStats &SpriteBatch::GetBatchStats() {
+    return m_stats;
+}
+
+void SpriteBatch::ResetStats() {
+    memset(&m_stats, 0, sizeof(BatchStats));
 }

@@ -54,7 +54,9 @@ unity_lib("IceSDK") {
 
         "Graphics/Systems/SpriteRenderingSystem.cc",
 
+        "Graphics/ImGui/bgfx_imgui.cc",
 #       "ImGui/Widgets/AssetBrowser.cc",
+        "Graphics/ImGui/Widgets/SceneGraph.cc",
 
         #######################################################
         #                       Input                         #
@@ -83,6 +85,7 @@ unity_lib("IceSDK") {
         "//third-party/bgfx/include", "//third-party/bimg/include", "//third-party/bx/include", # BGFX
         "//third-party/glfw/include", # GLFW
         "//third-party/sdl2/include", # SDL2
+        "//third-party/imgui", # ImGui
         "//third-party/freetype/include", # FREETYPE 2
 
         
