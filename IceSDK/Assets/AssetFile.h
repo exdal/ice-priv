@@ -15,7 +15,7 @@ namespace IceSDK::Assets {
 
         template <typename IAsset>
         IAsset Get() {
-            return Get().Into<IAsset>(m_content.name);
+            return Get().Into<IAsset>(content.name);
         }
 
         Asset Get();
