@@ -22,8 +22,8 @@ void AssetManager::Init() {
         if (FileSystem::IsDirectory(assetFilePath))
             continue;
 
-        auto assetFile = AssetFile::Load(assetFilePath);
-        if (assetFile == nullptr) {
+        auto assetFile = std::make_shared<AssetFile>();
+        if (!assetFile->Load(assetFilePath)) {
             ICESDK_CRITICAL("Failed to initialize AssetManager");
             break;
         }
@@ -73,8 +73,8 @@ Asset AssetManager::Search(const std::string &pName) {
         return this->_search_cache[pName];
 
     for (auto assetFile : this->_assets) {
-        auto asset = assetFile->Get(pName);
-        if (asset.asset_type != eAssetType::Unknown) {
+        auto asset = assetFile->Get();
+        if (asset.asset_type != eAssetType::Unknown && assetFile->content.name == pName) {
             this->_search_cache[pName] = asset;
             return asset;
         }

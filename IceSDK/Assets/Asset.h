@@ -24,12 +24,12 @@ namespace IceSDK::Assets {
         }
 
         template <typename IAsset>
-        static Asset From(IAsset pTo) {
+        static Asset From(IAsset to) {
             Asset asset;
 
             asset.asset_type = IAsset::GetAssetType();
-            asset.data = pTo.Data();
-            asset.dataSize = pTo.DataSize();
+            asset.data = to.Data();
+            asset.dataSize = to.DataSize();
 
             return asset;
         }

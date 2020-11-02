@@ -38,8 +38,8 @@ protected:
         for (size_t i = 0; i < 14; i++) { ac.frames.push_back({ i * 16, 16 * 3 }); }
 
         ac.delay = 0.07;
-        for (size_t x = 0; x < 200; x++) {
-            for (size_t y = 0; y < 100; y++) {
+        for (size_t x = 0; x < 20; x++) {
+            for (size_t y = 0; y < 10; y++) {
                 et = Graphics::Entity::CreateSprite(activeScene, this->GetShaderManager(), _texture, { x * 64, y * 64, 0.f }, { 64, 64 }, { 16 * 0, 16, 16, 16 });
                 Graphics::Entity::AttachAnimation(et, ac);
             }

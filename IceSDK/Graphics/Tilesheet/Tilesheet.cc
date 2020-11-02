@@ -3,35 +3,40 @@
 #include "Tilesheet.h"
 
 #include "Utils/Logger.h"
+#include "Utils/FileSystem.h"
 
 using namespace IceSDK::Graphics;
 
-Tilesheet::Tilesheet(Memory::Ptr<Texture2D> pTexture, int pSize) {
-    int numX, numY = 0;
+Tilesheet::Tilesheet(Memory::Ptr<Texture2D> texture, const char *infoPath) {
+    /*int numX, numY = 0;
 
-    numX = pTexture->Width() / pSize;
-    numY = pTexture->Height() / pSize;
+    numX = texture->Width() / size;
+    numY = texture->Height() / size;
 
-    for (int y = 0; y < numY; y++) {
-        for (int x = 0; x < numX; x++) { _textureCoordinates.push_back({ x * pSize, y * pSize, pSize, pSize }); }
-    }
+    for (int x = 0; x < numX; x++) {
+        for (int y = 0; y < numY; y++) {
+            Tile t;
+            t.id = m_tiles.size();
+            t.coordinates = { x * size, y * size };
+        }
+    }*/
 }
 
 Tilesheet::~Tilesheet() {
 }
 
-glm::vec4 Tilesheet::GetTile(uint32_t pID) {
-    if (this->_textureCoordinates.size() > pID) {
-        return _textureCoordinates[pID];
+Tile Tilesheet::GetTile(uint32_t pID) {
+    if (this->m_tiles.size() > pID) {
+        return m_tiles[pID];
     }
-    return glm::vec4(0, 0, 0, 0);
+    return {};
 }
 
 // shared ptr due to intellisense
 std::shared_ptr<Texture2D> Tilesheet::GetTexture() {
-    return this->_texture;
+    return m_texture;
 }
 
 uint32_t Tilesheet::TileSize() {
-    return this->_textureCoordinates.size();
+    return m_tiles.size();
 }
