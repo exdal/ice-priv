@@ -1,0 +1,22 @@
+defines = -D_DEBUG
+include_dirs =
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions
+label_name = squish
+target_out_dir = obj/third-party/bimg/3rdparty/libsquish
+target_output_name = libsquish
+
+build obj/third-party/bimg/3rdparty/libsquish/squish/alpha.o: cxx ../../../third-party/bimg/3rdparty/libsquish/alpha.cpp
+build obj/third-party/bimg/3rdparty/libsquish/squish/clusterfit.o: cxx ../../../third-party/bimg/3rdparty/libsquish/clusterfit.cpp
+build obj/third-party/bimg/3rdparty/libsquish/squish/colourblock.o: cxx ../../../third-party/bimg/3rdparty/libsquish/colourblock.cpp
+build obj/third-party/bimg/3rdparty/libsquish/squish/colourfit.o: cxx ../../../third-party/bimg/3rdparty/libsquish/colourfit.cpp
+build obj/third-party/bimg/3rdparty/libsquish/squish/colourset.o: cxx ../../../third-party/bimg/3rdparty/libsquish/colourset.cpp
+build obj/third-party/bimg/3rdparty/libsquish/squish/maths.o: cxx ../../../third-party/bimg/3rdparty/libsquish/maths.cpp
+build obj/third-party/bimg/3rdparty/libsquish/squish/rangefit.o: cxx ../../../third-party/bimg/3rdparty/libsquish/rangefit.cpp
+build obj/third-party/bimg/3rdparty/libsquish/squish/singlecolourfit.o: cxx ../../../third-party/bimg/3rdparty/libsquish/singlecolourfit.cpp
+build obj/third-party/bimg/3rdparty/libsquish/squish/squish.o: cxx ../../../third-party/bimg/3rdparty/libsquish/squish.cpp
+
+build obj/third-party/bimg/3rdparty/libsquish/libsquish.a: alink obj/third-party/bimg/3rdparty/libsquish/squish/alpha.o obj/third-party/bimg/3rdparty/libsquish/squish/clusterfit.o obj/third-party/bimg/3rdparty/libsquish/squish/colourblock.o obj/third-party/bimg/3rdparty/libsquish/squish/colourfit.o obj/third-party/bimg/3rdparty/libsquish/squish/colourset.o obj/third-party/bimg/3rdparty/libsquish/squish/maths.o obj/third-party/bimg/3rdparty/libsquish/squish/rangefit.o obj/third-party/bimg/3rdparty/libsquish/squish/singlecolourfit.o obj/third-party/bimg/3rdparty/libsquish/squish/squish.o
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/bimg/3rdparty/libsquish

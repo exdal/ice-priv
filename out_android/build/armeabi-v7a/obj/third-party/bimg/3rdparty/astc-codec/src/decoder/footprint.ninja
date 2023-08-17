@@ -1,0 +1,14 @@
+defines = -D_DEBUG
+include_dirs = -I../../../third-party/bimg/3rdparty/astc-codec
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions
+label_name = footprint
+target_out_dir = obj/third-party/bimg/3rdparty/astc-codec/src/decoder
+target_output_name = libfootprint
+
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/footprint/footprint.o: cxx ../../../third-party/bimg/3rdparty/astc-codec/src/decoder/footprint.cc
+
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libfootprint.a: alink obj/third-party/bimg/3rdparty/astc-codec/src/decoder/footprint/footprint.o
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/bimg/3rdparty/astc-codec/src/decoder

@@ -8,7 +8,7 @@
 namespace IceSDK::Assets {
     class TextAsset {
     public:
-        explicit TextAsset(std::string pData);
+        explicit TextAsset(uint8_t *_data, const uint32_t _dataSize);
 
         std::string ToString() const;
 
@@ -22,5 +22,7 @@ namespace IceSDK::Assets {
 
     private:
         std::string m_data;
+        uint8_t *m_rawData;
+        uint32_t m_dataSize;
     };
 } // namespace IceSDK::Assets

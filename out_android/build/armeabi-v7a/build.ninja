@@ -1,0 +1,117 @@
+ninja_required_version = 1.7.2
+
+rule gn
+  command = ../../../tools/win/gn.exe --root=../../.. -q gen .
+  description = Regenerating ninja files
+
+build build.ninja: gn
+  generator = 1
+  depfile = build.ninja.d
+
+pool build_toolchain_action_pool
+  depth = 0
+
+pool build_toolchain_link_pool
+  depth = 0
+
+subninja toolchain.ninja
+
+build root: phony phony/root
+build Examples: phony phony/Examples/Examples
+build IceSDK: phony obj/IceSDK/libIceSDK.a
+build AssetCompiler: phony ./libAssetCompiler.so.TOC
+build Assets_AssetCompiler: phony phony/tools/sources/AssetCompiler/Assets_AssetCompiler
+build Assets_BareBones: phony phony/Examples/BareBones/Assets_BareBones
+build BareBones: phony ./libBareBones.so.TOC
+build Tools: phony phony/tools/sources/Tools
+build astc: phony obj/third-party/bimg/3rdparty/astc/libastc.a
+build astc_utils: phony obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libastc_utils.a
+build bgfx: phony obj/third-party/bgfx/libbgfx.a
+build bimg: phony obj/third-party/bimg/libbimg.a
+build bx: phony obj/third-party/bx/libbx.a
+build codec: phony obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libcodec.a
+build edtaa3: phony obj/third-party/bimg/3rdparty/edtaa3/libedtaa3.a
+build etc1: phony obj/third-party/bimg/3rdparty/etc1/libetc1.a
+build etc2: phony obj/third-party/bimg/3rdparty/etc2/libetc2.a
+build footprint: phony obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libfootprint.a
+build freetype: phony obj/third-party/freetype/libfreetype.a
+build hidapi_copy: phony phony/third-party/sdl2/hidapi_copy
+build imgui: phony obj/third-party/imgui/sdl2/libimgui.a
+build iqa: phony obj/third-party/bimg/3rdparty/iqa/libiqa.a
+build nvtt: phony obj/third-party/bimg/3rdparty/nvtt/libnvtt.a
+build pvrtc: phony obj/third-party/bimg/3rdparty/pvrtc/libpvrtc.a
+build sdl2: phony obj/third-party/sdl2/libsdl2.a
+build sdl2_copy: phony phony/third-party/sdl2/sdl2_copy
+build squish: phony obj/third-party/bimg/3rdparty/libsquish/libsquish.a
+build $:root: phony phony/root
+build Examples$:Examples: phony phony/Examples/Examples
+build Examples/BareBones$:Assets_BareBones: phony phony/Examples/BareBones/Assets_BareBones
+build Examples/BareBones$:BareBones: phony ./libBareBones.so.TOC
+build Examples/BareBones: phony ./libBareBones.so.TOC
+build IceSDK$:IceSDK: phony obj/IceSDK/libIceSDK.a
+build third-party/bgfx$:bgfx: phony obj/third-party/bgfx/libbgfx.a
+build third-party/bgfx: phony obj/third-party/bgfx/libbgfx.a
+build third-party/bimg$:bimg: phony obj/third-party/bimg/libbimg.a
+build third-party/bimg: phony obj/third-party/bimg/libbimg.a
+build third-party/bimg/3rdparty/astc-codec/src/decoder$:astc_utils: phony obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libastc_utils.a
+build third-party/bimg/3rdparty/astc-codec/src/decoder$:codec: phony obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libcodec.a
+build third-party/bimg/3rdparty/astc-codec/src/decoder$:footprint: phony obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libfootprint.a
+build third-party/bimg/3rdparty/astc$:astc: phony obj/third-party/bimg/3rdparty/astc/libastc.a
+build third-party/bimg/3rdparty/astc: phony obj/third-party/bimg/3rdparty/astc/libastc.a
+build third-party/bimg/3rdparty/edtaa3$:edtaa3: phony obj/third-party/bimg/3rdparty/edtaa3/libedtaa3.a
+build third-party/bimg/3rdparty/edtaa3: phony obj/third-party/bimg/3rdparty/edtaa3/libedtaa3.a
+build third-party/bimg/3rdparty/etc1$:etc1: phony obj/third-party/bimg/3rdparty/etc1/libetc1.a
+build third-party/bimg/3rdparty/etc1: phony obj/third-party/bimg/3rdparty/etc1/libetc1.a
+build third-party/bimg/3rdparty/etc2$:etc2: phony obj/third-party/bimg/3rdparty/etc2/libetc2.a
+build third-party/bimg/3rdparty/etc2: phony obj/third-party/bimg/3rdparty/etc2/libetc2.a
+build third-party/bimg/3rdparty/iqa$:iqa: phony obj/third-party/bimg/3rdparty/iqa/libiqa.a
+build third-party/bimg/3rdparty/iqa: phony obj/third-party/bimg/3rdparty/iqa/libiqa.a
+build third-party/bimg/3rdparty/libsquish$:squish: phony obj/third-party/bimg/3rdparty/libsquish/libsquish.a
+build third-party/bimg/3rdparty/nvtt$:nvtt: phony obj/third-party/bimg/3rdparty/nvtt/libnvtt.a
+build third-party/bimg/3rdparty/nvtt: phony obj/third-party/bimg/3rdparty/nvtt/libnvtt.a
+build third-party/bimg/3rdparty/pvrtc$:pvrtc: phony obj/third-party/bimg/3rdparty/pvrtc/libpvrtc.a
+build third-party/bimg/3rdparty/pvrtc: phony obj/third-party/bimg/3rdparty/pvrtc/libpvrtc.a
+build third-party/bx$:bx: phony obj/third-party/bx/libbx.a
+build third-party/bx: phony obj/third-party/bx/libbx.a
+build third-party/freetype$:freetype: phony obj/third-party/freetype/libfreetype.a
+build third-party/freetype: phony obj/third-party/freetype/libfreetype.a
+build third-party/imgui/sdl2$:imgui: phony obj/third-party/imgui/sdl2/libimgui.a
+build third-party/sdl2$:hidapi_copy: phony phony/third-party/sdl2/hidapi_copy
+build third-party/sdl2$:sdl2: phony obj/third-party/sdl2/libsdl2.a
+build third-party/sdl2: phony obj/third-party/sdl2/libsdl2.a
+build third-party/sdl2$:sdl2_copy: phony phony/third-party/sdl2/sdl2_copy
+build tools/sources$:Tools: phony phony/tools/sources/Tools
+build tools/sources/AssetCompiler$:AssetCompiler: phony ./libAssetCompiler.so.TOC
+build tools/sources/AssetCompiler: phony ./libAssetCompiler.so.TOC
+build tools/sources/AssetCompiler$:Assets_AssetCompiler: phony phony/tools/sources/AssetCompiler/Assets_AssetCompiler
+
+build all: phony $
+    phony/root $
+    phony/Examples/Examples $
+    phony/Examples/BareBones/Assets_BareBones $
+    ./libBareBones.so.TOC $
+    obj/IceSDK/libIceSDK.a $
+    obj/third-party/bgfx/libbgfx.a $
+    obj/third-party/bimg/libbimg.a $
+    obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libastc_utils.a $
+    obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libcodec.a $
+    obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libfootprint.a $
+    obj/third-party/bimg/3rdparty/astc/libastc.a $
+    obj/third-party/bimg/3rdparty/edtaa3/libedtaa3.a $
+    obj/third-party/bimg/3rdparty/etc1/libetc1.a $
+    obj/third-party/bimg/3rdparty/etc2/libetc2.a $
+    obj/third-party/bimg/3rdparty/iqa/libiqa.a $
+    obj/third-party/bimg/3rdparty/libsquish/libsquish.a $
+    obj/third-party/bimg/3rdparty/nvtt/libnvtt.a $
+    obj/third-party/bimg/3rdparty/pvrtc/libpvrtc.a $
+    obj/third-party/bx/libbx.a $
+    obj/third-party/freetype/libfreetype.a $
+    obj/third-party/imgui/sdl2/libimgui.a $
+    phony/third-party/sdl2/hidapi_copy $
+    obj/third-party/sdl2/libsdl2.a $
+    phony/third-party/sdl2/sdl2_copy $
+    phony/tools/sources/Tools $
+    ./libAssetCompiler.so.TOC $
+    phony/tools/sources/AssetCompiler/Assets_AssetCompiler
+
+default all

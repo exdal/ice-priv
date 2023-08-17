@@ -1,0 +1,18 @@
+defines = -D_DEBUG
+include_dirs = -I../../../third-party/bimg/include -I../../../third-party/bx/include -I../../../third-party/bimg/3rdparty -I../../../third-party/bimg/3rdparty/astc-codec/include -I../../../third-party/bimg/3rdparty/iqa/include
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions
+label_name = bimg
+target_out_dir = obj/third-party/bimg
+target_output_name = libbimg
+
+build obj/third-party/bimg/bimg/image.o: cxx ../../../third-party/bimg/src/image.cpp
+build obj/third-party/bimg/bimg/image_cubemap_filter.o: cxx ../../../third-party/bimg/src/image_cubemap_filter.cpp
+build obj/third-party/bimg/bimg/image_decode.o: cxx ../../../third-party/bimg/src/image_decode.cpp
+build obj/third-party/bimg/bimg/image_encode.o: cxx ../../../third-party/bimg/src/image_encode.cpp
+build obj/third-party/bimg/bimg/image_gnf.o: cxx ../../../third-party/bimg/src/image_gnf.cpp
+
+build obj/third-party/bimg/libbimg.a: alink obj/third-party/bimg/bimg/image.o obj/third-party/bimg/bimg/image_cubemap_filter.o obj/third-party/bimg/bimg/image_decode.o obj/third-party/bimg/bimg/image_encode.o obj/third-party/bimg/bimg/image_gnf.o || obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libcodec.a obj/third-party/bimg/3rdparty/libsquish/libsquish.a obj/third-party/bimg/3rdparty/etc1/libetc1.a obj/third-party/bimg/3rdparty/etc2/libetc2.a obj/third-party/bimg/3rdparty/pvrtc/libpvrtc.a obj/third-party/bimg/3rdparty/astc/libastc.a obj/third-party/bimg/3rdparty/nvtt/libnvtt.a obj/third-party/bimg/3rdparty/edtaa3/libedtaa3.a obj/third-party/bimg/3rdparty/iqa/libiqa.a obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libastc_utils.a obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libfootprint.a
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/bimg

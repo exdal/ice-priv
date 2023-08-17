@@ -1,11 +1,11 @@
 #include "pch.h"
-
 #include "Assets/TextAsset.h"
 
 using namespace IceSDK;
 using namespace IceSDK::Assets;
 
-TextAsset::TextAsset(std::string pData) : m_data(pData) {
+TextAsset::TextAsset(uint8_t *_data, const uint32_t _dataSize) : m_rawData(_data), m_dataSize(_dataSize) {
+    m_data = std::string((const char *)_data, _dataSize);
 }
 
 std::string TextAsset::ToString() const {
@@ -13,7 +13,7 @@ std::string TextAsset::ToString() const {
 }
 
 uint8_t *TextAsset::Data() const {
-    return (uint8_t *)m_data.c_str();
+    return m_rawData;
 }
 
 uint32_t TextAsset::DataSize() const {
@@ -21,5 +21,5 @@ uint32_t TextAsset::DataSize() const {
 }
 
 TextAsset TextAsset::From(std::string_view _name, uint8_t *_data, const uint32_t _dataSize) {
-    return TextAsset{ std::string((const char *)_data, _dataSize) };
+    return TextAsset{ _data, _dataSize };
 }

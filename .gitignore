@@ -1,5 +1,8 @@
 out/
+out_android/
 .vscode/
 .idea/
 *.log
 build/toolchain/android/toolchain.py
+"+
+    0""

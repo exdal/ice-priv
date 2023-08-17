@@ -6,10 +6,6 @@
 #include <Windows.h>
 #endif
 
-#ifdef ICESDK_EMSCRIPTEN
-#include <emscripten.h>
-#endif
-
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
 #include <bimg/bimg.h>
@@ -65,25 +61,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#ifdef ICESDK_SDL2
-#include <imgui_impl_sdl.h>
-#elif defined(ICESDK_GLFW)
-#include <imgui_impl_glfw.h>
-#endif
-
-#include <spdlog/sinks/android_sink.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/spdlog.h>
-
 #include <ft2build.h>
-#include <imgui.h>
-#include <imgui_internal.h>
 
 #include FT_FREETYPE_H
-
-#include <hb-ft.h>
-#include <hb.hh>
 
 #include <cassert>
 #include <cstring>
@@ -95,6 +75,13 @@
 #include <string>
 #include <vector>
 
-#ifndef ICESDK_USE_IMGUI
-#define ICESDK_USE_IMGUI 1
+#define ICESDK_USE_IMGUI
+#ifdef ICESDK_USE_IMGUI
+#include <imgui.h>
+#include <imgui_internal.h>
+#ifdef ICESDK_SDL2
+#include <imgui_impl_sdl.h>
+#elif defined(ICESDK_GLFW)
+#include <imgui_impl_glfw.h>
+#endif
 #endif

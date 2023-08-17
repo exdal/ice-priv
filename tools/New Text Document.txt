@@ -1,0 +1,1 @@
+python ..\tools\build4android.py 21 D:\ASDK\ndk\20.0.5594570 D:\ASDK\ndk-bundle BareBones

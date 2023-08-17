@@ -7,7 +7,6 @@
 #include "Input/InputPipeline.h"
 #include "Utils/Memory.h"
 
-#include "Graphics/Fonts/FontManager.h"
 #include "Graphics/Shaders/ShaderManager.h"
 #include "Graphics/SpriteBatch/SpriteBatch.h"
 #include "Graphics/Window.h"
@@ -27,9 +26,11 @@ namespace IceSDK {
         Memory::Ptr<Assets::AssetManager> GetAssetManager() const;
         Memory::Ptr<Graphics::GameWindow> GetGameWindow() const;
         Memory::Ptr<Graphics::Shaders::ShaderManager> GetShaderManager() const;
-        Memory::Ptr<Graphics::FontManager> GetFontManager() const;
         Memory::Ptr<Input::InputPipeline> GetInputPipeline() const;
         Memory::WeakPtr<Scene> GetActiveScene() const;
+
+        uint32_t FPS = 0;
+        uint32_t FrameMS = 0;
 
     protected:
         virtual void Init();
@@ -48,18 +49,13 @@ namespace IceSDK {
         static void InternalShutdown();
 
         int64_t _last_delta;
-#ifdef ICESDK_EMSCRIPTEN
-        static void InternalMainLoop(void *arg);
-#else
         bool _exit = false;
-#endif
 
         Memory::Ptr<Graphics::GameWindow> _window;
         Memory::Ptr<Audio::AudioSystem> _audio_system;
         Memory::Ptr<Graphics::SpriteBatch> _sprite_batch;
         Memory::Ptr<Assets::AssetManager> _asset_manager;
         Memory::Ptr<Graphics::Shaders::ShaderManager> _shader_manager;
-        Memory::Ptr<Graphics::FontManager> _font_manager;
         Memory::Ptr<Input::InputPipeline> _input_pipeline;
     };
 } // namespace IceSDK
@@ -76,6 +72,6 @@ IceSDK::Memory::Ptr<IceSDK::Audio::AudioSystem> GetAudioSystem();
 #if defined(ICESDK_WINDOWED)
 #define IceSDKMain WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 #else
-#define IceSDKMain main()
+#define IceSDKMain main
 #endif
 #endif

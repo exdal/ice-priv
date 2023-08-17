@@ -3,7 +3,7 @@
 #include "ECS/Entity.h"
 #include "ECS/Scene.h"
 
-#include "Graphics/Fonts/FontManager.h"
+#include "Graphics/Components/AnimationComponent.h"
 #include "Graphics/Shaders/ShaderManager.h"
 #include "Graphics/Texture2D.h"
 
@@ -17,6 +17,6 @@ namespace IceSDK::Graphics::Entity {
         const glm::vec3 &pPosition = { 0.f, 0.f, 0.f }, const glm::vec2 &pSize = { -1.f, -1.f }, const glm::vec4 &pTileinfo = { -1.f, -1.f, -1.f, -1.f },
         float pRotation = 0.0f);
 
-    IceSDK::Entity CreateText(
-        Memory::Ptr<IceSDK::Scene> pScene, Memory::Ptr<Shaders::ShaderManager> pShaderManager, const std::string &pText, size_t pFontSize, FontFaceHandle pFontFace);
+    void AttachAnimation(IceSDK::Entity &entity, IceSDK::Graphics::Components::AnimationComponent anim_component);
+
 } // namespace IceSDK::Graphics::Entity

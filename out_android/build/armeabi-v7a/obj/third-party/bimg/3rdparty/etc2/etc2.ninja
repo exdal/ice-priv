@@ -1,0 +1,15 @@
+defines = -D_DEBUG
+include_dirs = -I../../../third-party/bx/include
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions
+label_name = etc2
+target_out_dir = obj/third-party/bimg/3rdparty/etc2
+target_output_name = libetc2
+
+build obj/third-party/bimg/3rdparty/etc2/etc2/ProcessRGB.o: cxx ../../../third-party/bimg/3rdparty/etc2/ProcessRGB.cpp
+build obj/third-party/bimg/3rdparty/etc2/etc2/Tables.o: cxx ../../../third-party/bimg/3rdparty/etc2/Tables.cpp
+
+build obj/third-party/bimg/3rdparty/etc2/libetc2.a: alink obj/third-party/bimg/3rdparty/etc2/etc2/ProcessRGB.o obj/third-party/bimg/3rdparty/etc2/etc2/Tables.o
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/bimg/3rdparty/etc2

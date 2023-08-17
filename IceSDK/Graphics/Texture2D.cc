@@ -21,7 +21,7 @@ Memory::Ptr<Texture2D> Texture2D::Load(const std::string &pPath) {
     return nullptr;
 }
 
-Memory::Ptr<Texture2D> Texture2D::Load(const std::string &pName, const std::vector<uint8_t> &pData) {
+Memory::Ptr<Texture2D> Texture2D::Load(const std::string &pName, bool antiAliasing, uint8_t *data, const uint32_t dataSize) {
     ICESDK_PROFILE_FUNCTION();
 
     const auto bxAlloc = GetAllocator();
@@ -29,7 +29,7 @@ Memory::Ptr<Texture2D> Texture2D::Load(const std::string &pName, const std::vect
         return nullptr;
 
     auto tex2D = std::make_shared<Texture2D>();
-    auto *imageContainer = bimg::imageParse(bxAlloc.get(), pData.data(), static_cast<uint32_t>(pData.size()));
+    auto *imageContainer = bimg::imageParse(bxAlloc.get(), data, dataSize);
     if (imageContainer == nullptr)
         return nullptr;
 
@@ -38,8 +38,10 @@ Memory::Ptr<Texture2D> Texture2D::Load(const std::string &pName, const std::vect
     if (!bgfx::isTextureValid(0, false, imageContainer->m_numLayers, static_cast<bgfx::TextureFormat::Enum>(imageContainer->m_format), bgfx::TextureFormat::RGBA4))
         return nullptr;
 
+    const uint32_t textureFlags = antiAliasing ? (BGFX_SAMPLER_NONE) : (BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT);
+
     tex2D->_inner = bgfx::createTexture2D(static_cast<uint16_t>(imageContainer->m_width), static_cast<uint16_t>(imageContainer->m_height), 1 < imageContainer->m_numMips,
-        imageContainer->m_numLayers, static_cast<bgfx::TextureFormat::Enum>(imageContainer->m_format), bgfx::TextureFormat::RGBA4, mem);
+        imageContainer->m_numLayers, static_cast<bgfx::TextureFormat::Enum>(imageContainer->m_format), textureFlags, mem);
 
     tex2D->_width = imageContainer->m_width;
     tex2D->_height = imageContainer->m_height;

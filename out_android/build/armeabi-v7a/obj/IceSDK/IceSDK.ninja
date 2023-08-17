@@ -1,0 +1,45 @@
+defines = -DICESDK_ANDROID -DICESDK_SDL2 -D_DEBUG
+include_dirs = -I../../../IceSDK -I../../../third-party/fmod/inc -I../../../third-party/bgfx/include -I../../../third-party/bimg/include -I../../../third-party/bx/include -I../../../third-party/glfw/include -I../../../third-party/sdl2/include -I../../../third-party/freetype/include -I../../../third-party/glm -I../../../third-party/entt/single_include
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions -include obj/IceSDK/IceSDK/pch.h-cc
+label_name = IceSDK
+target_out_dir = obj/IceSDK
+target_output_name = libIceSDK
+
+build phony/IceSDK/IceSDK.inputdeps: phony phony/third-party/sdl2/hidapi_copy phony/third-party/sdl2/sdl2_copy
+build obj/IceSDK/IceSDK/pch.h-cc.gch: cxx ../../../IceSDK/pch.cc || phony/IceSDK/IceSDK.inputdeps
+  cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions -x c++-header
+
+build obj/IceSDK/IceSDK/GameBase.o: cxx ../../../IceSDK/GameBase.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/AssetFile.o: cxx ../../../IceSDK/Assets/AssetFile.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/AssetManager.o: cxx ../../../IceSDK/Assets/AssetManager.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/AudioAsset.o: cxx ../../../IceSDK/Assets/AudioAsset.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/ShaderAsset.o: cxx ../../../IceSDK/Assets/ShaderAsset.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/TextAsset.o: cxx ../../../IceSDK/Assets/TextAsset.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/Texture2DAsset.o: cxx ../../../IceSDK/Assets/Texture2DAsset.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/Sound.o: cxx ../../../IceSDK/Audio/Sound.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/AudioSystem.o: cxx ../../../IceSDK/Audio/AudioSystem.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/Entity.o: cxx ../../../IceSDK/ECS/Entity.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/Scene.o: cxx ../../../IceSDK/ECS/Scene.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/System.o: cxx ../../../IceSDK/ECS/System.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/CameraSystem.o: cxx ../../../IceSDK/ECS/Systems/CameraSystem.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/TransformSystem.o: cxx ../../../IceSDK/ECS/Systems/TransformSystem.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/Window.o: cxx ../../../IceSDK/Graphics/Window.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/Texture2D.o: cxx ../../../IceSDK/Graphics/Texture2D.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/GraphicsEntityHelper.o: cxx ../../../IceSDK/Graphics/GraphicsEntityHelper.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/ShaderManager.o: cxx ../../../IceSDK/Graphics/Shaders/ShaderManager.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/SpriteBatch.o: cxx ../../../IceSDK/Graphics/SpriteBatch/SpriteBatch.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/Tilesheet.o: cxx ../../../IceSDK/Graphics/Tilesheet/Tilesheet.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/Packer.o: cxx ../../../IceSDK/Graphics/TextureAtlas/Packer.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/TextureAtlas.o: cxx ../../../IceSDK/Graphics/TextureAtlas/TextureAtlas.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/SpriteRenderingSystem.o: cxx ../../../IceSDK/Graphics/Systems/SpriteRenderingSystem.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/InputPipeline.o: cxx ../../../IceSDK/Input/InputPipeline.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/MouseInputSystem.o: cxx ../../../IceSDK/Input/Systems/MouseInputSystem.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/KeyboardInputSystem.o: cxx ../../../IceSDK/Input/Systems/KeyboardInputSystem.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/FileSystem.o: cxx ../../../IceSDK/Utils/FileSystem.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+build obj/IceSDK/IceSDK/Logger.o: cxx ../../../IceSDK/Utils/Logger.cc | obj/IceSDK/IceSDK/pch.h-cc.gch || phony/IceSDK/IceSDK.inputdeps
+
+build obj/IceSDK/libIceSDK.a: alink obj/IceSDK/IceSDK/GameBase.o obj/IceSDK/IceSDK/AssetFile.o obj/IceSDK/IceSDK/AssetManager.o obj/IceSDK/IceSDK/AudioAsset.o obj/IceSDK/IceSDK/ShaderAsset.o obj/IceSDK/IceSDK/TextAsset.o obj/IceSDK/IceSDK/Texture2DAsset.o obj/IceSDK/IceSDK/Sound.o obj/IceSDK/IceSDK/AudioSystem.o obj/IceSDK/IceSDK/Entity.o obj/IceSDK/IceSDK/Scene.o obj/IceSDK/IceSDK/System.o obj/IceSDK/IceSDK/CameraSystem.o obj/IceSDK/IceSDK/TransformSystem.o obj/IceSDK/IceSDK/Window.o obj/IceSDK/IceSDK/Texture2D.o obj/IceSDK/IceSDK/GraphicsEntityHelper.o obj/IceSDK/IceSDK/ShaderManager.o obj/IceSDK/IceSDK/SpriteBatch.o obj/IceSDK/IceSDK/Tilesheet.o obj/IceSDK/IceSDK/Packer.o obj/IceSDK/IceSDK/TextureAtlas.o obj/IceSDK/IceSDK/SpriteRenderingSystem.o obj/IceSDK/IceSDK/InputPipeline.o obj/IceSDK/IceSDK/MouseInputSystem.o obj/IceSDK/IceSDK/KeyboardInputSystem.o obj/IceSDK/IceSDK/FileSystem.o obj/IceSDK/IceSDK/Logger.o | ../../../third-party/sdl2/lib/android/armv7a/libSDL2.so ../../../third-party/sdl2/lib/android/armv7a/libhidapi.so || obj/third-party/bgfx/libbgfx.a obj/third-party/bimg/libbimg.a obj/third-party/bx/libbx.a obj/third-party/freetype/libfreetype.a obj/third-party/sdl2/libsdl2.a obj/third-party/imgui/sdl2/libimgui.a obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libcodec.a obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libastc_utils.a obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libfootprint.a obj/third-party/bimg/3rdparty/libsquish/libsquish.a obj/third-party/bimg/3rdparty/etc1/libetc1.a obj/third-party/bimg/3rdparty/etc2/libetc2.a obj/third-party/bimg/3rdparty/pvrtc/libpvrtc.a obj/third-party/bimg/3rdparty/astc/libastc.a obj/third-party/bimg/3rdparty/nvtt/libnvtt.a obj/third-party/bimg/3rdparty/edtaa3/libedtaa3.a obj/third-party/bimg/3rdparty/iqa/libiqa.a
+  arflags =
+  output_extension = .a
+  output_dir = obj/IceSDK

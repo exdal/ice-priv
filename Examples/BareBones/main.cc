@@ -1,11 +1,11 @@
+#include "Assets/TextAsset.h"
+
 #include "Utils/FileSystem.h"
 #include "Utils/Instrumentor.h"
 #include "Utils/Logger.h"
 
 #include "GameBase.h"
-#include "Graphics/Debug/Draw.h"
 #include "Graphics/EntityHelper.h"
-#include "Graphics/Fonts/FontFace.h"
 #include "Graphics/ImGui/Widgets/SceneGraph.h"
 #include "Graphics/SpriteBatch/SpriteBatch.h"
 #include "Graphics/TextureAtlas/Packer.h"
@@ -32,37 +32,41 @@ protected:
         Graphics::Entity::Init(this->GetShaderManager());
         Graphics::Entity::InitScene(activeScene);
 
-        atlas = new Graphics::TextureAtlas(1024, false);
+        _texture = GetAssetManager()->LoadTexture("/Assets/tiles.png", false);
 
-        atlas->Push("/Assets/mario.png");
-        atlas->Push("/Assets/windows_64x64.png");
-        atlas->Push("/Assets/Ground.png");
-        atlas->Push("/Assets/Box.png");
-        std::string asd = GetAssetManager()->LoadText("/Assets/hello.txt");
+        Graphics::Components::AnimationComponent ac;
+        for (size_t i = 0; i < 14; i++) { ac.frames.push_back({ i * 16, 16 * 3 }); }
 
-        Graphics::Entity::CreateSprite(activeScene, this->GetShaderManager(), atlas->Texture(), { 10.f, 10.f, 0.f }, atlas->SizeOf(1), atlas->CoordinatesOf(1));
+        ac.delay = 0.07;
+        for (size_t x = 0; x < 20; x++) {
+            for (size_t y = 0; y < 10; y++) {
+                et = Graphics::Entity::CreateSprite(activeScene, this->GetShaderManager(), _texture, { x * 64, y * 64, 0.f }, { 64, 64 }, { 16 * 0, 16, 16, 16 });
+                Graphics::Entity::AttachAnimation(et, ac);
+            }
+        }
     }
 
     void Draw(float pDelta) override {
         ImGuiWidgets::SceneGraph::Frame(this->GetActiveScene());
     }
 
-    /* Not really needed as we use Systems by default */
     void Update(float pDelta) override {
     }
 
 private:
-    Graphics::TextureAtlas *atlas;
-    /* Make sure the code above is uncommented.
-    Entity _text;
-    IceSDK::Graphics::FontFaceHandle _faceHandle;
-    */
+    Entity et;
+    Memory::Ptr<Graphics::Texture2D> _texture;
 };
 
 Memory::Ptr<Game> g_Game;
 Memory::Ptr<IceSDK::GameBase> g_GameBase;
 
-int IceSDKMain {
+#ifdef ICESDK_ANDROID
+#include <SDL_main.h>
+extern "C" SDLMAIN_DECLSPEC __attribute__((visibility("default"))) int SDL_main(int argc, char *argv[]) {
+#else
+int IceSDKMain() {
+#endif
     g_Game = std::make_shared<Game>();
     g_GameBase = g_Game;
 

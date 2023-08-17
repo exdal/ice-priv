@@ -1,9 +1,10 @@
 #pragma once
+#include "Utils/Memory.h"
+
 #include "Graphics/Texture2D.h"
+#include "Graphics/TextureAtlas/Packer.h"
 
 #include <bgfx/bgfx.h>
-
-class Packer;
 
 namespace IceSDK::Graphics {
     struct Region {
@@ -16,7 +17,7 @@ namespace IceSDK::Graphics {
         void Push(uint32_t width, uint32_t height, const uint8_t *data);
         void Push(const std::string &path);
 
-        Memory::Ptr<Graphics::Texture2D> Texture();
+        IceSDK::Memory::Ptr<Texture2D> Texture();
         glm::vec4 CoordinatesOf(uint32_t id);
         glm::vec2 SizeOf(uint32_t id);
 
@@ -25,7 +26,7 @@ namespace IceSDK::Graphics {
 
         Packer *m_packer;
         Region *m_regions;
-        Memory::Ptr<Graphics::Texture2D> m_texture;
+        IceSDK::Memory::Ptr<Texture2D> m_texture;
         uint32_t m_textures;
 
         uint16_t m_regionCount;

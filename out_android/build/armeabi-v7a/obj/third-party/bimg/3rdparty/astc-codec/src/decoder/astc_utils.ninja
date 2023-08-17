@@ -1,0 +1,22 @@
+defines = -D_DEBUG
+include_dirs = -I../../../third-party/bimg/3rdparty/astc-codec
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions
+label_name = astc_utils
+target_out_dir = obj/third-party/bimg/3rdparty/astc-codec/src/decoder
+target_output_name = libastc_utils
+
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/astc_file.o: cxx ../../../third-party/bimg/3rdparty/astc-codec/src/decoder/astc_file.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/endpoint_codec.o: cxx ../../../third-party/bimg/3rdparty/astc-codec/src/decoder/endpoint_codec.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/integer_sequence_codec.o: cxx ../../../third-party/bimg/3rdparty/astc-codec/src/decoder/integer_sequence_codec.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/intermediate_astc_block.o: cxx ../../../third-party/bimg/3rdparty/astc-codec/src/decoder/intermediate_astc_block.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/logical_astc_block.o: cxx ../../../third-party/bimg/3rdparty/astc-codec/src/decoder/logical_astc_block.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/partition.o: cxx ../../../third-party/bimg/3rdparty/astc-codec/src/decoder/partition.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/physical_astc_block.o: cxx ../../../third-party/bimg/3rdparty/astc-codec/src/decoder/physical_astc_block.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/quantization.o: cxx ../../../third-party/bimg/3rdparty/astc-codec/src/decoder/quantization.cc
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/weight_infill.o: cxx ../../../third-party/bimg/3rdparty/astc-codec/src/decoder/weight_infill.cc
+
+build obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libastc_utils.a: alink obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/astc_file.o obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/endpoint_codec.o obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/integer_sequence_codec.o obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/intermediate_astc_block.o obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/logical_astc_block.o obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/partition.o obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/physical_astc_block.o obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/quantization.o obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils/weight_infill.o || obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libfootprint.a
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/bimg/3rdparty/astc-codec/src/decoder

@@ -12,17 +12,14 @@ namespace IceSDK::Assets {
     enum class eFileFlags : uint32_t { NONE, ENCRYPTED = 1 << 0, COMPRESSED = 1 << 1 };
 
     enum class eAssetType : uint8_t {
-        Unknown = 0,
-
-        Texture = 1,
-        AnimatedTexture = 2,
-        Audio = 3,
-        Video = 4,
-        Particle = 5,
-
-        Shader = 6,
-
-        Text = 7
+        Unknown,
+        Texture,
+        TilesheetInfo,
+        Audio,
+        Video,
+        Particle,
+        Shader,
+        Text
     };
 
 #pragma pack(push, 1)
@@ -38,7 +35,6 @@ namespace IceSDK::Assets {
         uint64_t tag = 0;
         uint16_t version = 0;
         eFileFlags flags = eFileFlags::NONE;
-        uint8_t content_count = 0; // max 256 assets are ok
     };
 #pragma pack(pop)
 

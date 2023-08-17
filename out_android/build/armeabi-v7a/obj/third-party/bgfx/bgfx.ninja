@@ -1,0 +1,36 @@
+defines = -D_DEBUG
+include_dirs = -I../../../third-party/bgfx/include -I../../../third-party/bx/include -I../../../third-party/bimg/include -I../../../third-party/bgfx/3rdparty -I../../../third-party/bgfx/3rdparty/cgltf -I../../../third-party/bgfx/3rdparty/dxsdk/include -I../../../third-party/bgfx/3rdparty/khronos
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions
+label_name = bgfx
+target_out_dir = obj/third-party/bgfx
+target_output_name = libbgfx
+
+build obj/third-party/bgfx/bgfx/bgfx.o: cxx ../../../third-party/bgfx/src/bgfx.cpp
+build obj/third-party/bgfx/bgfx/debug_renderdoc.o: cxx ../../../third-party/bgfx/src/debug_renderdoc.cpp
+build obj/third-party/bgfx/bgfx/dxgi.o: cxx ../../../third-party/bgfx/src/dxgi.cpp
+build obj/third-party/bgfx/bgfx/glcontext_egl.o: cxx ../../../third-party/bgfx/src/glcontext_egl.cpp
+build obj/third-party/bgfx/bgfx/glcontext_glx.o: cxx ../../../third-party/bgfx/src/glcontext_glx.cpp
+build obj/third-party/bgfx/bgfx/glcontext_html5.o: cxx ../../../third-party/bgfx/src/glcontext_html5.cpp
+build obj/third-party/bgfx/bgfx/glcontext_wgl.o: cxx ../../../third-party/bgfx/src/glcontext_wgl.cpp
+build obj/third-party/bgfx/bgfx/nvapi.o: cxx ../../../third-party/bgfx/src/nvapi.cpp
+build obj/third-party/bgfx/bgfx/renderer_d3d9.o: cxx ../../../third-party/bgfx/src/renderer_d3d9.cpp
+build obj/third-party/bgfx/bgfx/renderer_d3d11.o: cxx ../../../third-party/bgfx/src/renderer_d3d11.cpp
+build obj/third-party/bgfx/bgfx/renderer_d3d12.o: cxx ../../../third-party/bgfx/src/renderer_d3d12.cpp
+build obj/third-party/bgfx/bgfx/renderer_gl.o: cxx ../../../third-party/bgfx/src/renderer_gl.cpp
+build obj/third-party/bgfx/bgfx/renderer_gnm.o: cxx ../../../third-party/bgfx/src/renderer_gnm.cpp
+build obj/third-party/bgfx/bgfx/renderer_noop.o: cxx ../../../third-party/bgfx/src/renderer_noop.cpp
+build obj/third-party/bgfx/bgfx/renderer_nvn.o: cxx ../../../third-party/bgfx/src/renderer_nvn.cpp
+build obj/third-party/bgfx/bgfx/renderer_vk.o: cxx ../../../third-party/bgfx/src/renderer_vk.cpp
+build obj/third-party/bgfx/bgfx/renderer_webgpu.o: cxx ../../../third-party/bgfx/src/renderer_webgpu.cpp
+build obj/third-party/bgfx/bgfx/shader.o: cxx ../../../third-party/bgfx/src/shader.cpp
+build obj/third-party/bgfx/bgfx/shader_dx9bc.o: cxx ../../../third-party/bgfx/src/shader_dx9bc.cpp
+build obj/third-party/bgfx/bgfx/shader_dxbc.o: cxx ../../../third-party/bgfx/src/shader_dxbc.cpp
+build obj/third-party/bgfx/bgfx/shader_spirv.o: cxx ../../../third-party/bgfx/src/shader_spirv.cpp
+build obj/third-party/bgfx/bgfx/topology.o: cxx ../../../third-party/bgfx/src/topology.cpp
+build obj/third-party/bgfx/bgfx/vertexlayout.o: cxx ../../../third-party/bgfx/src/vertexlayout.cpp
+
+build obj/third-party/bgfx/libbgfx.a: alink obj/third-party/bgfx/bgfx/bgfx.o obj/third-party/bgfx/bgfx/debug_renderdoc.o obj/third-party/bgfx/bgfx/dxgi.o obj/third-party/bgfx/bgfx/glcontext_egl.o obj/third-party/bgfx/bgfx/glcontext_glx.o obj/third-party/bgfx/bgfx/glcontext_html5.o obj/third-party/bgfx/bgfx/glcontext_wgl.o obj/third-party/bgfx/bgfx/nvapi.o obj/third-party/bgfx/bgfx/renderer_d3d9.o obj/third-party/bgfx/bgfx/renderer_d3d11.o obj/third-party/bgfx/bgfx/renderer_d3d12.o obj/third-party/bgfx/bgfx/renderer_gl.o obj/third-party/bgfx/bgfx/renderer_gnm.o obj/third-party/bgfx/bgfx/renderer_noop.o obj/third-party/bgfx/bgfx/renderer_nvn.o obj/third-party/bgfx/bgfx/renderer_vk.o obj/third-party/bgfx/bgfx/renderer_webgpu.o obj/third-party/bgfx/bgfx/shader.o obj/third-party/bgfx/bgfx/shader_dx9bc.o obj/third-party/bgfx/bgfx/shader_dxbc.o obj/third-party/bgfx/bgfx/shader_spirv.o obj/third-party/bgfx/bgfx/topology.o obj/third-party/bgfx/bgfx/vertexlayout.o || obj/third-party/bx/libbx.a obj/third-party/bimg/libbimg.a obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libcodec.a obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libastc_utils.a obj/third-party/bimg/3rdparty/astc-codec/src/decoder/libfootprint.a obj/third-party/bimg/3rdparty/libsquish/libsquish.a obj/third-party/bimg/3rdparty/etc1/libetc1.a obj/third-party/bimg/3rdparty/etc2/libetc2.a obj/third-party/bimg/3rdparty/pvrtc/libpvrtc.a obj/third-party/bimg/3rdparty/astc/libastc.a obj/third-party/bimg/3rdparty/nvtt/libnvtt.a obj/third-party/bimg/3rdparty/edtaa3/libedtaa3.a obj/third-party/bimg/3rdparty/iqa/libiqa.a
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/bgfx

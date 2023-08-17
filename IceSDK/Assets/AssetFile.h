@@ -11,35 +11,22 @@
 namespace IceSDK::Assets {
     struct AssetFile {
         AssetHeader header;
-        std::vector<AssetRegion> content;
-        
-        bool IsFull() const;
+        AssetRegion content;
 
         template <typename IAsset>
-        IAsset Get(const std::string &pName) {
-            return this->Get(pName).Into<IAsset>(pName);
-        }
-        template <typename IAsset>
-        IAsset Get(const std::uint32_t pIndex) {
-            return this->Get(pIndex).Into<IAsset>(this->header.asset_register[pIndex].name);
+        IAsset Get() {
+            return Get().Into<IAsset>(content.name);
         }
 
-        Asset Get(const std::string &pName);
-        Asset Get(uint32_t pIndex);
-
-        int32_t GetIndex(const std::string &pName) const;
+        Asset Get();
 
         template <typename T>
-        void Append(const std::string &pName, T pAsset) {
-            this->Append(pName, Asset::From<T>(pAsset));
+        void SetContent(const std::string &name, T asset) {
+            SetContent(name, Asset::From<T>(asset));
         }
-        void Append(const std::string &pName, const Asset &pAsset);
-
+        void SetContent(const std::string &name, const Asset &asset);
         void Save(const std::string &pPath);
-        static Memory::Ptr<AssetFile> Load(const std::string &pPath);
-        static Memory::Ptr<AssetFile> Load(uint8_t *mem, const uint32_t &size);
-
-    private:
-        uint32_t GetEmptyEntry() const;
+        bool Load(const std::string &path);
+        bool Load(uint8_t *mem, const uint32_t &size);
     };
 } // namespace IceSDK::Assets

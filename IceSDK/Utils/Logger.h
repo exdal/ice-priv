@@ -2,41 +2,20 @@
 
 #include "Utils/Memory.h"
 
-// https://github.com/TheCherno/Hazel/blob/master/Hazel/src/Hazel/Core/Log.h
-// Apache2 license
-
-#include <spdlog/fmt/ostr.h>
-#include <spdlog/spdlog.h>
-
 namespace IceSDK {
-    class Log {
-    public:
-        static void Init();
 
-        static Memory::Ptr<spdlog::logger> &GetCoreLogger() {
-            return s_CoreLogger;
-        }
-        static Memory::Ptr<spdlog::logger> &GetClientLogger() {
-            return s_ClientLogger;
-        }
-
-    private:
-        static Memory::Ptr<spdlog::logger> s_CoreLogger;
-        static Memory::Ptr<spdlog::logger> s_ClientLogger;
-    };
 
 } // namespace IceSDK
 
-// Core log macros
-#define ICESDK_CORE_TRACE(...) ::IceSDK::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define ICESDK_CORE_INFO(...) ::IceSDK::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define ICESDK_CORE_WARN(...) ::IceSDK::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define ICESDK_CORE_ERROR(...) ::IceSDK::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define ICESDK_CORE_CRITICAL(...) ::IceSDK::Log::GetCoreLogger()->critical(__VA_ARGS__)
-
 // Client log macros
-#define ICESDK_TRACE(...) ::IceSDK::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define ICESDK_INFO(...) ::IceSDK::Log::GetClientLogger()->info(__VA_ARGS__)
-#define ICESDK_WARN(...) ::IceSDK::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define ICESDK_ERROR(...) ::IceSDK::Log::GetClientLogger()->error(__VA_ARGS__)
-#define ICESDK_CRITICAL(...) ::IceSDK::Log::GetClientLogger()->critical(__VA_ARGS__)
+#define ICESDK_VERBOSE(str, ...) printf("[VERBOSE]: " str "\n")
+#define ICESDK_INFO(str, ...) printf("[INFO]: " str "\n")
+#define ICESDK_WARN(str, ...) printf("[WARNING]: " str "\n")
+#define ICESDK_ERROR(str, ...) printf("[ERROR]: " str "\n")
+#define ICESDK_CRITICAL(str, ...) printf("[CRITICAL]: " str "\n")
+
+#define ICESDK_VERBOSE_V(str, ...) printf("[VERBOSE]: " str "\n", __VA_ARGS__)
+#define ICESDK_INFO_V(str, ...) printf("[INFO]: " str "\n", __VA_ARGS__)
+#define ICESDK_WARN_V(str, ...) printf("[WARNING]: " str "\n", __VA_ARGS__)
+#define ICESDK_ERROR_V(str, ...) printf("[ERROR]: " str "\n", __VA_ARGS__)
+#define ICESDK_CRITICAL_V(str, ...) printf("[CRITICAL]: " str "\n", __VA_ARGS__)

@@ -10,6 +10,7 @@
 #include "Utils/Instrumentor.h"
 
 #include "GameBase.h"
+#include "Graphics/Components/AnimationComponent.h"
 #include "Graphics/Components/ShaderComponent.h"
 #include "Graphics/Components/SpriteComponent.h"
 #include "Graphics/Components/TileComponent.h"
@@ -26,6 +27,7 @@ void SpriteRenderingSystem::Tick(float pDelta) {
 
 void SpriteRenderingSystem::Draw(float pDelta) {
     ICESDK_PROFILE_FUNCTION();
+
     const auto registry = this->_registry.lock();
     if (registry == nullptr)
         return;
@@ -42,8 +44,22 @@ void SpriteRenderingSystem::Draw(float pDelta) {
 
         if (spriteEntity.HasComponent<TileComponent>()) {
             auto &tile = spriteEntity.GetComponent<TileComponent>();
-            GetGameBase()->GetSpriteBatch()->SubmitTiledSprite(sprite.texture, transform.position, sprite.size, tile.info, { 1, 1, 1, 1 });
+            if (spriteEntity.HasComponent<AnimationComponent>()) {
+                auto &anim = spriteEntity.GetComponent<AnimationComponent>();
+                anim.last_frame += pDelta;
+                if (anim.last_frame >= anim.delay) {
+                    // step
+                    anim.last_frame = 0;
+                    anim.current_frame++;
+                    if (anim.current_frame >= anim.frames.size()) {
+                        anim.current_frame = 0;
+                    }
+                    tile.info.x = anim.frames[anim.current_frame].x;
+                    tile.info.y = anim.frames[anim.current_frame].y;
+                }
+            }
+            GetGameBase()->GetSpriteBatch()->SubmitTiledSprite(sprite.texture, transform.model_matrix, tile.info, { 1, 1, 1, 1 });
         } else
-            GetGameBase()->GetSpriteBatch()->SubmitTexturedQuad(sprite.texture, transform.position, sprite.size, { 1, 1, 1, 1 });
+            GetGameBase()->GetSpriteBatch()->SubmitTexturedQuad(sprite.texture, transform.model_matrix, { 1, 1, 1, 1 });
     }
 }

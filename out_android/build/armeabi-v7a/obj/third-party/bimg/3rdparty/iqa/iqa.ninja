@@ -1,0 +1,20 @@
+defines = -D_DEBUG
+include_dirs = -I../../../third-party/bimg/3rdparty/iqa/include
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_c =
+label_name = iqa
+target_out_dir = obj/third-party/bimg/3rdparty/iqa
+target_output_name = libiqa
+
+build obj/third-party/bimg/3rdparty/iqa/iqa/convolve.o: cc ../../../third-party/bimg/3rdparty/iqa/source/convolve.c
+build obj/third-party/bimg/3rdparty/iqa/iqa/decimate.o: cc ../../../third-party/bimg/3rdparty/iqa/source/decimate.c
+build obj/third-party/bimg/3rdparty/iqa/iqa/math_utils.o: cc ../../../third-party/bimg/3rdparty/iqa/source/math_utils.c
+build obj/third-party/bimg/3rdparty/iqa/iqa/ms_ssim.o: cc ../../../third-party/bimg/3rdparty/iqa/source/ms_ssim.c
+build obj/third-party/bimg/3rdparty/iqa/iqa/mse.o: cc ../../../third-party/bimg/3rdparty/iqa/source/mse.c
+build obj/third-party/bimg/3rdparty/iqa/iqa/psnr.o: cc ../../../third-party/bimg/3rdparty/iqa/source/psnr.c
+build obj/third-party/bimg/3rdparty/iqa/iqa/ssim.o: cc ../../../third-party/bimg/3rdparty/iqa/source/ssim.c
+
+build obj/third-party/bimg/3rdparty/iqa/libiqa.a: alink obj/third-party/bimg/3rdparty/iqa/iqa/convolve.o obj/third-party/bimg/3rdparty/iqa/iqa/decimate.o obj/third-party/bimg/3rdparty/iqa/iqa/math_utils.o obj/third-party/bimg/3rdparty/iqa/iqa/ms_ssim.o obj/third-party/bimg/3rdparty/iqa/iqa/mse.o obj/third-party/bimg/3rdparty/iqa/iqa/psnr.o obj/third-party/bimg/3rdparty/iqa/iqa/ssim.o
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/bimg/3rdparty/iqa

@@ -1,8 +1,0 @@
-static_library("googletest") {
-    sources = [
-        # "src/gtest_main.cc",
-        "src/gtest-all.cc"
-    ]
-
-    include_dirs = [ "include", "." ]
-}

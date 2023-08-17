@@ -31,6 +31,9 @@ def get_args_gn(cpu):
 is_clang = true
 use_lld = true
 
+use_glfw = false
+use_sdl2 = true
+
 android_ndk_target = "{args.android_ndk_target}"
 android_ndk_path = "{args.android_ndk_path}"
 

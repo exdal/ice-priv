@@ -1,0 +1,29 @@
+defines = -D_DEBUG
+include_dirs = -I../../../third-party/bimg/3rdparty/nvtt -I../../../third-party/bx/include
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions
+label_name = nvtt
+target_out_dir = obj/third-party/bimg/3rdparty/nvtt
+target_output_name = libnvtt
+
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/nvtt.o: cxx ../../../third-party/bimg/3rdparty/nvtt/nvtt.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/zoh_utils.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc6h/zoh_utils.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/zoh.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc6h/zoh.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/zohone.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc6h/zohone.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/zohtwo.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc6h/zohtwo.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode0.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc7/avpcl_mode0.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode1.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc7/avpcl_mode1.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode2.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc7/avpcl_mode2.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode3.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc7/avpcl_mode3.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode4.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc7/avpcl_mode4.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode5.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc7/avpcl_mode5.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode6.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc7/avpcl_mode6.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode7.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc7/avpcl_mode7.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_utils.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc7/avpcl_utils.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl.o: cxx ../../../third-party/bimg/3rdparty/nvtt/bc7/avpcl.cpp
+build obj/third-party/bimg/3rdparty/nvtt/nvtt/fitting.o: cxx ../../../third-party/bimg/3rdparty/nvtt/nvmath/fitting.cpp
+
+build obj/third-party/bimg/3rdparty/nvtt/libnvtt.a: alink obj/third-party/bimg/3rdparty/nvtt/nvtt/nvtt.o obj/third-party/bimg/3rdparty/nvtt/nvtt/zoh_utils.o obj/third-party/bimg/3rdparty/nvtt/nvtt/zoh.o obj/third-party/bimg/3rdparty/nvtt/nvtt/zohone.o obj/third-party/bimg/3rdparty/nvtt/nvtt/zohtwo.o obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode0.o obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode1.o obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode2.o obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode3.o obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode4.o obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode5.o obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode6.o obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_mode7.o obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl_utils.o obj/third-party/bimg/3rdparty/nvtt/nvtt/avpcl.o obj/third-party/bimg/3rdparty/nvtt/nvtt/fitting.o
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/bimg/3rdparty/nvtt

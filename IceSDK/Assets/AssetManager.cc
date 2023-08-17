@@ -22,9 +22,9 @@ void AssetManager::Init() {
         if (FileSystem::IsDirectory(assetFilePath))
             continue;
 
-        auto assetFile = AssetFile::Load(assetFilePath);
-        if (assetFile == nullptr) {
-            ICESDK_CORE_CRITICAL("Failed to initialize AssetManager");
+        auto assetFile = std::make_shared<AssetFile>();
+        if (!assetFile->Load(assetFilePath)) {
+            ICESDK_CRITICAL("Failed to initialize AssetManager");
             break;
         }
 
@@ -32,12 +32,12 @@ void AssetManager::Init() {
     }
 }
 
-Memory::Ptr<Graphics::Texture2D> AssetManager::LoadTexture(const std::string &pName) {
+Memory::Ptr<Graphics::Texture2D> AssetManager::LoadTexture(const std::string &pName, bool antiAliasing) {
     auto asset = this->Search(pName);
     if (!asset.data) // Null objects aren't acceptable.
         return nullptr;
 
-    return asset.Into<Texture2DAsset>(pName).LoadTexture();
+    return asset.Into<Texture2DAsset>(pName).LoadTexture(antiAliasing);
 }
 
 uint8_t *AssetManager::GetTextureData(const std::string &pName) {
@@ -73,8 +73,8 @@ Asset AssetManager::Search(const std::string &pName) {
         return this->_search_cache[pName];
 
     for (auto assetFile : this->_assets) {
-        auto asset = assetFile->Get(pName);
-        if (asset.asset_type != eAssetType::Unknown) {
+        auto asset = assetFile->Get();
+        if (asset.asset_type != eAssetType::Unknown && assetFile->content.name == pName) {
             this->_search_cache[pName] = asset;
             return asset;
         }

@@ -1,0 +1,18 @@
+defines = -D_DEBUG
+include_dirs = -I../../../third-party/sdl2/include
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_cc = -fvisibility-inlines-hidden -Wno-undefined-bool-conversion -Wno-tautological-undefined-compare -std=c++1z -frtti -fexceptions
+label_name = imgui
+target_out_dir = obj/third-party/imgui/sdl2
+target_output_name = libimgui
+
+build obj/third-party/imgui/sdl2/imgui/imgui.o: cxx ../../../third-party/imgui/imgui.cpp
+build obj/third-party/imgui/sdl2/imgui/imgui_demo.o: cxx ../../../third-party/imgui/imgui_demo.cpp
+build obj/third-party/imgui/sdl2/imgui/imgui_draw.o: cxx ../../../third-party/imgui/imgui_draw.cpp
+build obj/third-party/imgui/sdl2/imgui/imgui_impl_sdl.o: cxx ../../../third-party/imgui/imgui_impl_sdl.cpp
+build obj/third-party/imgui/sdl2/imgui/imgui_widgets.o: cxx ../../../third-party/imgui/imgui_widgets.cpp
+
+build obj/third-party/imgui/sdl2/libimgui.a: alink obj/third-party/imgui/sdl2/imgui/imgui.o obj/third-party/imgui/sdl2/imgui/imgui_demo.o obj/third-party/imgui/sdl2/imgui/imgui_draw.o obj/third-party/imgui/sdl2/imgui/imgui_impl_sdl.o obj/third-party/imgui/sdl2/imgui/imgui_widgets.o
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/imgui/sdl2

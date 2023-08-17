@@ -1,0 +1,14 @@
+defines = -D_DEBUG
+include_dirs = -I../../../third-party/sdl2/include
+cflags = -fno-strict-aliasing -funwind-tables -fPIC -pipe -fcolor-diagnostics -O0 -fno-omit-frame-pointer -gdwarf-3 -g2 -fvisibility=hidden
+cflags_c =
+label_name = sdl2
+target_out_dir = obj/third-party/sdl2
+target_output_name = libsdl2
+
+build obj/third-party/sdl2/sdl2/dummy.o: cc ../../../third-party/sdl2/dummy.c || phony/third-party/sdl2/hidapi_copy phony/third-party/sdl2/sdl2_copy
+
+build obj/third-party/sdl2/libsdl2.a: alink obj/third-party/sdl2/sdl2/dummy.o | ../../../third-party/sdl2/lib/android/armv7a/libSDL2.so ../../../third-party/sdl2/lib/android/armv7a/libhidapi.so || phony/third-party/sdl2/sdl2_copy phony/third-party/sdl2/hidapi_copy
+  arflags =
+  output_extension = .a
+  output_dir = obj/third-party/sdl2

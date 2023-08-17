@@ -1,10 +1,7 @@
 #include "pch.h"
-
 #include "Graphics/Window.h"
-
 #include "Utils/Instrumentor.h"
 #include "Utils/Logger.h"
-
 #include "GameBase.h"
 
 using namespace IceSDK::Graphics;
@@ -29,7 +26,7 @@ GameWindow::GameWindow(int32_t pWidth, int32_t pHeight, const std::string &pTitl
 
 #ifdef ICESDK_GLFW
     if (!glfwInit())
-        ICESDK_CORE_CRITICAL("Failed to initialize GLFW!");
+        ICESDK_CRITICAL("Failed to initialize GLFW!");
 
     GLFWmonitor *monitor = nullptr;
     if (pFlags & eGameWindowFlags::Fullscreen)
@@ -39,13 +36,13 @@ GameWindow::GameWindow(int32_t pWidth, int32_t pHeight, const std::string &pTitl
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     this->_window = glfwCreateWindow(pWidth, pHeight, pTitle.c_str(), monitor, nullptr);
     if (this->_window == nullptr)
-        ICESDK_CORE_CRITICAL("Failed to create window!");
+        ICESDK_CRITICAL("Failed to create window!");
 
     glfwSetWindowUserPointer(this->_window, this);
     glfwSetWindowSizeCallback(this->_window, &GameWindow::ResizeGameWindow);
 #elif defined(ICESDK_SDL2)
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0)
-        ICESDK_CORE_CRITICAL("Failed to initialize SDL2!");
+        ICESDK_CRITICAL("Failed to initialize SDL2!");
 
 #ifdef ICESDK_ANDROID
     SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
@@ -55,7 +52,7 @@ GameWindow::GameWindow(int32_t pWidth, int32_t pHeight, const std::string &pTitl
 #endif
 
     if (this->_window == nullptr)
-        ICESDK_CORE_CRITICAL("Failed to create window!");
+        ICESDK_CRITICAL("Failed to create window!");
 #endif
 
     // bgfx::renderFrame();
@@ -79,8 +76,6 @@ GameWindow::GameWindow(int32_t pWidth, int32_t pHeight, const std::string &pTitl
 #elif defined(ICESDK_LINUX)
     platformData.ndt = wmInfo.info.x11.display;
     platformData.nwh = (void *)(uintptr_t)wmInfo.info.x11.window;
-#elif defined(ICESDK_EMSCRIPTEN)
-    platformData.nwh = (void *)"#canvas";
 #elif defined(ICESDK_ANDROID)
     platformData.ndt = 0;
     platformData.nwh = (void *)wmInfo.info.android.window;
@@ -104,9 +99,9 @@ GameWindow::GameWindow(int32_t pWidth, int32_t pHeight, const std::string &pTitl
     bgfxInit.resolution.height = pHeight;
     bgfxInit.resolution.reset = BGFX_RESET_NONE;
     if (!bgfx::init(bgfxInit))
-        ICESDK_CORE_CRITICAL("Failed to initialize BGFX!");
+        ICESDK_CRITICAL("Failed to initialize BGFX!");
 
-    ICESDK_CORE_INFO("BGFX Initialized...");
+    ICESDK_INFO("BGFX Initialized...");
 
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000FF, 1.0f, 0);
 
@@ -149,7 +144,7 @@ void GameWindow::Update() {
             _should_exit = true;
         } else if (e.type == SDL_WINDOWEVENT) {
             if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
-                ICESDK_CORE_INFO("Window size changed...");
+                ICESDK_INFO("Window size changed...");
 
                 SDL_DisplayMode displayMode;
                 SDL_GetDesktopDisplayMode(0, &displayMode);
@@ -223,4 +218,12 @@ uint32_t GameWindow::Width() const {
 uint32_t GameWindow::Height() const {
     ICESDK_PROFILE_FUNCTION();
     return this->_height;
+}
+
+uint32_t GameWindow::GetTicks() const {
+#ifdef ICESDK_GLFW
+    return (uint32_t)glfwGetTime();
+#elif defined(ICESDK_SDL2)
+    return SDL_GetTicks();
+#endif
 }

@@ -1,0 +1,93 @@
+rule copy
+  command = C:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe ../../../build/toolchain/win/recursive_mirror.py ${in} ${out}
+  description = COPY ${in} ${out}
+rule cxx
+  command =  D:\ASDK\ndk\20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/armv7a-linux-androideabi21-clang++.cmd -MMD -MF ${out}.d ${defines} ${include_dirs} ${cflags} ${cflags_cc} -c ${in} -o ${out}
+  description = CXX ${out}
+  depfile = ${out}.d
+  deps = gcc
+rule cc
+  command =  D:\ASDK\ndk\20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/armv7a-linux-androideabi21-clang.cmd -MMD -MF ${out}.d ${defines} ${include_dirs} ${cflags} ${cflags_c} -c ${in} -o ${out}
+  description = CC ${out}
+  depfile = ${out}.d
+  deps = gcc
+rule asm
+  command =  D:\ASDK\ndk\20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/armv7a-linux-androideabi21-clang.cmd -MMD -MF ${out}.d ${defines} ${include_dirs} ${asmflags} -c ${in} -o ${out}
+  description = ASM ${out}
+  depfile = ${out}.d
+  deps = gcc
+rule stamp
+  command = cmd /c type nul > "${out}"
+  description = STAMP ${out}
+rule solink_module
+  command =  D:\ASDK\ndk\20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/armv7a-linux-androideabi21-clang++.cmd -shared ${ldflags} -o "${output_dir}/${target_output_name}${output_extension}" -Wl,-soname="${target_output_name}${output_extension}" @"${output_dir}/${target_output_name}${output_extension}.rsp"
+  description = SOLINK_MODULE ${output_dir}/${target_output_name}${output_extension}
+  rspfile = ${output_dir}/${target_output_name}${output_extension}.rsp
+  rspfile_content = -Wl,--whole-archive ${in} ${solibs} -Wl,--no-whole-archive  ${libs} 
+  pool = build_toolchain_link_pool
+rule solink
+  command = C:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe "D:/.icesdk/ice-priv/build/toolchain/gcc_solink_wrapper.py" --readelf="D:\ASDK\ndk\20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/arm-linux-androideabi-readelf" --nm="D:\ASDK\ndk\20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/arm-linux-androideabi-nm" --sofile="${output_dir}/${target_output_name}${output_extension}" --tocfile="${output_dir}/${target_output_name}${output_extension}.TOC" --output="${output_dir}/${target_output_name}${output_extension}" --  D:\ASDK\ndk\20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/armv7a-linux-androideabi21-clang++.cmd -shared ${ldflags} -o "${output_dir}/${target_output_name}${output_extension}" -Wl,-soname="${target_output_name}${output_extension}" @"${output_dir}/${target_output_name}${output_extension}.rsp"
+  description = SOLINK ${output_dir}/${target_output_name}${output_extension}
+  rspfile = ${output_dir}/${target_output_name}${output_extension}.rsp
+  rspfile_content = -Wl,--whole-archive ${in} ${solibs} -Wl,--no-whole-archive  ${libs} 
+  pool = build_toolchain_link_pool
+  restat = 1
+rule alink
+  command = C:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe "../../../build/toolchain/gcc_ar_wrapper.py" --output=${out} --ar="D:\ASDK\ndk\20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/arm-linux-androideabi-ar" ${arflags} rcsD @"${out}.rsp"
+  description = AR ${out}
+  rspfile = ${out}.rsp
+  rspfile_content = ${in}
+rule link
+  command = C:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe "../../../build/toolchain/gcc_link_wrapper.py" --output="${output_dir}/${target_output_name}${output_extension}" --  D:\ASDK\ndk\20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/armv7a-linux-androideabi21-clang++.cmd ${ldflags} -o "${output_dir}/${target_output_name}${output_extension}" -Wl,--start-group @"${output_dir}/${target_output_name}${output_extension}.rsp" ${solibs} -Wl,--end-group  ${libs} 
+  description = LINK ${output_dir}/${target_output_name}${output_extension}
+  rspfile = ${output_dir}/${target_output_name}${output_extension}.rsp
+  rspfile_content = ${in}
+  pool = build_toolchain_link_pool
+
+build phony/root: phony obj/IceSDK/libIceSDK.a phony/Examples/Examples phony/tools/sources/Tools
+build phony/Examples/Examples: phony ./libBareBones.so.TOC
+rule __Examples_BareBones_Assets_BareBones___build_toolchain_android_android_clang_armv7a__rule
+  command = C$:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe ../../../tools/compile_assets.py win D$:/.icesdk/ice-priv/out_android/build/armeabi-v7a ../../../Examples/BareBones
+  description = ACTION //Examples/BareBones:Assets_BareBones(//build/toolchain/android:android_clang_armv7a)
+  restat = 1
+  pool = build_toolchain_action_pool
+
+build obj/Examples/BareBones/Assets/0.ice: __Examples_BareBones_Assets_BareBones___build_toolchain_android_android_clang_armv7a__rule | ../../../tools/compile_assets.py ../../../Examples/BareBones/Assets/Box.png ../../../Examples/BareBones/Assets/Ground.png
+
+build phony/Examples/BareBones/Assets_BareBones: phony obj/Examples/BareBones/Assets/0.ice
+subninja obj/Examples/BareBones/BareBones.ninja
+subninja obj/IceSDK/IceSDK.ninja
+subninja obj/third-party/bgfx/bgfx.ninja
+subninja obj/third-party/bimg/bimg.ninja
+subninja obj/third-party/bimg/3rdparty/astc-codec/src/decoder/astc_utils.ninja
+subninja obj/third-party/bimg/3rdparty/astc-codec/src/decoder/codec.ninja
+subninja obj/third-party/bimg/3rdparty/astc-codec/src/decoder/footprint.ninja
+subninja obj/third-party/bimg/3rdparty/astc/astc.ninja
+subninja obj/third-party/bimg/3rdparty/edtaa3/edtaa3.ninja
+subninja obj/third-party/bimg/3rdparty/etc1/etc1.ninja
+subninja obj/third-party/bimg/3rdparty/etc2/etc2.ninja
+subninja obj/third-party/bimg/3rdparty/iqa/iqa.ninja
+subninja obj/third-party/bimg/3rdparty/libsquish/squish.ninja
+subninja obj/third-party/bimg/3rdparty/nvtt/nvtt.ninja
+subninja obj/third-party/bimg/3rdparty/pvrtc/pvrtc.ninja
+subninja obj/third-party/bx/bx.ninja
+subninja obj/third-party/freetype/freetype.ninja
+subninja obj/third-party/imgui/sdl2/imgui.ninja
+build libhidapi.so: copy ../../../third-party/sdl2/lib/android/armv7a/libhidapi.so
+
+build phony/third-party/sdl2/hidapi_copy: phony libhidapi.so
+subninja obj/third-party/sdl2/sdl2.ninja
+build libSDL2.so: copy ../../../third-party/sdl2/lib/android/armv7a/libSDL2.so
+
+build phony/third-party/sdl2/sdl2_copy: phony libSDL2.so
+build phony/tools/sources/Tools: phony ./libAssetCompiler.so.TOC
+subninja obj/tools/sources/AssetCompiler/AssetCompiler.ninja
+rule __tools_sources_AssetCompiler_Assets_AssetCompiler___build_toolchain_android_android_clang_armv7a__rule
+  command = C$:/Users/PC/AppData/Local/Programs/Python/Python38-32/python.exe ../../../tools/compile_assets.py win D$:/.icesdk/ice-priv/out_android/build/armeabi-v7a ../../../tools/sources/AssetCompiler
+  description = ACTION //tools/sources/AssetCompiler:Assets_AssetCompiler(//build/toolchain/android:android_clang_armv7a)
+  restat = 1
+  pool = build_toolchain_action_pool
+
+build obj/tools/sources/AssetCompiler/Assets/0.ice: __tools_sources_AssetCompiler_Assets_AssetCompiler___build_toolchain_android_android_clang_armv7a__rule | ../../../tools/compile_assets.py
+
+build phony/tools/sources/AssetCompiler/Assets_AssetCompiler: phony obj/tools/sources/AssetCompiler/Assets/0.ice
